@@ -24,27 +24,26 @@
         <Grid Grid.Row="1">
             <Border Background="White" CornerRadius="20,20,20,20" Margin="20,0,20,20">
                 <Grid Margin="10,10,10,0">
-                    <DataGrid CellStyle="{DynamicResource DataGridCellStyle1}" Style="{DynamicResource DataGridStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" RowHeaderStyle="{DynamicResource DataGridRowHeaderStyle1}" RowStyle="{DynamicResource DataGridRowStyle1}" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="Black">
+                    <DataGrid x:Name="TeachersDataGrid" CellStyle="{DynamicResource DataGridCellStyle1}" Style="{DynamicResource DataGridStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" RowHeaderStyle="{DynamicResource DataGridRowHeaderStyle1}" RowStyle="{DynamicResource DataGridRowStyle1}" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="Black">
                         <DataGrid.Columns>
                             <DataGridCheckBoxColumn CanUserResize="False">
                                 <DataGridCheckBoxColumn.HeaderTemplate>
                                     <DataTemplate>
-                                        <CheckBox/>
+                                        <CheckBox Margin="55,0,0,0"/>
                                     </DataTemplate>
                                 </DataGridCheckBoxColumn.HeaderTemplate>
                             </DataGridCheckBoxColumn>
-                            <DataGridTextColumn Header="Mã giáo viên" CanUserResize="False" IsReadOnly="True" FontFamily="Kumbh Sans" Width="*"/>
+                            <DataGridTextColumn Header="Mã giáo viên" CanUserResize="False" IsReadOnly="True" FontFamily="Kumbh Sans" Width="*" Binding="{Binding teacherID}"/>
                             <DataGridTemplateColumn Header="Tên giáo viên" IsReadOnly="True" Width="*">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                            <Border></Border>
-                                            
+                                            <TextBlock Text="{Binding teacherName}"/>
                                         </StackPanel>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
-                            <DataGridTextColumn Header="Giới tính" CanUserResize="False" IsReadOnly="True" FontFamily="Kumbh Sans" Width="*"/>
+                            <DataGridTextColumn Header="Giới tính" CanUserResize="False" IsReadOnly="True" FontFamily="Kumbh Sans" Width="*" Binding="{Binding Gender}"/>
                             <DataGridTextColumn Header="Số điện thoại" CanUserResize="False" IsReadOnly="True" FontFamily="Kumbh Sans" Width="*"/>
                             <DataGridTextColumn Header="Email" CanUserResize="False" IsReadOnly="True" FontFamily="Kumbh Sans" Width="*"/>
                             <DataGridTemplateColumn Header="Hành động" IsReadOnly="True" Width="*">
@@ -56,7 +55,6 @@
                                             </Button>
                                             <Button Style="{StaticResource x deleteData}">
                                                 <materialDesign:PackIcon Kind="DeleteOutline" Width="12" Height="12" VerticalAlignment="Center" />
-
                                             </Button>
 
                                         </StackPanel>
