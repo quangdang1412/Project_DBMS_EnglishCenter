@@ -28,6 +28,44 @@
                 </Style.Triggers>
             </Style>
             <BooleanToVisibilityConverter x:Key="bool2VisibilityConverter"/>
+            <SolidColorBrush x:Key="{x:Static DataGrid.FocusBorderBrushKey}" Color="#FF000000"/>
+            <Style x:Key="DataGridCellStyle1" TargetType="{x:Type DataGridCell}">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                <Setter Property="Margin" Value="15 0"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type DataGridCell}">
+                            <Border Background="{TemplateBinding Background}"  BorderThickness="0" SnapsToDevicePixels="True">
+                                <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="IsSelected" Value="True">
+                        <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}"/>
+                        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                    </Trigger>
+                    <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static DataGrid.FocusBorderBrushKey}}"/>
+                    </Trigger>
+                    <MultiTrigger>
+                        <MultiTrigger.Conditions>
+                            <Condition Property="IsSelected" Value="true"/>
+                            <Condition Property="Selector.IsSelectionActive" Value="false"/>
+                        </MultiTrigger.Conditions>
+                        <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}"/>
+                        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}"/>
+                        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}}"/>
+                    </MultiTrigger>
+                    <Trigger Property="IsEnabled" Value="false">
+                        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
             <Style x:Key="{ComponentResourceKey ResourceId=DataGridSelectAllButtonStyle, TypeInTargetAssembly={x:Type DataGrid}}" TargetType="{x:Type Button}">
                 <Setter Property="Template">
                     <Setter.Value>
@@ -52,14 +90,25 @@
                 </Setter>
             </Style>
             <Style x:Key="DataGridStyle1" TargetType="{x:Type DataGrid}">
-                <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
-                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-                <Setter Property="BorderBrush" Value="#FF688CAF"/>
-                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="Foreground" Value="#222528"/>
+                <Setter Property="BorderThickness" Value="0"/>
                 <Setter Property="RowDetailsVisibilityMode" Value="VisibleWhenSelected"/>
                 <Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
                 <Setter Property="ScrollViewer.PanningMode" Value="Both"/>
                 <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+                <Setter Property="AutoGenerateColumns" Value="False"/>
+                <Setter Property="HeadersVisibility" Value="Column"/>
+                <Setter Property="Margin" Value="0 10 0 0"/>
+                <Setter Property="SelectionMode" Value="Single"/>
+                <Setter Property="SelectionUnit" Value="FullRow"/>
+                <Setter Property="CanUserAddRows" Value="False"/>
+                <Setter Property="CanUserDeleteRows" Value="False"/>
+                <Setter Property="CanUserResizeRows" Value="False"/>
+                <Setter Property="CanUserReorderColumns" Value="False"/>
+                <Setter Property="FontSize" Value="13"/>
+                <Setter Property="ColumnWidth" Value="*"/>
+                <Setter Property="GridLinesVisibility" Value="None"/>
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type DataGrid}">
@@ -120,8 +169,16 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+            
+            
+            <!--màu cho thanh tittle-->
+            
             <Style x:Key="DataGridColumnHeaderStyle1" TargetType="{x:Type DataGridColumnHeader}">
                 <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="Foreground" Value="#69717d"/>
+                <Setter Property="Margin" Value="15 0 15 10"/>
+                <Setter Property="Margin" Value="15 0 15 10"/>
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
@@ -213,15 +270,29 @@
                 <Setter Property="Margin" Value="1 0"/>
                 <Setter Property="Template">
                     <Setter.Value>
-                        <ControlTemplate>
-                            
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="{TemplateBinding Background}" CornerRadius="5" Padding="5" BorderThickness="1" BorderBrush="{TemplateBinding BorderBrush}" >
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
-
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="#673ab7"/>
+                    </Trigger>
+                </Style.Triggers>
             </Style>
-            
-            
+            <Style x:Key="x deleteData" TargetType="Button" BasedOn="{StaticResource x editData}">
+                <Setter Property="Background" Value="#d32f2f"/>
+                <Setter Property="BorderBrush" Value="#b71c1c"/>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="#f44336"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>
