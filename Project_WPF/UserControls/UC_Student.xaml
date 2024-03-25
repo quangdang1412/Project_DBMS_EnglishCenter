@@ -1,0 +1,83 @@
+﻿<UserControl x:Class="Project_WPF.UserControls.UC_Student"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Project_WPF.UserControls"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Background="#FFF6F6F6">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="8*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <TextBlock Text="Students" FontSize="32" FontWeight="SemiBold" HorizontalAlignment="Left" Margin="20,0,0,0" Foreground="#FF121518"></TextBlock>
+            <Button HorizontalAlignment="Right" Style="{StaticResource addButton}" Margin="0,0,20,0" >
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="Plus" Margin="0,0,10,0" />
+                    <TextBlock Text="Add new Student"/>
+                </StackPanel>
+            </Button>
+        </Grid>
+        
+        <Grid Grid.Row="1">
+            <Border Background="White" Margin="20,20,20,20" CornerRadius="20">
+                <Grid>
+                    <TextBlock x:Name="Placeholder" Margin="20 0" Foreground="#FFB0B9C6" IsHitTestVisible="False" Visibility="Visible" Panel.ZIndex="1" Text="Search here..." VerticalAlignment="Center"/>
+                    <TextBox x:Name="SearchBox" Style="{StaticResource HoverTextBox}" BorderBrush="{x:Null}" FocusVisualStyle="{x:Null}" VerticalAlignment="Center" Margin="20,0,40,0" Background="White" TextChanged="SearchBox_TextChanged" SelectionBrush="{x:Null}" SelectionTextBrush="White"/>
+                    <materialDesign:PackIcon Kind="Magnify" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="#FFB0B9C6" Margin="0,0,20,0"/>
+                </Grid>
+            </Border>
+        </Grid>
+        <Grid Grid.Row="2">
+            <Border Background="White" CornerRadius="20,20,20,20" Margin="20,0,20,20">
+                <Grid Margin="10,10,10,0">
+                    <DataGrid x:Name="TeachersDataGrid" CellStyle="{DynamicResource DataGridCellStyle1}" Style="{DynamicResource DataGridStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" RowHeaderStyle="{DynamicResource DataGridRowHeaderStyle1}" RowStyle="{DynamicResource DataGridRowStyle1}" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="Black">
+                        <DataGrid.Columns>
+                            <DataGridCheckBoxColumn CanUserResize="False" Width="auto" ElementStyle="{StaticResource CheckBoxStyle1}">
+                                <DataGridCheckBoxColumn.HeaderTemplate>
+                                    <DataTemplate>
+                                        <CheckBox Style="{StaticResource CheckBoxStyle1}" />
+                                    </DataTemplate>
+                                </DataGridCheckBoxColumn.HeaderTemplate>
+                            </DataGridCheckBoxColumn>
+                            <DataGridTextColumn Header="Mã học viên" CanUserResize="False" IsReadOnly="True" FontFamily="Kumbh Sans" Width="*" Binding="{Binding teacherID}"/>
+                            <DataGridTemplateColumn Header="Tên học viên" IsReadOnly="True" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding teacherName}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Header="Giới tính" CanUserResize="False" IsReadOnly="True" FontFamily="Kumbh Sans" Width="*" Binding="{Binding Gender}"/>
+                            <DataGridTextColumn Header="Số điện thoại" CanUserResize="False" IsReadOnly="True" FontFamily="Kumbh Sans" Width="*"/>
+                            <DataGridTextColumn Header="Email" CanUserResize="False" IsReadOnly="True" FontFamily="Kumbh Sans" Width="*"/>
+                            <DataGridTemplateColumn Header="Hành động" IsReadOnly="True" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button Style="{StaticResource x editData}">
+                                                <materialDesign:PackIcon Kind="PencilOutline" Width="12" Height="12" VerticalAlignment="Center" />
+                                            </Button>
+                                            <Button Style="{StaticResource x deleteData}">
+                                                <materialDesign:PackIcon Kind="DeleteOutline" Width="12" Height="12" VerticalAlignment="Center" />
+                                            </Button>
+
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>
