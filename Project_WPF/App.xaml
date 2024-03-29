@@ -424,6 +424,8 @@
                 <Setter Property="HorizontalAlignment" Value="Stretch" />
                 <!-- Added Setter for VerticalAlignment -->
                 <Setter Property="Margin" Value="0,25,0,0" />
+                <Setter Property="Width" Value="400" />
+                
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="Button">
@@ -436,7 +438,6 @@
                 <Style.Triggers>
                     <Trigger Property="IsMouseOver" Value="True">
                         <Setter Property="Background" Value="#7b5cd6" />
-                        <!-- Foreground will remain the same during IsMouseOver, so no need to change -->
                     </Trigger>
                 </Style.Triggers>
             </Style>
