@@ -27,44 +27,48 @@
             </Grid>
             <Rectangle HorizontalAlignment="Center" Height="2" Grid.Row="0" VerticalAlignment="Bottom" Width="400" Fill="#BDBDBD"/>
             <Grid Grid.Row="1" Margin="0,30,0,0">
-                <StackPanel>
-                    <Button HorizontalAlignment="Left" VerticalAlignment="Center" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="White" Margin="68,25,0,0">
-                        <StackPanel Orientation="Horizontal">
-                            <materialDesign:PackIcon Kind="HomeVariantOutline" VerticalAlignment="Center" Margin="0,0,20,10" Width="40" Height="40"/>
-                            <TextBlock Text="Dashboard" VerticalAlignment="Center" FontSize="36" FontFamily="Kumbh Sans"/>
-                        </StackPanel>
-                    </Button>
-                    <Button HorizontalAlignment="Left" VerticalAlignment="Center" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="White" Margin="68,25,0,0">
-                        <StackPanel Orientation="Horizontal">
-                            <materialDesign:PackIcon Kind="AccountSchoolOutline" VerticalAlignment="Center" Margin="0,0,20,10" Width="40" Height="40"/>
-                            <TextBlock Text="Teacher" VerticalAlignment="Center" FontSize="36" FontFamily="Kumbh Sans"/>
-                        </StackPanel>
-                    </Button>
-                    <Button HorizontalAlignment="Left" VerticalAlignment="Center" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="White" Margin="68,25,0,0">
-                        <StackPanel Orientation="Horizontal">
-                            <materialDesign:PackIcon Kind="SchoolOutline" VerticalAlignment="Center" Margin="0,0,20,10" Width="40" Height="40"/>
-                            <TextBlock Text="Student" VerticalAlignment="Center" FontSize="36" FontFamily="Kumbh Sans"/>
-                        </StackPanel>
-                    </Button>
-                    <Button HorizontalAlignment="Left" VerticalAlignment="Center" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="White" Margin="68,25,0,0">
-                        <StackPanel Orientation="Horizontal">
-                            <materialDesign:PackIcon Kind="Account" VerticalAlignment="Center" Margin="0,0,20,10" Width="40" Height="40"/>
-                            <TextBlock Text="Dashboard" VerticalAlignment="Center" FontSize="36" FontFamily="Kumbh Sans"/>
-                        </StackPanel>
-                    </Button>
-                    <Button HorizontalAlignment="Left" VerticalAlignment="Center" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="White" Margin="68,25,0,0">
-                        <StackPanel Orientation="Horizontal">
-                            <materialDesign:PackIcon Kind="Account" VerticalAlignment="Center" Margin="0,0,20,0" Width="48" Height="48"/>
-                            <TextBlock Text="Dashboard" VerticalAlignment="Center" FontSize="36" FontFamily="Segoe UI"/>
-                        </StackPanel>
-                    </Button>
-                </StackPanel>
-                <Button HorizontalAlignment="Left" VerticalAlignment="Bottom" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="White" Margin="68,0,0,25">
-                    <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Kind="Logout" VerticalAlignment="Center" Margin="0,0,20,10" Width="40" Height="40"/>
-                        <TextBlock Text="Sign out" VerticalAlignment="Center" FontSize="36" FontFamily="Kumbh Sans"/>
+                <Grid HorizontalAlignment="Center">
+                    <StackPanel>
+                        <Button Style="{StaticResource hoverMenu}">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="HomeVariantOutline" VerticalAlignment="Center" Margin="0,0,20,10" Width="48" Height="48"/>
+                                <TextBlock Text="Dashboard" VerticalAlignment="Center" FontSize="36" FontFamily="Kumbh Sans"/>
+                            </StackPanel>
+                        </Button>
+                        <Button Style="{StaticResource hoverMenu}" >
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="AccountSchoolOutline" VerticalAlignment="Center" Margin="0,0,20,10" Width="48" Height="48"/>
+                                <TextBlock Text="Teacher" VerticalAlignment="Center" FontSize="36" FontFamily="Kumbh Sans"/>
+                            </StackPanel>
+                        </Button>
+                        <Button Style="{StaticResource hoverMenu}">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="SchoolOutline" VerticalAlignment="Center" Margin="0,0,20,10" Width="48" Height="48"/>
+                                <TextBlock Text="Student" VerticalAlignment="Center" FontSize="36" FontFamily="Kumbh Sans"/>
+                            </StackPanel>
+                        </Button>
+                        <Button Style="{StaticResource hoverMenu}">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="Account" VerticalAlignment="Center" Margin="0,0,20,10" Width="48" Height="48"/>
+                                <TextBlock Text="Dashboard" VerticalAlignment="Center" FontSize="36" FontFamily="Kumbh Sans"/>
+                            </StackPanel>
+                        </Button>
+                        <Button Style="{StaticResource hoverMenu}">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="Account" VerticalAlignment="Center" Margin="0,0,20,0" Width="48" Height="48"/>
+                                <TextBlock Text="Dashboard" VerticalAlignment="Center" FontSize="36" FontFamily="Segoe UI"/>
+                            </StackPanel>
+                        </Button>
                     </StackPanel>
-                </Button>
+                </Grid>
+                <Grid HorizontalAlignment="Left" Margin="20,0,0,20">
+                    <Button Style="{StaticResource hoverMenu}" VerticalAlignment="Bottom" >
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="Logout" VerticalAlignment="Center" Margin="0,0,20,10" Width="48" Height="49"/>
+                            <TextBlock Text="Sign out" VerticalAlignment="Center" FontSize="36" FontFamily="Kumbh Sans"/>
+                        </StackPanel>
+                    </Button>
+                </Grid>
             </Grid>
         </Grid>
         <Grid Grid.Column="1">
@@ -85,7 +89,7 @@
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="1">
-                <local:UC_Student/>
+                <local:UC_Home/>
             </Grid>
         </Grid>
     </Grid>
