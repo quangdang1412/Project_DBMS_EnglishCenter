@@ -29,19 +29,19 @@
             <Grid Grid.Row="1" Margin="0,30,0,0">
                 <Grid>
                     <StackPanel Margin="50 0 0 0">
-                        <Button x:Name="btn_Home" Style="{StaticResource hoverMenu}" Click="btn_Home_Click">
+                        <Button x:Name="btn_Home" Style="{StaticResource hoverMenu}" Click="btn_Home_Click" GotFocus="btn_Home_GotFocus" LostFocus="btn_Home_LostFocus">
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon Kind="HomeVariantOutline" VerticalAlignment="Center" Margin="0,0,20,10" Width="48" Height="48"/>
                                 <TextBlock Text="Dashboard" VerticalAlignment="Center" FontSize="36" FontFamily="Kumbh Sans"/>
                             </StackPanel>
                         </Button>
-                        <Button x:Name="btn_Teacher" Style="{StaticResource hoverMenu}" Click="btn_Teacher_Click" >
+                        <Button x:Name="btn_Teacher" Style="{StaticResource hoverMenu}" Click="btn_Teacher_Click" GotFocus="btn_Teacher_GotFocus" LostFocus="btn_Teacher_LostFocus">
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon Kind="AccountSchoolOutline" VerticalAlignment="Center" Margin="0,0,20,10" Width="48" Height="48"/>
                                 <TextBlock Text="Teacher" VerticalAlignment="Center" FontSize="36" FontFamily="Kumbh Sans"/>
                             </StackPanel>
                         </Button>
-                        <Button x:Name="btn_Student" Style="{StaticResource hoverMenu}" Click="btn_Student_Click">
+                        <Button x:Name="btn_Student" Style="{StaticResource hoverMenu}" Click="btn_Student_Click" GotFocus="btn_Student_GotFocus" LostFocus="btn_Student_LostFocus">
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon Kind="SchoolOutline" VerticalAlignment="Center" Margin="0,0,20,10" Width="48" Height="48"/>
                                 <TextBlock Text="Student" VerticalAlignment="Center" FontSize="36" FontFamily="Kumbh Sans"/>
