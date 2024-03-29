@@ -15,9 +15,7 @@ namespace Project_WPF.UserControls
 		public UC_Teacher()
 		{
 			InitializeComponent();
-			dbteacher = new TeacherBLL(); // Initialize the TeacherBLL instance
-
-			// Load data when the UserControl is initialized
+			dbteacher = new TeacherBLL(); 
 			loadData();
 		}
 
@@ -25,10 +23,8 @@ namespace Project_WPF.UserControls
 		{
 			try
 			{
-				// Assuming LayGV() method returns a DataSet containing teacher data
 				dtTeacher = dbteacher.LayGV().Tables[0];
 
-				// Set the ItemsSource of the DataGrid to the DataTable
 				TeachersDataGrid.ItemsSource = dtTeacher.DefaultView;
 			}
 			catch (SqlException ex)
