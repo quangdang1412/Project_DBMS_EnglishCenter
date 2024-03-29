@@ -14,24 +14,36 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using BusinessLayer;
+using System.Data;
+using System.Data.SqlClient;
 
 namespace Project_WPF.UserControls
 {
-	/// <summary>
-	/// Interaction logic for UC_Home.xaml
-	/// </summary>
 	public partial class UC_Student : UserControl
 	{
+		StudentBLL dbstudent;
+		DataTable dtStudent;
+	
 		public UC_Student()
 		{
 			InitializeComponent();
-			var converter = new BrushConverter();
-			ObservableCollection<Teacher> teachers = new ObservableCollection<Teacher>();
-			teachers.Add(new Teacher { teacherID = "T001", teacherName = "Nguyen Van A", Phone = "0901234567", Gender = "Male", Email = "nguyenvana@example.com" });
-			teachers.Add(new Teacher { teacherID = "T002", teacherName = "Tran Thi B", Phone = "0901234568", Gender = "Female", Email = "tranthib@example.com" });
-			teachers.Add(new Teacher { teacherID = "T003", teacherName = "Le Van C", Phone = "0901234569", Gender = "Male", Email = "levanc@example.com" });
-			TeachersDataGrid.ItemsSource = teachers;
+			dbstudent = new StudentBLL();
+			loadData();
 
+		}
+		void loadData()
+		{
+			try
+			{
+				dtStudent = dbstudent.LayHS().Tables[0];
+
+				StudentsDataGrid.ItemsSource = dtStudent.DefaultView;
+			}
+			catch (SqlException ex)
+			{
+				MessageBox.Show("Error: " + ex.Message);
+			}
 		}
 		private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
 		{

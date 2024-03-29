@@ -85,7 +85,7 @@
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="1">
-                <local:UC_Teacher/>
+                <local:UC_Student/>
             </Grid>
         </Grid>
     </Grid>

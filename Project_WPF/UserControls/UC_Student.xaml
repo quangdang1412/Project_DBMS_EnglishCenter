@@ -36,7 +36,7 @@
         <Grid Grid.Row="2">
             <Border Background="White" CornerRadius="20,20,20,20" Margin="20,0,20,20">
                 <Grid Margin="10,10,10,0">
-                    <DataGrid x:Name="TeachersDataGrid" CellStyle="{DynamicResource DataGridCellStyle1}" Style="{DynamicResource DataGridStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" RowHeaderStyle="{DynamicResource DataGridRowHeaderStyle1}" RowStyle="{DynamicResource DataGridRowStyle1}" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="Black">
+                    <DataGrid x:Name="StudentsDataGrid" CellStyle="{DynamicResource DataGridCellStyle1}" Style="{DynamicResource DataGridStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" RowHeaderStyle="{DynamicResource DataGridRowHeaderStyle1}" RowStyle="{DynamicResource DataGridRowStyle1}" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="Black">
                         <DataGrid.Columns>
                             <DataGridCheckBoxColumn CanUserResize="False" Width="auto" ElementStyle="{StaticResource CheckBoxStyle1}">
                                 <DataGridCheckBoxColumn.HeaderTemplate>
@@ -45,19 +45,40 @@
                                     </DataTemplate>
                                 </DataGridCheckBoxColumn.HeaderTemplate>
                             </DataGridCheckBoxColumn>
-                            <DataGridTextColumn Header="Mã học viên" CanUserResize="False" IsReadOnly="True" FontFamily="Kumbh Sans" Width="*" Binding="{Binding teacherID}"/>
+                            <DataGridTextColumn Header="Mã học viên" CanUserResize="False" IsReadOnly="True" FontFamily="Kumbh Sans" Width="*" Binding="{Binding student_ID}"/>
                             <DataGridTemplateColumn Header="Tên học viên" IsReadOnly="True" Width="*">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="{Binding teacherName}"/>
+                                            <TextBlock Text="{Binding student_name}"/>
                                         </StackPanel>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
-                            <DataGridTextColumn Header="Giới tính" CanUserResize="False" IsReadOnly="True" FontFamily="Kumbh Sans" Width="*" Binding="{Binding Gender}"/>
-                            <DataGridTextColumn Header="Số điện thoại" CanUserResize="False" IsReadOnly="True" FontFamily="Kumbh Sans" Width="*"/>
-                            <DataGridTextColumn Header="Email" CanUserResize="False" IsReadOnly="True" FontFamily="Kumbh Sans" Width="*"/>
+                            <DataGridTextColumn Header="Ngày sinh" CanUserResize="False" IsReadOnly="True" FontFamily="Kumbh Sans" Width="*">
+                                <DataGridTextColumn.Binding>
+                                    <Binding Path="student_dob" StringFormat="dd/MM/yyyy" />
+                                </DataGridTextColumn.Binding>
+                            </DataGridTextColumn>
+
+
+
+                            <DataGridTextColumn Header="Giới tính" CanUserResize="False" IsReadOnly="True" FontFamily="Kumbh Sans" Width="*">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Setter Property="Text" Value="{Binding student_gender}" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding student_gender}" Value="1">
+                                                <Setter Property="Text" Value="Nam" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding student_gender}" Value="0">
+                                                <Setter Property="Text" Value="Nữ" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="Số điện thoại" CanUserResize="False" IsReadOnly="True" FontFamily="Kumbh Sans" Width="*" Binding="{Binding student_phoneNumber}"/>
                             <DataGridTemplateColumn Header="Hành động" IsReadOnly="True" Width="*">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
