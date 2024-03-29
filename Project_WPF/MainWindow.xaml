@@ -82,12 +82,6 @@
                     <Rectangle Width="2" Fill="#FF424242" Margin="10,10,10,10"/>
                     <materialDesign:PackIcon Kind="AccountCircleOutline" Width="36" Height="36.3" VerticalAlignment="Center" Foreground="#FF424242" />
 
-                    <!--<Border CornerRadius="20,20,20,20" Background="White" Margin="0,0,30,0">
-                        <StackPanel Orientation="Horizontal" Margin="20,0,20,0">
-                            <materialDesign:PackIcon Kind="AccountCircleOutline" Width="36" Height="36.3" VerticalAlignment="Center" Foreground="#FF424242" />
-                            <TextBlock Text="Nguyễn Đăng Quang" VerticalAlignment="Center" FontSize="20" Foreground="#FF424242"/>
-                        </StackPanel>
-                    </Border>-->
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="1">
