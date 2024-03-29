@@ -1,38 +1,42 @@
-﻿using Project_WPF.Data;
+﻿using BusinessLayer;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Data;
+using System.Data.SqlClient;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Project_WPF.UserControls
 {
-	/// <summary>
-	/// Interaction logic for UC_Home.xaml
-	/// </summary>
 	public partial class UC_Teacher : UserControl
 	{
+		TeacherBLL dbteacher;
+		DataTable dtTeacher;
+
 		public UC_Teacher()
 		{
 			InitializeComponent();
-			var converter = new BrushConverter();
-			ObservableCollection<Teacher> teachers = new ObservableCollection<Teacher>();
-			teachers.Add(new Teacher { teacherID = "T001", teacherName = "Nguyen Van A", Phone = "0901234567", Gender = "Male", Email = "nguyenvana@example.com" });
-			teachers.Add(new Teacher { teacherID = "T002", teacherName = "Tran Thi B", Phone = "0901234568", Gender = "Female", Email = "tranthib@example.com" });
-			teachers.Add(new Teacher { teacherID = "T003", teacherName = "Le Van C", Phone = "0901234569", Gender = "Male", Email = "levanc@example.com" });
-			TeachersDataGrid.ItemsSource = teachers;
+			dbteacher = new TeacherBLL(); // Initialize the TeacherBLL instance
 
+			// Load data when the UserControl is initialized
+			loadData();
 		}
+
+		void loadData()
+		{
+			try
+			{
+				// Assuming LayGV() method returns a DataSet containing teacher data
+				dtTeacher = dbteacher.LayGV().Tables[0];
+
+				// Set the ItemsSource of the DataGrid to the DataTable
+				TeachersDataGrid.ItemsSource = dtTeacher.DefaultView;
+			}
+			catch (SqlException ex)
+			{
+				MessageBox.Show("Error: " + ex.Message);
+			}
+		}
+
 		private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
 		{
 			if (string.IsNullOrWhiteSpace(SearchBox.Text))
