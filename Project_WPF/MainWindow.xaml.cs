@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Project_WPF.UserControls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -30,6 +31,27 @@ namespace Project_WPF
 			this.Left = 0;
 			this.Width = SystemParameters.WorkArea.Width;
 			this.Height = SystemParameters.WorkArea.Height;
+		}
+
+		private void btn_Home_Click(object sender, RoutedEventArgs e)
+		{
+			UC_Home ucHome = new UC_Home(); // Tạo một instance của UserControl
+			MainGrid.Children.Clear(); // Xóa tất cả các UserControl hiện tại
+			MainGrid.Children.Add(ucHome);
+		}
+
+		private void btn_Teacher_Click(object sender, RoutedEventArgs e)
+		{
+			UC_Teacher ucTeacher = new UC_Teacher(); // Tạo một instance của UserControl
+			MainGrid.Children.Clear(); // Xóa tất cả các UserControl hiện tại
+			MainGrid.Children.Add(ucTeacher);
+		}
+
+		private void btn_Student_Click(object sender, RoutedEventArgs e)
+		{
+			UC_Student ucStudent = new UC_Student(); // Tạo một instance của UserControl
+			MainGrid.Children.Clear(); // Xóa tất cả các UserControl hiện tại
+			MainGrid.Children.Add(ucStudent);
 		}
 	}
 }
