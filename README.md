@@ -2,7 +2,7 @@
 
 
 
-Quản lí trung tâm tiếng anh C# WPF + SQL Sever + Entity FramWork
+Quản lí trung tâm tiếng anh C# WPF + SQL Sever + Entity Framwork
 
 
 
