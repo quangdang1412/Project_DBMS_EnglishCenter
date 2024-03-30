@@ -406,6 +406,4 @@ VALUES
 GO
 
 /*Thêm danh sách nhóm học*/
-insert into GROUP_LIST(student_ID,group_ID,payment_state,firstScore,lastScore)
-values
-	(1,1,
+
