@@ -49,14 +49,14 @@
                         </Button>
                         <Button Style="{StaticResource hoverMenu}">
                             <StackPanel Orientation="Horizontal">
-                                <materialDesign:PackIcon Kind="Account" VerticalAlignment="Center" Margin="0,0,20,10" Width="48" Height="48"/>
-                                <TextBlock Text="Dashboard" VerticalAlignment="Center" FontSize="36" FontFamily="Kumbh Sans"/>
+                                <materialDesign:PackIcon Kind="CastEducation" VerticalAlignment="Center" Margin="0,0,20,10" Width="48" Height="48"/>
+                                <TextBlock Text="Classroom" VerticalAlignment="Center" FontSize="36" FontFamily="Kumbh Sans"/>
                             </StackPanel>
                         </Button>
                         <Button Style="{StaticResource hoverMenu}">
                             <StackPanel Orientation="Horizontal">
-                                <materialDesign:PackIcon Kind="Account" VerticalAlignment="Center" Margin="0,0,20,10" Width="48" Height="48"/>
-                                <TextBlock Text="Dashboard" VerticalAlignment="Center" FontSize="36" FontFamily="Segoe UI"/>
+                                <materialDesign:PackIcon Kind="BookEducationOutline" VerticalAlignment="Center" Margin="0,0,20,10" Width="45" Height="45"/>
+                                <TextBlock Text="Course" VerticalAlignment="Center" FontSize="36" FontFamily="Segoe UI"/>
                             </StackPanel>
                         </Button>
                     </StackPanel>
