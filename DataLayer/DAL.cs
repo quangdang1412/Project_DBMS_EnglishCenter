@@ -10,8 +10,7 @@ namespace DataLayer
 {
 	public class DAL
 	{
-		string ConnStr = "Data Source=DESKTOP-588IDI4\\SQLEXPRESS;" +
-			"Initial Catalog=EnglishCenter;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
+		string ConnStr = "Data Source=localhost;Initial Catalog=EnglishCenter;Integrated Security=True";
 		SqlConnection conn = null;
 		SqlCommand comm = null;
 		SqlDataAdapter da = null;
@@ -25,11 +24,14 @@ namespace DataLayer
 		public DataSet ExecuteQueryDataSet(string strSQL, CommandType ct, params SqlParameter[] p)
 		{
 			if (conn.State == ConnectionState.Open)
-				conn.Close();
+			{
+                conn.Close();
+            }
 			conn.Open();
 			comm.CommandText = strSQL;
 			comm.CommandType = ct;
 			da = new SqlDataAdapter(comm);
+			conn.Close();
 			DataSet ds = new DataSet();
 			da.Fill(ds);
 			return ds;
@@ -45,7 +47,9 @@ namespace DataLayer
 			comm.CommandText = strSQL;
 			comm.CommandType = ct;
 			foreach (SqlParameter p in param)
-				comm.Parameters.Add(p);
+			{
+                comm.Parameters.Add(p);
+            }	
 			try
 			{
 				comm.ExecuteNonQuery();
