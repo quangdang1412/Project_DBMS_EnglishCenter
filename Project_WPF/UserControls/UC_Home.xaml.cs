@@ -25,7 +25,7 @@ namespace Project_WPF.UserControls
 		{
 			InitializeComponent();
 			calender.SelectedDate = DateTime.Now;
-			string dayOfWeek = DateTime.Today.ToString("dddd", new CultureInfo("vi-VN"));
+			string dayOfWeek = DateTime.Today.ToString("dddd", new CultureInfo("en"));
 			textThu.Text = dayOfWeek;
 
 		}
