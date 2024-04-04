@@ -63,18 +63,6 @@ exec insertNotification N'Thông báo hỗ trợ tài liệu', N'Cung cấp tài
 exec insertNotification N'Cảnh báo thời tiết xấu', N'Ngày mai sẽ có bão, lớp học có thể bị hủy', '2023-06-01 16:00:00',3;
 GO
 
-/*Thêm nhóm học*/ -- (-1 là lớp bị hủy ||0 là đang mở || 1 là đã full || 2 là lớp đã học xong
-exec insertStudyGr 20, 36, '2022-01-05', '2022-10-05', 2, 36, 2, 3, 3, 2;
-exec insertStudyGr 10, 16, '2022-03-02', '2023-09-02', 2, 15, 4, 6, 6, 1;
-exec insertStudyGr 20, 36, '2022-01-05', '2023-06-05', 2, 26, 6, 4, 4, 1;
-exec insertStudyGr 20, 36, '2023-01-05', '2023-10-05', -1, 19, 5, 1, 1, 1;
-exec insertStudyGr 10, 16, '2023-06-05', '2024-02-05', 2, 10, 3, 5, 5, 2;
-exec insertStudyGr 20, 36, '2024-01-05', '2024-10-05', 0, 11, 1, 2, 2, 1;
-exec insertStudyGr 10, 16, '2024-01-05', '2023-06-05', 1, 16, 4, 6, 6, 1;
-exec insertStudyGr 20, 36, '2024-03-02', '2023-09-02', 0, 26, 6, 4, 4, 1;
-
-GO
-
 /*Thêm giáo viên*/
 EXEC insertTeacher N'Nguyễn Minh Đạo','1986-12-04',1,'03952498123',N'Thanh Hóa','050286456231','daonm@gmail.com';
 EXEC insertTeacher N'Nguyễn Đăng Quang','1982-06-25',1,'0682422369',N'Nghệ An','060682425689','quangnd@gmail.com';
@@ -119,4 +107,16 @@ VALUES
 	(4,'SPK'),
 	(5,'TOE'),
 	(6,'TOE');
+GO
+
+/*Thêm nhóm học*/ -- (-1 là lớp bị hủy ||0 là đang mở || 1 là đã full || 2 là lớp đã học xong
+exec insertStudyGr 20, 36, '2022-01-05', '2022-10-05', 2, 36, 2, 3, 3, 2;
+exec insertStudyGr 10, 16, '2022-03-02', '2023-09-02', 2, 15, 4, 6, 6, 1;
+exec insertStudyGr 20, 36, '2022-01-05', '2023-06-05', 2, 26, 6, 4, 4, 1;
+exec insertStudyGr 20, 36, '2023-01-05', '2023-10-05', -1, 19, 5, 1, 1, 1;
+exec insertStudyGr 10, 16, '2023-06-05', '2024-02-05', 2, 10, 3, 5, 5, 2;
+exec insertStudyGr 20, 36, '2024-01-05', '2024-10-05', 0, 11, 1, 2, 2, 1;
+exec insertStudyGr 10, 16, '2024-01-05', '2023-06-05', 1, 16, 4, 6, 6, 1;
+exec insertStudyGr 20, 36, '2024-03-02', '2023-09-02', 0, 26, 6, 4, 4, 1;
+
 GO

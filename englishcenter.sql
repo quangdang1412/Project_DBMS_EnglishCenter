@@ -107,7 +107,7 @@ ALTER TABLE GROUP_LIST ADD  DEFAULT ((0)) FOR payment_state
 ALTER TABLE GROUP_LIST ADD CONSTRAINT chk_fScore CHECK(firstScore >=0 AND firstScore <=990);
 ALTER TABLE GROUP_LIST ADD CONSTRAINT chk_lScore CHECK(lastScore >=0 AND lastScore <=990);
 /*Bảng ngày học*/
-go
+GO
 CREATE TABLE SCHOOL_DAYS(
 	school_day date PRIMARY KEY,
 );
@@ -173,7 +173,6 @@ CREATE TABLE ACCOUNT(
 	permissionname NVARCHAR(250)
 );
 /*
-
 
 
 
@@ -303,6 +302,7 @@ BEGIN
 		LOWER(student_name) LIKE '%' +LOWER(@keyword) +'%'
 END
 --Trigger kiểm tra trùng số điện thoại:
+/*
 CREATE TRIGGER TG_KiemTraTrungSDT_Student
 ON STUDENT
 AFTER INSERT, UPDATE
@@ -318,3 +318,4 @@ BEGIN
 ​​		END
 END
 GO
+/*
