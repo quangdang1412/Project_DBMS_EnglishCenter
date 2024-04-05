@@ -54,15 +54,6 @@ exec insertRoom 16;
 exec insertRoom 16;
 GO
 
---delete from ROOM
-/*Thêm thông báo*/
-exec insertNotification N'Thông báo kỳ thi giữa kỳ', N'Thi giữa kỳ sẽ diễn ra vào ngày 15/06/2024', '2024-06-01 16:00:00',1;
-exec insertNotification N'Thông báo mở lớp học', N'Lớp sẽ bắt đầu học vào ngày 06-06-2023', '2023-06-01 16:00:00',4;
-exec insertNotification N'Thông báo kỳ nghỉ lễ', N'Nghỉ lễ Quốc khánh từ ngày 01/09/2022 đến ngày 03/09/2022', '2022-08-29 16:00:00',2;
-exec insertNotification N'Thông báo hỗ trợ tài liệu', N'Cung cấp tài liệu miễn phí cho sinh viên', '2024-01-01 16:00:00',4;
-exec insertNotification N'Cảnh báo thời tiết xấu', N'Ngày mai sẽ có bão, lớp học có thể bị hủy', '2023-06-01 16:00:00',3;
-GO
-
 /*Thêm giáo viên*/
 EXEC insertTeacher N'Nguyễn Minh Đạo','1986-12-04',1,'03952498123',N'Thanh Hóa','050286456231','daonm@gmail.com';
 EXEC insertTeacher N'Nguyễn Đăng Quang','1982-06-25',1,'0682422369',N'Nghệ An','060682425689','quangnd@gmail.com';
@@ -119,4 +110,11 @@ exec insertStudyGr 20, 36, '2024-01-05', '2024-10-05', 0, 11, 1, 2, 2, 1;
 exec insertStudyGr 10, 16, '2024-01-05', '2023-06-05', 1, 16, 4, 6, 6, 1;
 exec insertStudyGr 20, 36, '2024-03-02', '2023-09-02', 0, 26, 6, 4, 4, 1;
 
+GO
+/*Thêm thông báo*/
+exec insertNotification N'Thông báo kỳ thi giữa kỳ', N'Thi giữa kỳ sẽ diễn ra vào ngày 15/06/2024', '2024-06-01 16:00:00',1;
+exec insertNotification N'Thông báo mở lớp học', N'Lớp sẽ bắt đầu học vào ngày 06-06-2023', '2023-06-01 16:00:00',4;
+exec insertNotification N'Thông báo kỳ nghỉ lễ', N'Nghỉ lễ Quốc khánh từ ngày 01/09/2022 đến ngày 03/09/2022', '2022-08-29 16:00:00',2;
+exec insertNotification N'Thông báo hỗ trợ tài liệu', N'Cung cấp tài liệu miễn phí cho sinh viên', '2024-01-01 16:00:00',4;
+exec insertNotification N'Cảnh báo thời tiết xấu', N'Ngày mai sẽ có bão, lớp học có thể bị hủy', '2023-06-01 16:00:00',3;
 GO
