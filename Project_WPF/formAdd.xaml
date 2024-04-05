@@ -16,20 +16,22 @@
                          BlurRadius="4"/>
             </Border.Effect>
         <Grid Margin="0,-3,0,3">
-            <TextBlock Height="43"  TextWrapping="Wrap" FontFamily="Gill Sans Ultra Bold" Foreground="#FF152259" Text="Add Student" Width="178" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,25,0,0"/>
+            <TextBlock Height="43"  TextWrapping="Wrap" FontFamily="Gill Sans Ultra Bold" Foreground="#FF152259" Text="Student" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,25,0,0"/>
             <TextBlock HorizontalAlignment="Left" Height="34" Margin="64,98,0,0" TextWrapping="Wrap" FontWeight="Bold"  FontFamily="Kumbh Sans" Text="Họ và tên" VerticalAlignment="Top" Width="107" FontSize="20" RenderTransformOrigin="0.516,-1.906" Foreground="#FF667F8E"/>
             <TextBlock HorizontalAlignment="Left" Height="34" Margin="64,172,0,0" TextWrapping="Wrap" FontWeight="Bold" FontFamily="Kumbh Sans" Text="Ngày sinh" Foreground="#FF667F8E" VerticalAlignment="Top" Width="107" FontSize="20" RenderTransformOrigin="0.516,-1.906"/>
             <TextBlock HorizontalAlignment="Left" Height="34" Margin="64,249,0,0" TextWrapping="Wrap" FontWeight="Bold" FontFamily="Kumbh Sans" Text="Giới tính" Foreground="#FF667F8E" VerticalAlignment="Top" Width="107" FontSize="20"/>
             <TextBlock HorizontalAlignment="Left" Height="34" Margin="64,318,0,0" TextWrapping="Wrap" FontWeight="Bold" FontFamily="Kumbh Sans" Text="Số điện thoại" Foreground="#FF667F8E" VerticalAlignment="Top" Width="141" FontSize="20"/>
             <TextBlock HorizontalAlignment="Left" Height="34" Margin="64,390,0,0" TextWrapping="Wrap" FontWeight="Bold" FontFamily="Kumbh Sans" Text="CCCD" Foreground="#FF667F8E" VerticalAlignment="Top" Width="107" FontSize="20"/>
-            <Button Content="ADD" Style="{StaticResource addButton}" FontWeight="Bold" FontFamily="Segoe UI Emoji" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,489,0,0"/>
             <TextBox HorizontalAlignment="Left" Height="36" Margin="230,96,0,0" Style="{StaticResource textBoxadd}"   TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="304" SelectionTextBrush="White" SelectionBrush="#FF0078D8" Background="White"/>
             <TextBox HorizontalAlignment="Left" Height="36" Margin="230,172,0,0" Style="{StaticResource textBoxadd}"  TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="304"/>
             <TextBox HorizontalAlignment="Left" Height="36" Margin="230,316,0,0" Style="{StaticResource textBoxadd}"  TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="304"/>
             <TextBox HorizontalAlignment="Left" Height="36" Margin="230,390,0,0" Style="{StaticResource textBoxadd}"   TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="304"/>
-            <Button Content="Cancel" Style="{StaticResource addButton1}" HorizontalAlignment="Left" Margin="479,543,0,0" VerticalAlignment="Top" Height="28" Width="78" Background="#FF8A70D8" Click="Button_Click"/>
             <RadioButton Content="Nam"  HorizontalAlignment="Left" Height="34" Margin="230,250,0,0" VerticalAlignment="Top" Width="133" Background="White" Foreground="#FF543939" FontSize="20" FontFamily="Kumbh Sans"/>
             <RadioButton Content="Nữ"  HorizontalAlignment="Left" Height="34" Margin="368,250,0,0" VerticalAlignment="Top" Width="133" Background="White" Foreground="#FF543939" FontSize="20" FontFamily="Kumbh Sans"/>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,70">
+                <Button Content="SAVE" Style="{StaticResource frm_add_save}" Margin="0,0,20,0"  />
+                <Button Content="CANCEL" Style="{StaticResource frm_add_save}" Click="Button_Click"  />
+            </StackPanel>
 
         </Grid>
     </Border>
