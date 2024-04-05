@@ -90,5 +90,9 @@ namespace Project_WPF
 			button.Background = Brushes.Transparent;
 		}
 
-	}
+        private void btn_exit_Click(object sender, RoutedEventArgs e)
+        {
+			this.Close();
+        }
+    }
 }
