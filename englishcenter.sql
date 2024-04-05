@@ -99,8 +99,6 @@ CREATE TABLE GROUP_LIST(
 );
 GO
 /*Đặt giá trị mặc định cho điểm đầu vào,ra*/
-ALTER TABLE GROUP_LIST ADD  DEFAULT ((0)) FOR firstScore
-ALTER TABLE GROUP_LIST ADD  DEFAULT ((0)) FOR lastScore
 /*Đặt tình trạng thanh toán mặc định là 0*/
 ALTER TABLE GROUP_LIST ADD  DEFAULT ((0)) FOR payment_state
 /*Kiểm tra điểm được nhập vào có hợp lệ không*/
@@ -313,7 +311,7 @@ BEGIN
         SELECT 1
         FROM inserted i
         LEFT JOIN STUDY_GROUP  ON i.group_ID = STUDY_GROUP.group_ID
-        WHERE STUDY_GROUP.class_ID = 6 AND i.firstScore >= 500
+        WHERE STUDY_GROUP.class_ID = 6 AND i.firstScore < 500
     )
     BEGIN
         RAISERROR ('Điểm đầu vào phải lớn hơn hoặc bằng 500 để vào được Lớp giao tiếp toàn diện ', 16, 1);
@@ -332,7 +330,7 @@ BEGIN
         SELECT 1
         FROM inserted i
         LEFT JOIN STUDY_GROUP  ON i.group_ID = STUDY_GROUP.group_ID
-        WHERE STUDY_GROUP.class_ID = 2 AND i.firstScore >= 400
+        WHERE STUDY_GROUP.class_ID = 2 AND i.firstScore < 400
     )
     BEGIN
         RAISERROR ('Điểm đầu vào phải lớn hơn hoặc bằng 400 để vào được Lớp Toeic Intensive', 16, 1);
@@ -350,8 +348,8 @@ BEGIN
 	(
         SELECT 1
         FROM inserted i
-        LEFT JOIN STUDY_GROUP  ON i.group_ID = STUDY_GROUP.group_ID
-        WHERE STUDY_GROUP.class_ID = 3 AND i.firstScore >= 500
+			LEFT JOIN STUDY_GROUP  ON i.group_ID = STUDY_GROUP.group_ID
+        WHERE STUDY_GROUP.class_ID = 3 AND i.firstScore < 500
     )
     BEGIN
         RAISERROR ('Điểm đầu vào phải lớn hơn hoặc bằng 500 để vào được Lớp Toeic luyện đề', 16, 1);
@@ -359,4 +357,12 @@ BEGIN
     END
 END;
 GO
+
+
+
+
+
+
+	
+
 
