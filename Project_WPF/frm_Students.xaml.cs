@@ -17,9 +17,9 @@ namespace Project_WPF
     /// <summary>
     /// Interaction logic for formAdd.xaml
     /// </summary>
-    public partial class formAdd : Window
+    public partial class frm_Students : Window
     {
-        public formAdd()
+        public frm_Students()
         {
             InitializeComponent();
         }
