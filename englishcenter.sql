@@ -301,6 +301,65 @@ BEGIN
 		CAST(identification AS VARCHAR) LIKE '%' +@keyword +'%' OR
 		LOWER(student_name) LIKE '%' +LOWER(@keyword) +'%'
 END
+GO
+/*Trigger kiểm tra điểm để thêm vào lớp giao tiếp phản xạ  toàn diện */
+CREATE TRIGGER trg_CheckFscoreComMaster
+ON GROUP_LIST
+AFTER INSERT, UPDATE
+AS
+BEGIN
+    IF EXISTS 
+	(
+        SELECT 1
+        FROM inserted i
+        LEFT JOIN STUDY_GROUP  ON i.group_ID = STUDY_GROUP.group_ID
+        WHERE STUDY_GROUP.class_ID = 6 AND i.firstScore >= 500
+    )
+    BEGIN
+        RAISERROR ('Điểm đầu vào phải lớn hơn hoặc bằng 500 để vào được Lớp giao tiếp toàn diện ', 16, 1);
+        ROLLBACK TRANSACTION;
+    END
+END;
+GO
+/*Trigger kiểm tra điểm đầu vào Intensive*/
+CREATE TRIGGER trg_CheckFscoreIntensive
+ON GROUP_LIST
+AFTER INSERT, UPDATE
+AS
+BEGIN
+    IF EXISTS 
+	(
+        SELECT 1
+        FROM inserted i
+        LEFT JOIN STUDY_GROUP  ON i.group_ID = STUDY_GROUP.group_ID
+        WHERE STUDY_GROUP.class_ID = 2 AND i.firstScore >= 400
+    )
+    BEGIN
+        RAISERROR ('Điểm đầu vào phải lớn hơn hoặc bằng 400 để vào được Lớp Toeic Intensive', 16, 1);
+        ROLLBACK TRANSACTION;
+    END
+END;
+GO
+/*Trigger kiểm tra điểm đầu vào của Lớp luyện đề */
+CREATE TRIGGER trg_CheckFscorePractice
+ON GROUP_LIST
+AFTER INSERT, UPDATE
+AS
+BEGIN
+    IF EXISTS 
+	(
+        SELECT 1
+        FROM inserted i
+        LEFT JOIN STUDY_GROUP  ON i.group_ID = STUDY_GROUP.group_ID
+        WHERE STUDY_GROUP.class_ID = 3 AND i.firstScore >= 500
+    )
+    BEGIN
+        RAISERROR ('Điểm đầu vào phải lớn hơn hoặc bằng 500 để vào được Lớp Toeic luyện đề', 16, 1);
+        ROLLBACK TRANSACTION;
+    END
+END;
+GO
+
 --Trigger kiểm tra trùng số điện thoại:
 /*
 CREATE TRIGGER TG_KiemTraTrungSDT_Student
