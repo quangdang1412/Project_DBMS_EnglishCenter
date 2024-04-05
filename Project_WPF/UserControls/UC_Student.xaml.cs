@@ -55,6 +55,11 @@ namespace Project_WPF.UserControls
 				Placeholder.Visibility = Visibility.Collapsed;
 			}
 		}
-		
-	}
+
+        private void btn_addstudent_Click(object sender, RoutedEventArgs e)
+        {
+			formAdd form=new formAdd();
+			form.ShowDialog();
+        }
+    }
 }

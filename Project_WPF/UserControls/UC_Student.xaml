@@ -16,7 +16,7 @@
 
         <Grid Grid.Row="0">
             <TextBlock Text="Students" FontSize="32" FontWeight="SemiBold" HorizontalAlignment="Left" Margin="20,0,0,0" Foreground="#FF121518"></TextBlock>
-            <Button HorizontalAlignment="Right" Style="{StaticResource addButton}" Margin="0,0,20,0" >
+            <Button x:Name="btn_addstudent" HorizontalAlignment="Right" Style="{StaticResource addButton}" Margin="0,0,20,0"  Click="btn_addstudent_Click">
                 <StackPanel Orientation="Horizontal">
                     <materialDesign:PackIcon Kind="Plus" Margin="0,0,10,0" />
                     <TextBlock Text="Add new Student"/>
