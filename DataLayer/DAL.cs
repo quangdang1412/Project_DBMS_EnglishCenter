@@ -11,7 +11,7 @@ namespace DataLayer
 	public class DAL
 	{
 		string ConnStr = "Data Source=localhost;" +
-			"Initial Catalog=EnglishCenter;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
+		"Initial Catalog=EnglishCenter;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";  
 		SqlConnection conn = null;
 		SqlCommand comm = null;
 		SqlDataAdapter da = null;

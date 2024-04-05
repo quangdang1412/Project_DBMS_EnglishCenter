@@ -309,15 +309,17 @@ BEGIN
     IF EXISTS 
 	(
         SELECT 1
-        FROM inserted i
-        LEFT JOIN STUDY_GROUP  ON i.group_ID = STUDY_GROUP.group_ID
-        WHERE STUDY_GROUP.class_ID = 6 AND i.firstScore < 500
+        FROM inserted i where i.group_ID in 
+			(select group_ID
+				from STUDY_GROUP
+				where class_ID = 6 ) and i.firstScore < 500
     )
     BEGIN
         RAISERROR ('Điểm đầu vào phải lớn hơn hoặc bằng 500 để vào được Lớp giao tiếp toàn diện ', 16, 1);
         ROLLBACK TRANSACTION;
     END
 END;
+
 GO
 /*Trigger kiểm tra điểm đầu vào Intensive*/
 CREATE TRIGGER trg_CheckFscoreIntensive
@@ -328,15 +330,17 @@ BEGIN
     IF EXISTS 
 	(
         SELECT 1
-        FROM inserted i
-        LEFT JOIN STUDY_GROUP  ON i.group_ID = STUDY_GROUP.group_ID
-        WHERE STUDY_GROUP.class_ID = 2 AND i.firstScore < 400
+        FROM inserted i where i.group_ID  in 
+			( select group_ID
+				from STUDY_GROUP
+				where class_ID = 2) and i.firstScore<400
     )
     BEGIN
         RAISERROR ('Điểm đầu vào phải lớn hơn hoặc bằng 400 để vào được Lớp Toeic Intensive', 16, 1);
         ROLLBACK TRANSACTION;
     END
 END;
+
 GO
 /*Trigger kiểm tra điểm đầu vào của Lớp luyện đề */
 CREATE TRIGGER trg_CheckFscorePractice
@@ -347,9 +351,8 @@ BEGIN
     IF EXISTS 
 	(
         SELECT 1
-        FROM inserted i
-			LEFT JOIN STUDY_GROUP  ON i.group_ID = STUDY_GROUP.group_ID
-        WHERE STUDY_GROUP.class_ID = 3 AND i.firstScore < 500
+        FROM inserted i WHERE i.group_ID IN 
+			(SELECT group_ID FROM STUDY_GROUP WHERE class_ID=3) AND i.firstScore < 500
     )
     BEGIN
         RAISERROR ('Điểm đầu vào phải lớn hơn hoặc bằng 500 để vào được Lớp Toeic luyện đề', 16, 1);
@@ -357,6 +360,12 @@ BEGIN
     END
 END;
 GO
+
+
+
+
+
+
 
 
 
