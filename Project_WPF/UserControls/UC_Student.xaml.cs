@@ -58,7 +58,7 @@ namespace Project_WPF.UserControls
 
         private void btn_addstudent_Click(object sender, RoutedEventArgs e)
         {
-			formAdd form=new formAdd();
+            frm_Students form =new frm_Students();
 			form.ShowDialog();
         }
     }
