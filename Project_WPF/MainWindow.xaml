@@ -62,10 +62,10 @@
                     </StackPanel>
                 </Grid>
                 <Grid Margin="50,0,0,20">
-                    <Button Style="{StaticResource hoverMenu}" VerticalAlignment="Bottom" >
+                    <Button Style="{StaticResource hoverMenu}" VerticalAlignment="Bottom" x:Name="btn_exit" Click="btn_exit_Click">
                         <StackPanel Orientation="Horizontal">
                             <materialDesign:PackIcon Kind="Logout" VerticalAlignment="Center" Margin="0,0,20,10" Width="48" Height="49"/>
-                            <TextBlock Text="Sign out" VerticalAlignment="Center" FontSize="36" FontFamily="Kumbh Sans"/>
+                            <TextBlock  Text="Sign out" VerticalAlignment="Center" FontSize="36" FontFamily="Kumbh Sans" />
                         </StackPanel>
                     </Button>
                 </Grid>

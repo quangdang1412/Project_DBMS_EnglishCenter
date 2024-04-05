@@ -10,7 +10,7 @@ namespace DataLayer
 {
 	public class DAL
 	{
-		string ConnStr = "Data Source=DESKTOP-588IDI4\\SQLEXPRESS;" +
+		string ConnStr = "Data Source=localhost;" +
 			"Initial Catalog=EnglishCenter;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
 		SqlConnection conn = null;
 		SqlCommand comm = null;
