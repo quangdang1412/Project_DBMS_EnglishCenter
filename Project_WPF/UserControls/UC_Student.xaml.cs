@@ -61,5 +61,29 @@ namespace Project_WPF.UserControls
             frm_Students form =new frm_Students();
 			form.ShowDialog();
         }
+
+        private void btn_editdata_Click(object sender, RoutedEventArgs e)
+        {
+            // Lấy hàng được chọn từ DataGrid
+            DataRowView selectedRow = (DataRowView)StudentsDataGrid.SelectedItem;
+
+            // Tạo một instance của form frm_Students
+            frm_Students editStudentForm = new frm_Students();
+
+            // Truyền dữ liệu từ hàng được chọn vào form
+            editStudentForm.FillData(selectedRow);
+
+            // Hiển thị form để chỉnh sửa thông tin
+            editStudentForm.ShowDialog();
+
+        }
+
+
+        private void btn_deletedata_Click(object sender, RoutedEventArgs e)
+        {
+            frm_Students form = new frm_Students();
+            form.ShowDialog();
+        }
+        
     }
 }
