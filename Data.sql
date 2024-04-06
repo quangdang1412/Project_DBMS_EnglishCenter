@@ -100,15 +100,15 @@ VALUES
 	(6,'TOE');
 GO
 
-/*Thêm nhóm học*/ -- (-1 là lớp bị hủy ||0 là đang mở || 1 là đã full || 2 là lớp đã học xong
-exec insertStudyGr 20, 36, '2022-01-05', '2022-10-05', 2, 36, 2, 3, 3, 2;
-exec insertStudyGr 10, 16, '2022-03-02', '2023-09-02', 2, 15, 4, 6, 6, 1;
-exec insertStudyGr 20, 36, '2022-01-05', '2023-06-05', 2, 26, 6, 4, 4, 1;
-exec insertStudyGr 20, 36, '2023-01-05', '2023-10-05', -1, 19, 5, 1, 1, 1;
-exec insertStudyGr 10, 16, '2023-06-05', '2024-02-05', 2, 10, 3, 5, 5, 2;
+/*Thêm nhóm học*/ --  -1 là lớp đang mở để đăng kí || 0 là đang mở để học || 1 là lớp đã học xong
+exec insertStudyGr 20, 36, '2022-01-05', '2022-10-05', 1, 36, 2, 3, 3, 2;
+exec insertStudyGr 10, 16, '2022-03-02', '2023-09-02', 1, 15, 4, 6, 6, 1;
+exec insertStudyGr 20, 36, '2022-01-05', '2023-06-05', 1, 26, 6, 4, 4, 1;
+exec insertStudyGr 20, 36, '2023-01-05', '2023-10-05', 1, 19, 5, 1, 1, 1;
+exec insertStudyGr 10, 16, '2023-06-05', '2024-02-05', 1, 10, 3, 5, 5, 2;
 exec insertStudyGr 20, 36, '2024-01-05', '2024-10-05', 0, 11, 1, 2, 2, 1;
-exec insertStudyGr 10, 16, '2024-01-05', '2023-06-05', 1, 16, 4, 6, 6, 1;
-exec insertStudyGr 20, 36, '2024-03-02', '2023-09-02', 0, 26, 6, 4, 4, 1;
+exec insertStudyGr 10, 16, '2024-01-05', '2023-06-05', -1, 16, 4, 6, 6, 1;
+exec insertStudyGr 20, 36, '2023-09-02', '2024-05-02', 0, 26, 6, 4, 4, 1;
 
 GO
 /*Thêm thông báo*/
