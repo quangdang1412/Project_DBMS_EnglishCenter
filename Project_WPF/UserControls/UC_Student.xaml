@@ -36,7 +36,7 @@
         <Grid Grid.Row="2">
             <Border Background="White" CornerRadius="20,20,20,20" Margin="20,0,20,20">
                 <Grid Margin="10,10,10,0">
-                    <DataGrid x:Name="StudentsDataGrid" CellStyle="{DynamicResource DataGridCellStyle1}" Style="{DynamicResource DataGridStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" RowHeaderStyle="{DynamicResource DataGridRowHeaderStyle1}" RowStyle="{DynamicResource DataGridRowStyle1}" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="Black">
+                    <DataGrid x:Name="StudentsDataGrid" SelectionMode="Single" CellStyle="{DynamicResource DataGridCellStyle1}" Style="{DynamicResource DataGridStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" RowHeaderStyle="{DynamicResource DataGridRowHeaderStyle1}" RowStyle="{DynamicResource DataGridRowStyle1}" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="Black" >
                         <DataGrid.Columns>
                             <DataGridCheckBoxColumn CanUserResize="False" Width="auto" ElementStyle="{StaticResource CheckBoxStyle1}">
                                 <DataGridCheckBoxColumn.HeaderTemplate>
@@ -79,14 +79,14 @@
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
                             <DataGridTextColumn Header="Số điện thoại" CanUserResize="False" IsReadOnly="True" FontFamily="Kumbh Sans" Width="*" Binding="{Binding student_phoneNumber}"/>
-                            <DataGridTemplateColumn Header="Hành động" IsReadOnly="True" Width="*">
+                            <DataGridTemplateColumn Header="" IsReadOnly="True" Width="*">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                            <Button Style="{StaticResource x editData}">
+                                            <Button x:Name="btn_editdata" Style="{StaticResource x editData}" Click="btn_editdata_Click" >
                                                 <materialDesign:PackIcon Kind="PencilOutline" Width="12" Height="12" VerticalAlignment="Center" />
                                             </Button>
-                                            <Button Style="{StaticResource x deleteData}">
+                                            <Button x:Name="btn_deletedata" Style="{StaticResource x deleteData}" Click="btn_deletedata_Click" >
                                                 <materialDesign:PackIcon Kind="DeleteOutline" Width="12" Height="12" VerticalAlignment="Center" />
                                             </Button>
 
