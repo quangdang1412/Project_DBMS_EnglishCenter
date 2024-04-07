@@ -48,7 +48,7 @@ namespace Project_WPF
 
         public void FillData(DataRowView selectedRow)
         {
-            check=false;
+            
             // Điền dữ liệu từ hàng được chọn vào các điều khiển trên form
             txt_Name.Text = selectedRow["student_name"].ToString();
             txt_Phone.Text = selectedRow["student_phoneNumber"].ToString();
@@ -65,14 +65,16 @@ namespace Project_WPF
                 // Nữ
                 rbFemale.IsChecked = true;
             }
+            check = false;
         }
 
         private void btn_save_Click(object sender, RoutedEventArgs e)
         {
             string err = "";
-            DateTime studentDob = new DateTime(2005, 4, 12);
+            DateTime studentDob;
+            bool ngaythang = DateTime.TryParseExact(txtDate.Text, "dd/mm/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out studentDob);
             int gender = rbMale.IsChecked == true ? 1 : 0;
-            if (check)
+            if (check==true)
             {
                 try
                 {
@@ -95,7 +97,7 @@ namespace Project_WPF
             }
             else
             {
-
+                MessageBox.Show("update!");
             }
         }
     }
