@@ -360,21 +360,3 @@ BEGIN
 END;
 GO
 
---Trigger kiểm tra trùng số điện thoại:
-/*
-CREATE TRIGGER TG_KiemTraTrungSDT_Student
-ON STUDENT
-AFTER INSERT, UPDATE
-AS
-BEGIN
-   DECLARE @count INT = 0
-   SELECT @count = COUNT(*)
-   FROM STUDENT
-   WHERE student_phoneNumber IN (SELECT student_phoneNumber FROM inserted)
-   IF (@count > 0)
-		​​BEGIN
-​​​			ROLLBACK TRAN;
-​​		END
-END
-GO
-/*
