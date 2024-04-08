@@ -67,7 +67,6 @@ namespace Project_WPF.UserControls
         {
             // Lấy hàng được chọn từ DataGrid
             DataRowView selectedRow = (DataRowView)StudentsDataGrid.SelectedItem;
-
             // Tạo một instance của form frm_Students
             frm_Students editStudentForm = new frm_Students();
 
@@ -87,6 +86,10 @@ namespace Project_WPF.UserControls
             frm_Students form = new frm_Students();
             form.ShowDialog();
         }
-        
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
