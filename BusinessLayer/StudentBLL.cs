@@ -34,6 +34,21 @@ namespace BusinessLayer
 
             return db.MyExecuteNonQuery("insertStudent", CommandType.StoredProcedure, ref err, sqlParams);
         }
+        public bool CapNhatHocSinh(ref string err,int studentID, string studentName, DateTime studentDob, int studentGender, string studentPhoneNumber, string identification)
+        {
+            // Tạo một mảng chứa các tham số cho thủ tục lưu trữ
+            SqlParameter[] sqlParams =
+            {
+                new SqlParameter("student_ID",studentID),
+                new SqlParameter("@student_name", studentName),
+                new SqlParameter("@student_dob", studentDob),
+                new SqlParameter("@student_gender", studentGender),
+                new SqlParameter("@student_phoneNumber", studentPhoneNumber),
+                new SqlParameter("@identification", identification)
+            };
+
+            return db.MyExecuteNonQuery("updateStudent", CommandType.StoredProcedure, ref err, sqlParams);
+        }
 
 
     }

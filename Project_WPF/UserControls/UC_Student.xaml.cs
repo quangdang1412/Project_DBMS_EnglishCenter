@@ -76,6 +76,8 @@ namespace Project_WPF.UserControls
             // Hiển thị form để chỉnh sửa thông tin
             editStudentForm.ShowDialog();
 
+            loadData();
+
         }
 
 

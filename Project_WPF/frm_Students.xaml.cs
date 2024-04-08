@@ -27,6 +27,7 @@ namespace Project_WPF
     {
         StudentBLL dbstudent;
         bool check = true;
+        int id = 0;
         public frm_Students()
         {
             InitializeComponent();
@@ -48,8 +49,10 @@ namespace Project_WPF
 
         public void FillData(DataRowView selectedRow)
         {
-            
+
             // Điền dữ liệu từ hàng được chọn vào các điều khiển trên form
+            id = Convert.ToInt32(selectedRow["student_ID"]);
+            Console.WriteLine(id.ToString());
             txt_Name.Text = selectedRow["student_name"].ToString();
             txt_Phone.Text = selectedRow["student_phoneNumber"].ToString();
             txtCCCD.Text = selectedRow["identification"].ToString();
@@ -97,7 +100,17 @@ namespace Project_WPF
             }
             else
             {
-                MessageBox.Show("update!");
+                bool success = dbstudent.CapNhatHocSinh(ref err,id, txt_Name.Text, studentDob, gender, txt_Phone.Text, txtCCCD.Text);
+                if (success)
+                {
+                    MessageBox.Show("Đã cập nhật xong!");
+                    this.Close();
+                }
+                else
+                {
+                    Console.WriteLine(err);
+                    MessageBox.Show("Không cập nhật được!");
+                }
             }
         }
     }
