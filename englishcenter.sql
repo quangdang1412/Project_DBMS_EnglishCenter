@@ -98,7 +98,7 @@ CREATE TABLE GROUP_LIST(
 	FOREIGN KEY (group_ID) REFERENCES STUDY_GROUP(group_id)
 );
 GO
-/*Đặt giá trị mặc định cho điểm đầu vào,ra*/
+/*Đặt giá trị mặc định cho điểm đầu ra*/
 /*Đặt tình trạng thanh toán mặc định là 0*/
 ALTER TABLE GROUP_LIST ADD  DEFAULT ((0)) FOR payment_state
 /*Kiểm tra điểm được nhập vào có hợp lệ không*/
@@ -267,6 +267,44 @@ BEGIN
 	WHERE teacher_ID=@teacher_ID
 END
 GO
+/*Procedure xóa giáo viên dựa trên ID*/
+CREATE PROCEDURE deleteTeacher
+	@teacher_ID INT
+AS
+	BEGIN
+		DELETE FROM TEACHER WHERE teacher_ID=@teacher_ID
+	END
+GO
+/*Procedure tạo khóa học mới*/
+CREATE PROCEDURE insertCourse
+	@courseID VARCHAR(10),
+	@course_name NVARCHAR(100)
+AS
+	BEGIN
+		INSERT INTO COURSE(course_ID,course_name)
+		VALUES(@courseID,@course_name)
+	END
+GO
+/*Procedure cập nhật thông tin khóa học*/
+CREATE PROCEDURE updateCourse
+	@courseID VARCHAR(10),
+	@course_name NVARCHAR(100)
+AS
+BEGIN
+	UPDATE COURSE
+	SET
+		course_name = @course_name
+	WHERE course_ID = @courseID
+END
+GO
+/*Xóa khóa dựa trên ID*/
+CREATE PROCEDURE deleteCourse
+	@courseID VARCHAR(10)
+AS
+BEGIN
+	DELETE FROM COURSE WHERE course_ID=@courseID
+END
+GO
 /*Procedure tạo lớp mới*/
 CREATE PROCEDURE insertClass
 	@clname NVARCHAR(100),
@@ -279,6 +317,33 @@ DECLARE @maxID INT;
 SELECT @maxID=ISNULL(MAX(class_ID),0) +1 FROM CLASS;
 INSERT INTO CLASS(class_ID,clname,totalDay,fee,course_ID)
 VALUES(@maxID,@clname,@totalDay,@fee,@course_ID);
+END
+GO
+
+/*Procedure cập nhật thông tin lớp học*/
+CREATE PROCEDURE updateClass
+	@classID INT,
+	@clname NVARCHAR(100),
+	@totalDay INT,
+	@fee FLOAT,
+	@course_ID VARCHAR(10)
+AS
+BEGIN
+	UPDATE CLASS
+	SET
+		clname = @clname,
+		totalDay = @totalDay,
+		fee = @fee,
+		course_ID = @course_ID
+	WHERE class_ID = @classID
+END
+GO
+/*Xóa lớp dựa trên ID*/
+CREATE PROCEDURE deleteClass
+	@class_ID INT
+AS
+BEGIN
+	DELETE FROM CLASS WHERE class_ID=@class_ID
 END
 GO
 /*Procedure tạo nhóm học mới*/
@@ -299,6 +364,44 @@ DECLARE @maxID INT;
 SELECT @maxID=ISNULL(MAX(group_ID),0) +1 FROM STUDY_GROUP;
 INSERT INTO STUDY_GROUP(group_ID,minStudent,maxStudent,dayStart,dayEnd,grStatus,totalStudent,teacher_ID,class_ID,room_ID,shift_ID)
 VALUES(@maxID,@minstudent,@maxstudent,@dayStart,@dayEnd,@grStatus,@totalStudent,@teacher_ID,@class_ID,@room_ID,@shift_ID);
+END
+GO
+/*Procedure cập nhật nhóm học*/
+CREATE PROCEDURE updateStudyGr
+	@groupID INT,
+	@minstudent TINYINT,
+	@maxstudent TINYINT,
+	@dayStart DATE,
+	@dayEnd DATE,
+	@grStatus INT, -- -1 là đang mở để đăng kí,0 là lớp đang mở và đang còn học, 1 là lớp đã học xong
+	@totalStudent TINYINT,
+	@teacher_ID INT,
+	@class_ID INT,
+	@room_ID INT,
+	@shift_ID TINYINT
+AS
+BEGIN
+	UPDATE STUDY_GROUP
+	SET
+		group_ID = @groupID,
+		minStudent = @minstudent,
+		maxStudent = @maxstudent,
+		dayStart = @dayStart,
+		dayEnd = @dayEnd,
+		grStatus = @grStatus,
+		totalStudent = @totalStudent,
+		teacher_ID = @teacher_ID,
+		class_ID = @class_ID,
+		room_ID = @room_ID,
+		shift_ID = @shift_ID
+END
+GO
+/*Xóa nhóm học dựa trên ID*/
+CREATE PROCEDURE deleteStudyGr
+	@group_ID INT
+AS
+BEGIN
+	DELETE FROM STUDY_GROUP WHERE group_ID=@group_ID
 END
 GO
 /*Procedure tạo thông báo mới*/
@@ -338,6 +441,22 @@ BEGIN
 	VALUES(@student_ID,@group_ID,@paymenstate,@firstScore)
 END;
 GO
+/*Procedure cập nhật thông tin lớp học*/
+CREATE PROCEDURE updateGroupList
+	@student_ID INT,
+	@group_ID INT,
+	@paymenstate TINYINT,
+	@firstScore INT
+AS
+BEGIN
+	UPDATE GROUP_LIST
+	SET
+		student_ID = @student_ID,
+		group_ID = @group_ID,
+		payment_state = @paymenstate,
+		firstScore = @firstScore
+END;
+GO
 /*Procedure nhập điểm cho học sinh*/
 CREATE PROCEDURE updateLastScore
 	@student_ID INT,
@@ -351,7 +470,7 @@ BEGIN
 	WHERE student_ID=@student_ID AND group_ID=@group_ID
 END
 GO
-/*Procedure Tìm học viên*/
+/*Procedure Tìm học viên dựa trên từ khóa*/
 CREATE PROCEDURE selectAllStudent
 	@keyword NVARCHAR(300)
 AS
@@ -359,24 +478,36 @@ BEGIN
 	SELECT
 		student_ID,
 		student_name,
-		CONVERT(VARCHAR,student_dob,103) AS student_dob,
-		CASE
-			WHEN (student_gender=1) 
-				THEN N'Nam'
-			ELSE
-				N'Nữ'
-		END AS student_gender,
-		student_phoneNumber,
-		identification
+		student_dob,
+		student_gender,
+		student_phoneNumber
 	FROM STUDENT
 	WHERE
 		CAST(student_ID AS VARCHAR) LIKE '%' + @keyword +'%' OR
 		CAST(student_phoneNumber AS VARCHAR) LIKE '%' + @keyword +'%' OR
-		CAST(identification AS VARCHAR) LIKE '%' +@keyword +'%' OR
 		LOWER(student_name) LIKE '%' +LOWER(@keyword) +'%'
 END
 GO
-/*Trigger kiểm tra điểm để thêm vào lớp giao tiếp phản xạ  toàn diện */
+/*Procedure tìm giáo viên dựa trên từ khóa*/
+CREATE PROCEDURE selectAllTeacher
+	@keyword NVARCHAR(300)
+AS
+BEGIN
+	SELECT
+		teacher_ID,
+		teacher_name,
+		gender,
+		teacher_phoneNumber,
+		email
+	FROM TEACHER
+	WHERE
+		CAST(teacher_ID AS VARCHAR) LIKE '%' + @keyword +'%' OR
+		CAST(teacher_phoneNumber AS VARCHAR) LIKE '%' + @keyword +'%' OR
+		LOWER(teacher_name) LIKE '%' +LOWER(@keyword) +'%' OR
+		LOWER(email) LIKE '%' +LOWER(@keyword)+ '%' 
+END
+GO
+/*Trigger kiểm tra điểm để thêm vào lớp giao tiếp phản xạ toàn diện */
 CREATE TRIGGER trg_CheckFscore
 ON GROUP_LIST
 AFTER INSERT, UPDATE
@@ -496,4 +627,4 @@ AS
 	END
 END;
 GO
-END;
+
