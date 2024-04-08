@@ -49,6 +49,16 @@ namespace BusinessLayer
 
             return db.MyExecuteNonQuery("updateStudent", CommandType.StoredProcedure, ref err, sqlParams);
         }
+        public bool XoaHocSinh(ref string err, int studentID)
+        {
+            // Tạo một mảng chứa các tham số cho thủ tục lưu trữ
+            SqlParameter[] sqlParams =
+            {
+                new SqlParameter("student_ID",studentID),
+            };
+
+            return db.MyExecuteNonQuery("deleteStudent", CommandType.StoredProcedure, ref err, sqlParams);
+        }
 
 
     }

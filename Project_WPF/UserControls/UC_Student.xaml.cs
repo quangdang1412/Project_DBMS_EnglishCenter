@@ -83,13 +83,27 @@ namespace Project_WPF.UserControls
 
         private void btn_deletedata_Click(object sender, RoutedEventArgs e)
         {
-            frm_Students form = new frm_Students();
-            form.ShowDialog();
+
+            // Lấy hàng được chọn từ DataGrid
+            DataRowView selectedRow = (DataRowView)StudentsDataGrid.SelectedItem;
+
+            // Lấy giá trị của cột ID từ hàng được chọn
+            int id = Convert.ToInt32(selectedRow["student_ID"]);
+
+            // Thực hiện xoá học sinh
+            string err = "";
+            bool success = dbstudent.XoaHocSinh(ref err, id);
+            if (success)
+            {
+                MessageBox.Show("Đã xoá xong!");
+            }
+            else
+            {
+                Console.WriteLine(err);
+                MessageBox.Show("Không xoá được!");
+            }
+            loadData();
         }
 
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
-        {
-
-        }
     }
 }
