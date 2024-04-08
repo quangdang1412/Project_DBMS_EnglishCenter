@@ -32,14 +32,18 @@ namespace Project_WPF.UserControls
 				MessageBox.Show("Error: " + ex.Message);
 			}
 		}
-
+		void searching()
+		{
+			Console.WriteLine();
+		}
 		private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
 		{
-			loadData();
+			
 			if (string.IsNullOrWhiteSpace(SearchBox.Text))
 			{
 				txt_search.Visibility = Visibility.Visible;
-			}
+                searching();
+            }
 			else
 			{
 				txt_search.Visibility = Visibility.Collapsed;
