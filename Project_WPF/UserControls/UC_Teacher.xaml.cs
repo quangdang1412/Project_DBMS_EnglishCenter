@@ -21,10 +21,9 @@ namespace Project_WPF.UserControls
 
 		void loadData()
 		{
-			string keyword=txt_search.Text;
 			try
 			{
-				dtTeacher = dbteacher.LayGV(keyword).Tables[0];
+				dtTeacher = dbteacher.LayGV().Tables[0];
 
 				TeachersDataGrid.ItemsSource = dtTeacher.DefaultView;
 			}

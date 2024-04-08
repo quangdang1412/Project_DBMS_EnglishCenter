@@ -16,7 +16,7 @@
 
         <Grid Grid.Row="0">
             <TextBlock Text="Teachers" FontSize="32" FontWeight="SemiBold" HorizontalAlignment="Left" Margin="20,0,0,0" Foreground="#FF121518"></TextBlock>
-            <Button HorizontalAlignment="Right" Style="{StaticResource addButton}" Margin="0,0,20,0" Click="Button_Click" >
+            <Button HorizontalAlignment="Right" Style="{StaticResource addButton}" Margin="0,0,20,0" Click="btn_addTeacher_Click" >
                 <StackPanel x:Name="btn_addTeacher" Orientation="Horizontal">
                     <materialDesign:PackIcon Kind="Plus" Margin="0,0,10,0" />
                     <TextBlock Text="Add new Teacher"/>
@@ -35,7 +35,7 @@
         <Grid Grid.Row="2">
             <Border Background="White" CornerRadius="20,20,20,20" Margin="20,0,20,20">
                 <Grid Margin="10,10,10,0">
-                    <DataGrid x:Name="TeachersDataGrid" CellStyle="{DynamicResource DataGridCellStyle1}" Style="{DynamicResource DataGridStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" RowHeaderStyle="{DynamicResource DataGridRowHeaderStyle1}" RowStyle="{DynamicResource DataGridRowStyle1}" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="Black" SelectionChanged="TeachersDataGrid_SelectionChanged">
+                    <DataGrid x:Name="TeachersDataGrid" CellStyle="{DynamicResource DataGridCellStyle1}" Style="{DynamicResource DataGridStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" RowHeaderStyle="{DynamicResource DataGridRowHeaderStyle1}" RowStyle="{DynamicResource DataGridRowStyle1}" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="Black">
                         <DataGrid.Columns>
                             <DataGridCheckBoxColumn CanUserResize="False" Width="auto" ElementStyle="{StaticResource CheckBoxStyle1}">
                                 <DataGridCheckBoxColumn.HeaderTemplate>

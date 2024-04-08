@@ -17,14 +17,10 @@ namespace BusinessLayer
         { 
             db = new DAL();
         }
-		public DataSet LayGV(string keyword)
+		public DataSet LayGV()
 		{
-            SqlParameter[] sqlParams =
-            {
-                new SqlParameter("@keywork",keyword)
-            };
-			return db.ExecuteQueryDataSet("selectAllTeacher", CommandType.Text, sqlParams);
-		}
+           return db.ExecuteQueryDataSet("select * from TEACHER", CommandType.Text, null);
+        }
         public bool ThemGiaoVien(ref string err, string teachername, DateTime teacherDob, int teacherGender, string teacherPhoneNumber,string teacherAddress, string identification,string email)
         {
             SqlParameter[] sqlParams =
