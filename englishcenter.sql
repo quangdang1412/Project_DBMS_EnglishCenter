@@ -215,6 +215,14 @@ BEGIN
 	WHERE student_ID=@student_ID
 END
 GO
+/*Xóa học sinh dựa trên ID*/
+CREATE PROCEDURE deleteStudent
+	@student_ID INT
+AS
+BEGIN
+	DELETE FROM STUDENT WHERE student_ID=@student_ID
+END
+GO
 /*Procedure tạo giáo viên mới*/
 CREATE PROCEDURE insertTeacher
 	@teacher_name NVARCHAR(300),
@@ -369,7 +377,7 @@ BEGIN
 END
 GO
 /*Trigger kiểm tra điểm để thêm vào lớp giao tiếp phản xạ  toàn diện */
-CREATE TRIGGER trg_CheckFscoreComMaster
+CREATE TRIGGER trg_CheckFscore
 ON GROUP_LIST
 AFTER INSERT, UPDATE
 AS
@@ -480,7 +488,7 @@ AS
 	BEGIN
 		SELECT @groupID=group_ID FROM deleted;
 	END
-	IF(SELECT grStatus FROM STUDY_GROUP WHERE group_ID=@groupID == 0)
+	IF EXISTS(SELECT grStatus FROM STUDY_GROUP WHERE group_ID=@groupID)
 	BEGIN
 		RAISERROR ('Học sinh này vẫn còn đang học ở nhóm %d, không thể xóa',16,1,@groupID);
 		ROLLBACK TRANSACTION;
