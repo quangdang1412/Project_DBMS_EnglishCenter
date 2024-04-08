@@ -94,5 +94,23 @@ namespace Project_WPF
         {
 			this.Close();
         }
+        private void btn_course_Click(object sender, RoutedEventArgs e)
+        {
+            UC_Course ucCourse = new UC_Course(); // Tạo một instance của UserControl
+            MainGrid.Children.Clear(); // Xóa tất cả các UserControl hiện tại
+            MainGrid.Children.Add(ucCourse);
+        }
+
+        private void btn_course_GotFocus(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+            button.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#7b5cd6"));
+        }
+
+        private void btn_course_LostFocus(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+            button.Background = Brushes.Transparent;
+        }
     }
 }

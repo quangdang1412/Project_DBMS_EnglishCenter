@@ -1,4 +1,4 @@
-﻿CREATE DATABASE EnglishCenter;
+CREATE DATABASE EnglishCenter;
 GO
 USE EnglishCenter;
 GO
@@ -99,8 +99,6 @@ CREATE TABLE GROUP_LIST(
 );
 GO
 /*Đặt giá trị mặc định cho điểm đầu vào,ra*/
-ALTER TABLE GROUP_LIST ADD  DEFAULT ((0)) FOR firstScore
-ALTER TABLE GROUP_LIST ADD  DEFAULT ((0)) FOR lastScore
 /*Đặt tình trạng thanh toán mặc định là 0*/
 ALTER TABLE GROUP_LIST ADD  DEFAULT ((0)) FOR payment_state
 /*Kiểm tra điểm được nhập vào có hợp lệ không*/
@@ -197,6 +195,26 @@ BEGIN
 	VALUES(@maxID,@student_name,@student_dob,@student_gender,@student_phoneNumber,@identification);
 END
 GO
+/*Procedure cập nhật thông tin học viên*/
+CREATE PROCEDURE updateStudent
+	@student_ID INT,
+	@student_name NVARCHAR(300),
+	@student_dob DATE,
+	@student_gender TINYINT,
+	@student_phoneNumber VARCHAR(10),
+	@identification VARCHAR(12)
+AS
+BEGIN
+	UPDATE STUDENT
+	SET
+		student_name=@student_name,
+		student_dob=@student_dob,
+		student_gender=@student_gender,
+		student_phoneNumber=@student_phoneNumber,
+		identification=@identification
+	WHERE student_ID=@student_ID
+END
+GO
 /*Procedure tạo giáo viên mới*/
 CREATE PROCEDURE insertTeacher
 	@teacher_name NVARCHAR(300),
@@ -215,6 +233,30 @@ BEGIN
 	(teacher_ID,teacher_name,teacher_dob,gender,teacher_phoneNumber,teacher_address,identification,email)
 	VALUES
 	(@maxID,@teacher_name,@teacher_dob,@teacher_gender,@teacher_phoneNumber,@teacher_address,@identification,@email);
+END
+GO
+/*Procedure cập nhật thông tin giáo viên*/
+CREATE PROCEDURE updateTeacher
+	@teacher_ID INT,
+	@teacher_name NVARCHAR(300),
+	@teacher_dob DATE,
+	@teacher_gender TINYINT,
+	@teacher_phoneNumber VARCHAR(10),
+	@teacher_address NVARCHAR(500),
+	@identification VARCHAR(12),
+	@email VARCHAR(200)
+AS
+BEGIN
+	UPDATE TEACHER
+	SET
+		teacher_name=@teacher_name,
+		teacher_dob=@teacher_dob,
+		gender=@teacher_gender,
+		teacher_phoneNumber=@teacher_phoneNumber,
+		teacher_address=@teacher_address,
+		identification=@identification,
+		email=@email
+	WHERE teacher_ID=@teacher_ID
 END
 GO
 /*Procedure tạo lớp mới*/
@@ -237,7 +279,7 @@ CREATE PROCEDURE insertStudyGr
 	@maxstudent TINYINT,
 	@dayStart DATE,
 	@dayEnd DATE,
-	@grStatus INT,
+	@grStatus INT, -- -1 là đang mở để đăng kí,0 là lớp đang mở và đang còn học, 1 là lớp đã học xong
 	@totalStudent TINYINT,
 	@teacher_ID INT,
 	@class_ID INT,
@@ -274,8 +316,32 @@ DECLARE @maxID INT;
 SELECT @maxID=ISNULL(MAX(room_ID),0) +1 FROM ROOM;
 INSERT INTO ROOM(room_ID,number_of_seats)
 VALUES(@maxID,@number_of_seats);
+END;
+GO
+/*Procedure thêm học sinh mới vào nhóm học*/
+CREATE PROCEDURE insertGroupList
+	@student_ID INT,
+	@group_ID INT,
+	@paymenstate TINYINT,
+	@firstScore INT
+AS
+BEGIN
+	INSERT INTO GROUP_LIST(student_ID,group_ID,payment_state,firstScore)
+	VALUES(@student_ID,@group_ID,@paymenstate,@firstScore)
+END;
+GO
+/*Procedure nhập điểm cho học sinh*/
+CREATE PROCEDURE updateLastScore
+	@student_ID INT,
+	@group_ID INT,
+	@lastScore INT
+AS
+BEGIN
+	UPDATE GROUP_LIST
+	SET 
+		lastScore=@lastScore
+	WHERE student_ID=@student_ID AND group_ID=@group_ID
 END
-
 GO
 /*Procedure Tìm học viên*/
 CREATE PROCEDURE selectAllStudent
@@ -311,15 +377,17 @@ BEGIN
     IF EXISTS 
 	(
         SELECT 1
-        FROM inserted i
-        LEFT JOIN STUDY_GROUP  ON i.group_ID = STUDY_GROUP.group_ID
-        WHERE STUDY_GROUP.class_ID = 6 AND i.firstScore >= 500
+        FROM inserted i WHERE i.group_ID IN 
+			(SELECT group_ID
+				FROM STUDY_GROUP
+				WHERE class_ID = 6 ) AND i.firstScore < 500
     )
     BEGIN
         RAISERROR ('Điểm đầu vào phải lớn hơn hoặc bằng 500 để vào được Lớp giao tiếp toàn diện ', 16, 1);
         ROLLBACK TRANSACTION;
     END
 END;
+
 GO
 /*Trigger kiểm tra điểm đầu vào Intensive*/
 CREATE TRIGGER trg_CheckFscoreIntensive
@@ -330,15 +398,17 @@ BEGIN
     IF EXISTS 
 	(
         SELECT 1
-        FROM inserted i
-        LEFT JOIN STUDY_GROUP  ON i.group_ID = STUDY_GROUP.group_ID
-        WHERE STUDY_GROUP.class_ID = 2 AND i.firstScore >= 400
+        FROM inserted i WHERE i.group_ID  IN 
+			(SELECT group_ID
+				FROM STUDY_GROUP
+				WHERE class_ID = 2) AND i.firstScore<400
     )
     BEGIN
         RAISERROR ('Điểm đầu vào phải lớn hơn hoặc bằng 400 để vào được Lớp Toeic Intensive', 16, 1);
         ROLLBACK TRANSACTION;
     END
 END;
+
 GO
 /*Trigger kiểm tra điểm đầu vào của Lớp luyện đề */
 CREATE TRIGGER trg_CheckFscorePractice
@@ -349,9 +419,8 @@ BEGIN
     IF EXISTS 
 	(
         SELECT 1
-        FROM inserted i
-        LEFT JOIN STUDY_GROUP  ON i.group_ID = STUDY_GROUP.group_ID
-        WHERE STUDY_GROUP.class_ID = 3 AND i.firstScore >= 500
+        FROM inserted i WHERE i.group_ID IN 
+			(SELECT group_ID FROM STUDY_GROUP WHERE class_ID=3) AND i.firstScore < 500
     )
     BEGIN
         RAISERROR ('Điểm đầu vào phải lớn hơn hoặc bằng 500 để vào được Lớp Toeic luyện đề', 16, 1);
@@ -359,22 +428,44 @@ BEGIN
     END
 END;
 GO
-
---Trigger kiểm tra trùng số điện thoại:
-/*
-CREATE TRIGGER TG_KiemTraTrungSDT_Student
-ON STUDENT
-AFTER INSERT, UPDATE
+/*Trigger Đếm số lượng học sinh của một lớp*/
+CREATE TRIGGER trg_TotalStudent
+ON GROUP_LIST
+AFTER INSERT,DELETE, UPDATE
 AS
 BEGIN
-   DECLARE @count INT = 0
-   SELECT @count = COUNT(*)
-   FROM STUDENT
-   WHERE student_phoneNumber IN (SELECT student_phoneNumber FROM inserted)
-   IF (@count > 0)
-		​​BEGIN
-​​​			ROLLBACK TRAN;
-​​		END
+	DECLARE @count INT;
+	DECLARE @groupID INT;
+	IF EXISTS (SELECT * FROM inserted)
+	BEGIN 
+		SELECT @groupID=group_ID FROM inserted;
+	END
+	ELSE IF EXISTS (SELECT * FROM deleted)
+	BEGIN
+		SELECT @groupID=group_ID FROM deleted ;
+	END
+	SELECT @count=COUNT(*) FROM GROUP_LIST WHERE @groupID=group_ID ;
+	UPDATE STUDY_GROUP
+	SET
+		totalStudent=@count
+	WHERE @groupID=group_ID;
 END
 GO
-/*
+/*Trigger kiểm tra số lượng học sinh đã vượt mức tối đa chưa*/
+CREATE TRIGGER chkTotalStudent
+ON GROUP_LIST
+AFTER INSERT,UPDATE
+AS
+	BEGIN
+	DECLARE @groupID INT;
+	SELECT @groupID=group_ID FROM inserted;
+	DECLARE @total INT;
+	SELECT @total=totalStudent FROM STUDY_GROUP WHERE group_ID=@groupID;
+	DECLARE @max INT;
+	SELECT @max=maxStudent FROM STUDY_GROUP WHERE group_ID=@groupID;
+	IF(@total>@max)
+	BEGIN
+		RAISERROR ('Số lượng học sinh đã vượt mức tối đa không thể thêm vào nữa', 16, 1);
+		ROLLBACK TRANSACTION;
+	END
+END;

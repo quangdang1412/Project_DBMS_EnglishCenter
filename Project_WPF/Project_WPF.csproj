@@ -88,6 +88,9 @@
     <Compile Include="UserControls\UC_Student.xaml.cs">
       <DependentUpon>UC_Student.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\UC_Course.xaml.cs">
+      <DependentUpon>UC_Course.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\UC_Teacher.xaml.cs">
       <DependentUpon>UC_Teacher.xaml</DependentUpon>
     </Compile>
@@ -118,6 +121,10 @@
     <Page Include="UserControls\UC_Student.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\UC_Course.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="UserControls\UC_Teacher.xaml">
       <SubType>Designer</SubType>
@@ -163,6 +170,9 @@
       <Project>{5A3D6FA0-9AC9-4295-938F-BBD8B11D9472}</Project>
       <Name>BusinessLayer</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MaterialDesignThemes.5.0.0\build\MaterialDesignThemes.targets" Condition="Exists('..\packages\MaterialDesignThemes.5.0.0\build\MaterialDesignThemes.targets')" />

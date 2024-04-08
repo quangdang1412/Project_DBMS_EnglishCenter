@@ -19,20 +19,20 @@
     </Border.Effect>
         -->
         <Grid Margin="0,-3,0,3">
-            <TextBlock Height="43"  TextWrapping="Wrap" FontFamily="Gill Sans Ultra Bold" Foreground="#FF152259" Text="Student" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,25,0,0"/>
+            <TextBlock TextWrapping="Wrap" FontFamily="Kumbh Sans" Foreground="#FF152259" Text="STUDENT" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,25,0,0" FontWeight="SemiBold"/>
             <TextBlock HorizontalAlignment="Left" Height="34" Margin="64,98,0,0" TextWrapping="Wrap" FontWeight="Bold"  FontFamily="Kumbh Sans" Text="Họ và tên" VerticalAlignment="Top" Width="107" FontSize="20" RenderTransformOrigin="0.516,-1.906" Foreground="#FF667F8E"/>
             <TextBlock HorizontalAlignment="Left" Height="34" Margin="64,172,0,0" TextWrapping="Wrap" FontWeight="Bold" FontFamily="Kumbh Sans" Text="Ngày sinh" Foreground="#FF667F8E" VerticalAlignment="Top" Width="107" FontSize="20" RenderTransformOrigin="0.516,-1.906"/>
             <TextBlock HorizontalAlignment="Left" Height="34" Margin="64,249,0,0" TextWrapping="Wrap" FontWeight="Bold" FontFamily="Kumbh Sans" Text="Giới tính" Foreground="#FF667F8E" VerticalAlignment="Top" Width="107" FontSize="20"/>
             <TextBlock HorizontalAlignment="Left" Height="34" Margin="64,318,0,0" TextWrapping="Wrap" FontWeight="Bold" FontFamily="Kumbh Sans" Text="Số điện thoại" Foreground="#FF667F8E" VerticalAlignment="Top" Width="141" FontSize="20"/>
             <TextBlock HorizontalAlignment="Left" Height="34" Margin="64,390,0,0" TextWrapping="Wrap" FontWeight="Bold" FontFamily="Kumbh Sans" Text="CCCD" Foreground="#FF667F8E" VerticalAlignment="Top" Width="107" FontSize="20"/>
-            <TextBox HorizontalAlignment="Left" Height="36" Margin="230,96,0,0" Style="{StaticResource textBoxadd}"   TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="304" SelectionTextBrush="White" SelectionBrush="#FF0078D8" Background="White"/>
-            <TextBox HorizontalAlignment="Left" Height="36" Margin="230,172,0,0" Style="{StaticResource textBoxadd}"  TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="304" />
-            <TextBox HorizontalAlignment="Left" Height="36" Margin="230,316,0,0" Style="{StaticResource textBoxadd}"  TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="304"/>
-            <TextBox HorizontalAlignment="Left" Height="36" Margin="230,390,0,0" Style="{StaticResource textBoxadd}"   TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="304"/>
-            <RadioButton Content="Nam"  HorizontalAlignment="Left" Height="34" Margin="230,250,0,0" VerticalAlignment="Top" Width="133" Background="White" Foreground="#FF543939" FontSize="20" FontFamily="Kumbh Sans"/>
-            <RadioButton Content="Nữ"  HorizontalAlignment="Left" Height="34" Margin="368,250,0,0" VerticalAlignment="Top" Width="133" Background="White" Foreground="#FF543939" FontSize="20" FontFamily="Kumbh Sans"/>
+            <TextBox x:Name="txt_Name" HorizontalAlignment="Left" Height="36" Margin="230,96,0,0" Style="{StaticResource textBoxadd}"   TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="304" SelectionTextBrush="White" SelectionBrush="#FF0078D8" Background="White"/>
+            <TextBox x:Name="txtDate" HorizontalAlignment="Left" Height="36" Margin="230,172,0,0" Style="{StaticResource textBoxadd}"  TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="304"  LostFocus="txtDate_LostFocus"/>
+            <TextBox x:Name="txt_Phone" HorizontalAlignment="Left" Height="36" Margin="230,316,0,0" Style="{StaticResource textBoxadd}"  TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="304"/>
+            <TextBox x:Name="txtCCCD" HorizontalAlignment="Left" Height="36" Margin="230,390,0,0" Style="{StaticResource textBoxadd}"   TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="304"/>
+            <RadioButton x:Name="rbMale" Content="Nam"  HorizontalAlignment="Left" Height="34" Margin="230,250,0,0" VerticalAlignment="Top" Width="133" Background="White" Foreground="#FF543939" FontSize="20" FontFamily="Kumbh Sans"/>
+            <RadioButton x:Name="rbFemale" Content="Nữ"  HorizontalAlignment="Left" Height="34" Margin="368,250,0,0" VerticalAlignment="Top" Width="133" Background="White" Foreground="#FF543939" FontSize="20" FontFamily="Kumbh Sans"/>
             <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,70">
-                <Button Content="SAVE" Style="{StaticResource frm_add_save}" Margin="0,0,20,0"  />
+                <Button x:Name="btn_save" Content="SAVE" Style="{StaticResource frm_add_save}" Margin="0,0,20,0" Click="btn_save_Click"  />
                 <Button Content="CANCEL" Style="{StaticResource frm_add_save}" Click="Button_Click"  />
             </StackPanel>
         </Grid>
