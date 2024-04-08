@@ -465,18 +465,19 @@ ON GROUP_LIST
 AFTER INSERT,UPDATE
 AS
 	BEGIN
-	DECLARE @groupID INT;
-	SELECT @groupID=group_ID FROM inserted;
+	DECLARE @group_ID INT;
+	SELECT @group_ID=group_ID FROM inserted;
 	DECLARE @total INT;
-	SELECT @total=totalStudent FROM STUDY_GROUP WHERE group_ID=@groupID;
+	SELECT @total=totalStudent FROM STUDY_GROUP WHERE group_ID=@group_ID;
 	DECLARE @max INT;
-	SELECT @max=maxStudent FROM STUDY_GROUP WHERE group_ID=@groupID;
+	SELECT @max=maxStudent FROM STUDY_GROUP WHERE group_ID=@group_ID;
 	IF(@total>@max)
 	BEGIN
 		RAISERROR ('Số lượng học sinh đã vượt mức tối đa không thể thêm vào nữa', 16, 1);
 		ROLLBACK TRANSACTION;
 	END
 END;
+GO
 /*Trigger kiểm tra xem học viên đó còn học không trước khi xóa*/
 CREATE TRIGGER chkStudentStatus
 ON GROUP_LIST
@@ -494,19 +495,5 @@ AS
 		ROLLBACK TRANSACTION;
 	END
 END;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	
+GO
 
