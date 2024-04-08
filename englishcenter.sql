@@ -1,4 +1,4 @@
-﻿CREATE DATABASE EnglishCenter;
+CREATE DATABASE EnglishCenter;
 GO
 USE EnglishCenter;
 GO
@@ -480,7 +480,7 @@ AS
 	BEGIN
 		SELECT @groupID=group_ID FROM deleted;
 	END
-	IF(SELECT grStatus FROM STUDY_GROUP WHERE group_ID=@groupID == 0)
+	IF EXISTS(SELECT grStatus FROM STUDY_GROUP WHERE group_ID=@groupID)
 	BEGIN
 		RAISERROR ('Học sinh này vẫn còn đang học ở nhóm %d, không thể xóa',16,1,@groupID);
 		ROLLBACK TRANSACTION;
@@ -501,5 +501,4 @@ END;
 
 
 	
-
 

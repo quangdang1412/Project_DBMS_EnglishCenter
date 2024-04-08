@@ -60,6 +60,7 @@ namespace Project_WPF.UserControls
         {
             frm_Students form =new frm_Students();
 			form.ShowDialog();
+			loadData();
         }
 
         private void btn_editdata_Click(object sender, RoutedEventArgs e)

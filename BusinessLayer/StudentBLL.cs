@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,5 +20,21 @@ namespace BusinessLayer
 		{
 			return db.ExecuteQueryDataSet("select * from STUDENT", CommandType.Text, null);
 		}
-	}
+        public bool ThemHocSinh(ref string err, string studentName, DateTime studentDob, int studentGender, string studentPhoneNumber, string identification)
+        {
+            // Tạo một mảng chứa các tham số cho thủ tục lưu trữ
+            SqlParameter[] sqlParams =
+            {
+                new SqlParameter("@student_name", studentName),
+                new SqlParameter("@student_dob", studentDob),
+                new SqlParameter("@student_gender", studentGender),
+                new SqlParameter("@student_phoneNumber", studentPhoneNumber),
+                new SqlParameter("@identification", identification)
+            };
+
+            return db.MyExecuteNonQuery("insertStudent", CommandType.StoredProcedure, ref err, sqlParams);
+        }
+
+
+    }
 }
