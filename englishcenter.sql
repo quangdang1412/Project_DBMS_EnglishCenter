@@ -469,36 +469,3 @@ AS
 		ROLLBACK TRANSACTION;
 	END
 END;
-/*Trigger kiểm tra xem học viên đó còn học không trước khi xóa*/
-CREATE TRIGGER chkStudentStatus
-ON GROUP_LIST
-AFTER DELETE
-AS
-	BEGIN
-	DECLARE @groupID INT;
-	IF EXISTS(SELECT * FROM deleted)
-	BEGIN
-		SELECT @groupID=group_ID FROM deleted;
-	END
-	IF EXISTS(SELECT grStatus FROM STUDY_GROUP WHERE group_ID=@groupID)
-	BEGIN
-		RAISERROR ('Học sinh này vẫn còn đang học ở nhóm %d, không thể xóa',16,1,@groupID);
-		ROLLBACK TRANSACTION;
-	END
-END;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	
-
