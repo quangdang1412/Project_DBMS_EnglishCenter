@@ -1,4 +1,4 @@
-﻿CREATE DATABASE EnglishCenter;
+CREATE DATABASE EnglishCenter;
 GO
 USE EnglishCenter;
 GO
@@ -509,5 +509,4 @@ END;
 
 
 	
-
 
