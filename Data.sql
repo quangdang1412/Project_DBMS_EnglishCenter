@@ -1,4 +1,5 @@
 ﻿/* Đổ dữ liệu */
+USE EnglishCenter
 GO
 /*Thêm học sinh*/
 EXEC insertStudent N'Bùi Văn Đức', '2005-01-25', 1, '0369852745', '080604013660';

@@ -21,9 +21,10 @@ namespace Project_WPF.UserControls
 
 		void loadData()
 		{
+			string keyword=txt_search.Text;
 			try
 			{
-				dtTeacher = dbteacher.LayGV().Tables[0];
+				dtTeacher = dbteacher.LayGV(keyword).Tables[0];
 
 				TeachersDataGrid.ItemsSource = dtTeacher.DefaultView;
 			}
@@ -35,14 +36,21 @@ namespace Project_WPF.UserControls
 
 		private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
 		{
+			loadData();
 			if (string.IsNullOrWhiteSpace(SearchBox.Text))
 			{
-				Placeholder.Visibility = Visibility.Visible;
+				txt_search.Visibility = Visibility.Visible;
 			}
 			else
 			{
-				Placeholder.Visibility = Visibility.Collapsed;
+				txt_search.Visibility = Visibility.Collapsed;
 			}
 		}
-	}
+
+        private void btn_addTeacher_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+    }
 }
