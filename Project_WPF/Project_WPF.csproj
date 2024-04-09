@@ -76,6 +76,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="frm_Course.xaml.cs">
+      <DependentUpon>frm_Course.xaml</DependentUpon>
+    </Compile>
     <Compile Include="frm_Teachers.xaml.cs">
       <DependentUpon>frm_Teachers.xaml</DependentUpon>
     </Compile>
@@ -100,6 +103,10 @@
     <Compile Include="UserControls\UC_Teacher.xaml.cs">
       <DependentUpon>UC_Teacher.xaml</DependentUpon>
     </Compile>
+    <Page Include="frm_Course.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="frm_Teachers.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
