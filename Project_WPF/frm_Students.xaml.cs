@@ -73,6 +73,11 @@ namespace Project_WPF
 
         private void btn_save_Click(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(txt_Name.Text) || string.IsNullOrWhiteSpace(txtDate.Text) ||string.IsNullOrWhiteSpace(txt_Phone.Text) || string.IsNullOrWhiteSpace(txtCCCD.Text))
+            {
+                MessageBox.Show("Vui lòng điền đầy đủ thông tin vào tất cả các trường.");
+                return;
+            }
             string err = "";
             DateTime studentDob;
             bool ngaythang = DateTime.TryParseExact(txtDate.Text, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out studentDob);
@@ -89,7 +94,15 @@ namespace Project_WPF
                     }
                     else
                     {
-
+                        // Kiểm tra lỗi ràng buộc chk_studentIdentify
+                        if (err.Contains("chk_studentIdentify"))
+                        {
+                            MessageBox.Show("Vui lòng nhập vào 12 số cho nCCCD.");
+                        }
+                        else
+                        {
+                            //gì đó nữa
+                        }
                     }
                 }
                 catch (SqlException)
