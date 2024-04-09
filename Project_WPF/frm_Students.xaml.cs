@@ -97,11 +97,12 @@ namespace Project_WPF
                         // Kiểm tra lỗi ràng buộc chk_studentIdentify
                         if (err.Contains("chk_studentIdentify"))
                         {
-                            MessageBox.Show("Vui lòng nhập vào 12 số cho nCCCD.");
+                            MessageBox.Show("Vui lòng nhập vào 12 số cho CCCD.");
                         }
-                        else
+                        else 
                         {
-                            //gì đó nữa
+                            MessageBox.Show("Vui lòng nhập vào 10 số cho ĐT.");
+
                         }
                     }
                 }
