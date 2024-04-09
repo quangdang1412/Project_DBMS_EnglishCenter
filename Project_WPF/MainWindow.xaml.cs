@@ -55,41 +55,6 @@ namespace Project_WPF
 			MainGrid.Children.Add(ucStudent);
 		}
 
-		private void btn_Home_GotFocus(object sender, RoutedEventArgs e)
-		{
-			Button button = sender as Button;
-			button.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#7b5cd6"));
-		}
-
-		private void btn_Home_LostFocus(object sender, RoutedEventArgs e)
-		{
-			Button button = sender as Button;
-			button.Background = Brushes.Transparent;
-		}
-		private void btn_Teacher_GotFocus(object sender, RoutedEventArgs e)
-		{
-			Button button = sender as Button;
-			button.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#7b5cd6"));
-		}
-
-		private void btn_Teacher_LostFocus(object sender, RoutedEventArgs e)
-		{
-			Button button = sender as Button;
-			button.Background = Brushes.Transparent;
-		}
-
-		private void btn_Student_GotFocus(object sender, RoutedEventArgs e)
-		{
-			Button button = sender as Button;
-			button.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#7b5cd6"));
-		}
-
-		private void btn_Student_LostFocus(object sender, RoutedEventArgs e)
-		{
-			Button button = sender as Button;
-			button.Background = Brushes.Transparent;
-		}
-
         private void btn_exit_Click(object sender, RoutedEventArgs e)
         {
 			this.Close();
@@ -101,16 +66,21 @@ namespace Project_WPF
             MainGrid.Children.Add(ucCourse);
         }
 
-        private void btn_course_GotFocus(object sender, RoutedEventArgs e)
+        private new void GotFocus(object sender, RoutedEventArgs e)
         {
             Button button = sender as Button;
             button.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#7b5cd6"));
         }
 
-        private void btn_course_LostFocus(object sender, RoutedEventArgs e)
+        private new void LostFocus(object sender, RoutedEventArgs e)
         {
             Button button = sender as Button;
             button.Background = Brushes.Transparent;
+        }
+
+        private void btn_studygroup_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

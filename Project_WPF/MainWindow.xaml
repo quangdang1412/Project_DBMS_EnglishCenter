@@ -29,22 +29,28 @@
             <Grid Grid.Row="1" Margin="0,30,0,0">
                 <Grid>
                     <StackPanel Margin="50 0 0 0">
-                        <Button x:Name="btn_Home" Style="{StaticResource hoverMenu}" Click="btn_Home_Click" GotFocus="btn_Home_GotFocus" LostFocus="btn_Home_LostFocus">
+                        <Button x:Name="btn_Home" Style="{StaticResource hoverMenu}" Click="btn_Home_Click" GotFocus="GotFocus" LostFocus="LostFocus">
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon Kind="HomeVariantOutline" VerticalAlignment="Center" Margin="0,0,20,10" Width="48" Height="48"/>
                                 <TextBlock Text="Dashboard" VerticalAlignment="Center" FontSize="36" FontFamily="Kumbh Sans"/>
                             </StackPanel>
                         </Button>
-                        <Button x:Name="btn_Teacher" Style="{StaticResource hoverMenu}" Click="btn_Teacher_Click" GotFocus="btn_Teacher_GotFocus" LostFocus="btn_Teacher_LostFocus">
+                        <Button x:Name="btn_Teacher" Style="{StaticResource hoverMenu}" Click="btn_Teacher_Click" GotFocus="GotFocus" LostFocus="LostFocus">
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon Kind="AccountSchoolOutline" VerticalAlignment="Center" Margin="0,0,20,10" Width="48" Height="48"/>
                                 <TextBlock Text="Teacher" VerticalAlignment="Center" FontSize="36" FontFamily="Kumbh Sans"/>
                             </StackPanel>
                         </Button>
-                        <Button x:Name="btn_Student" Style="{StaticResource hoverMenu}" Click="btn_Student_Click" GotFocus="btn_Student_GotFocus" LostFocus="btn_Student_LostFocus">
+                        <Button x:Name="btn_Student" Style="{StaticResource hoverMenu}" Click="btn_Student_Click" GotFocus="GotFocus" LostFocus="LostFocus">
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon Kind="SchoolOutline" VerticalAlignment="Center" Margin="0,0,20,10" Width="48" Height="48"/>
                                 <TextBlock Text="Student" VerticalAlignment="Center" FontSize="36" FontFamily="Kumbh Sans"/>
+                            </StackPanel>
+                        </Button>
+                        <Button x:Name="btn_studygroup" Style="{StaticResource hoverMenu}" Click="btn_studygroup_Click" GotFocus="GotFocus" LostFocus="LostFocus">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="AccountGroup" VerticalAlignment="Center" Margin="0,0,20,10" Width="45" Height="45"/>
+                                <TextBlock Text="Group" VerticalAlignment="Center" FontSize="36" FontFamily="Segoe UI"/>
                             </StackPanel>
                         </Button>
                         <Button x:Name="btn_classroom" Style="{StaticResource hoverMenu}">
@@ -53,21 +59,13 @@
                                 <TextBlock Text="Classroom" VerticalAlignment="Center" FontSize="36" FontFamily="Kumbh Sans"/>
                             </StackPanel>
                         </Button>
-                        <Button x:Name="btn_course" Style="{StaticResource hoverMenu}" Click="btn_course_Click" GotFocus="btn_course_GotFocus" LostFocus="btn_course_LostFocus">
+                        <Button x:Name="btn_course" Style="{StaticResource hoverMenu}" Click="btn_course_Click" GotFocus="GotFocus" LostFocus="LostFocus">
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon Kind="BookEducationOutline" VerticalAlignment="Center" Margin="0,0,20,10" Width="45" Height="45"/>
                                 <TextBlock Text="Course" VerticalAlignment="Center" FontSize="36" FontFamily="Segoe UI"/>
                             </StackPanel>
                         </Button>
                     </StackPanel>
-                </Grid>
-                <Grid Margin="50,0,0,20">
-                    <Button Style="{StaticResource hoverMenu}" VerticalAlignment="Bottom" x:Name="btn_exit" Click="btn_exit_Click">
-                        <StackPanel Orientation="Horizontal">
-                            <materialDesign:PackIcon Kind="Logout" VerticalAlignment="Center" Margin="0,0,20,10" Width="48" Height="49"/>
-                            <TextBlock  Text="Sign out" VerticalAlignment="Center" FontSize="36" FontFamily="Kumbh Sans" />
-                        </StackPanel>
-                    </Button>
                 </Grid>
             </Grid>
         </Grid>
@@ -78,10 +76,14 @@
             </Grid.RowDefinitions>
             <Grid Grid.Row="0" Background="#FFF6F6F6">
                 <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Margin="0,10,30,0">
+                    
                     <materialDesign:PackIcon Kind="BellBadgeOutline" Width="36" Height="36" Margin="0,0,0,0" VerticalAlignment="Center" Foreground="#FF424242" />
-                    <Rectangle Width="2" Fill="#FF424242" Margin="10,10,10,10"/>
+                    <Rectangle Width="2" Fill="#FF424242" Margin="10,10,10,10" Opacity="0.5"/>
                     <materialDesign:PackIcon Kind="AccountCircleOutline" Width="36" Height="36" VerticalAlignment="Center" Foreground="#FF424242" />
-
+                    <Rectangle Width="2" Fill="#FF424242" Margin="10,10,10,10" Opacity="0.5"/>
+                    <Button BorderBrush="{x:Null}" Foreground="{x:Null}" Background="{x:Null}"  x:Name="btn_exit" Click="btn_exit_Click"  >
+                        <materialDesign:PackIcon Kind="Logout" Width="36" Height="36" VerticalAlignment="Center" Foreground="#FF424242" />
+                    </Button>
                 </StackPanel>
             </Grid>
             <Grid x:Name="MainGrid" Grid.Row="1">
