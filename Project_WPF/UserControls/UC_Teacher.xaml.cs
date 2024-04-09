@@ -56,5 +56,14 @@ namespace Project_WPF.UserControls
 			form.ShowDialog();
         }
 
+        private void btn_delete_Click(object sender, RoutedEventArgs e)
+        {
+			//xoá giáo viên
+        }
+
+        private void btn_edit_Click(object sender, RoutedEventArgs e)
+        {
+			//sửa thông tin giáo viên
+        }
     }
 }
