@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Project_WPF"
         mc:Ignorable="d"
-        Height="600" Width="600" WindowStartupLocation="CenterScreen" WindowStyle="None" Background="Transparent" AllowsTransparency="True">
+        Height="700" Width="600" WindowStartupLocation="CenterScreen" WindowStyle="None" Background="Transparent" AllowsTransparency="True">
     <Border CornerRadius="20,20,20,20" Background="#FFF6F6F6" BorderThickness="1" BorderBrush="Black">
         
         <!--
@@ -24,7 +24,7 @@
             <TextBlock HorizontalAlignment="Left" Height="34" Margin="64,172,0,0" TextWrapping="Wrap" FontWeight="Bold" FontFamily="Kumbh Sans" Text="Ngày sinh" Foreground="#FF667F8E" VerticalAlignment="Top" Width="107" FontSize="20" RenderTransformOrigin="0.516,-1.906"/>
             <TextBlock HorizontalAlignment="Left" Height="34" Margin="64,249,0,0" TextWrapping="Wrap" FontWeight="Bold" FontFamily="Kumbh Sans" Text="Giới tính" Foreground="#FF667F8E" VerticalAlignment="Top" Width="107" FontSize="20"/>
             <TextBlock HorizontalAlignment="Left" Height="34" Margin="64,318,0,0" TextWrapping="Wrap" FontWeight="Bold" FontFamily="Kumbh Sans" Text="Số điện thoại" Foreground="#FF667F8E" VerticalAlignment="Top" Width="141" FontSize="20"/>
-            <TextBlock HorizontalAlignment="Left" Height="34" Margin="64,390,0,0" TextWrapping="Wrap" FontWeight="Bold" FontFamily="Kumbh Sans" Text="Gì đó" Foreground="#FF667F8E" VerticalAlignment="Top" Width="107" FontSize="20"/>
+            <TextBlock HorizontalAlignment="Left" Height="34" Margin="64,390,0,0" TextWrapping="Wrap" FontWeight="Bold" FontFamily="Kumbh Sans" Text="CCCD" Foreground="#FF667F8E" VerticalAlignment="Top" Width="107" FontSize="20"/>
             <TextBox x:Name="txt_Name" HorizontalAlignment="Left" Height="36" Margin="230,96,0,0" Style="{StaticResource textBoxadd}"   TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="304" SelectionTextBrush="White" SelectionBrush="#FF0078D8" Background="White"/>
             <TextBox x:Name="txtDate" HorizontalAlignment="Left" Height="36" Margin="230,172,0,0" Style="{StaticResource textBoxadd}"  TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="304"  LostFocus="txtDate_LostFocus"/>
             <TextBox x:Name="txt_Phone" HorizontalAlignment="Left" Height="36" Margin="230,316,0,0" Style="{StaticResource textBoxadd}"  TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="304"/>
@@ -35,6 +35,10 @@
                 <Button x:Name="btn_save" Content="SAVE" Style="{StaticResource frm_add_save}" Margin="0,0,20,0" Click="btn_save_Click"  />
                 <Button Content="CANCEL" Style="{StaticResource frm_add_save}" Click="Button_Click"  />
             </StackPanel>
+            <TextBlock HorizontalAlignment="Left" Height="34" Margin="64,518,0,0" TextWrapping="Wrap" FontWeight="Bold" FontFamily="Kumbh Sans" Text="Email" Foreground="#FF667F8E" VerticalAlignment="Top" Width="107" FontSize="20"/>
+            <TextBlock HorizontalAlignment="Left" Height="34" Margin="64,458,0,0" TextWrapping="Wrap" FontWeight="Bold" FontFamily="Kumbh Sans" Foreground="#FF667F8E" VerticalAlignment="Top" Width="107" FontSize="20"><Run Language="vi-vn" Text="Địa "/><Run Text="chỉ"/></TextBlock>
+            <TextBox x:Name="txtCCCD_Copy" HorizontalAlignment="Left" Height="36" Margin="230,455,0,0" Style="{StaticResource textBoxadd}"   TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="304"/>
+            <TextBox x:Name="txtCCCD_Copy1" HorizontalAlignment="Left" Height="36" Margin="230,516,0,0" Style="{StaticResource textBoxadd}"   TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="304"/>
         </Grid>
     </Border>
 
