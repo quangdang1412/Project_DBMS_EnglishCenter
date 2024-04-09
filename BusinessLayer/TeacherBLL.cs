@@ -27,7 +27,7 @@ namespace BusinessLayer
             {
                 new SqlParameter("@teacher_name", teachername),
                 new SqlParameter("@teacher_dob", teacherDob),
-                new SqlParameter("@gender", teacherGender),
+                new SqlParameter("@teacher_gender", teacherGender),
                 new SqlParameter("@teacher_phoneNumber", teacherPhoneNumber),
                 new SqlParameter("@teacher_address",teacherAddress),
                 new SqlParameter("@identification", identification),
@@ -43,7 +43,7 @@ namespace BusinessLayer
                 new SqlParameter("@teacher_ID",teacherID),
                 new SqlParameter("@teacher_name", teachername),
                 new SqlParameter("@teacher_dob", teacherDob),
-                new SqlParameter("@gender", teacherGender),
+                new SqlParameter("@teacher_gender", teacherGender),
                 new SqlParameter("@teacher_phoneNumber", teacherPhoneNumber),
                 new SqlParameter("@teacher_address",teacherAddress),
                 new SqlParameter("@identification", identification),

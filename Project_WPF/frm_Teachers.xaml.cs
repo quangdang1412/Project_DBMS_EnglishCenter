@@ -25,9 +25,13 @@ namespace Project_WPF
     /// </summary>
     public partial class frm_Teachers : Window
     {
+        TeacherBLL dbteacher;
+        bool check = true;
+        int id = 0;
         public frm_Teachers()
         {
             InitializeComponent();
+            dbteacher = new TeacherBLL();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -42,14 +46,92 @@ namespace Project_WPF
                 MessageBox.Show("Ngày tháng không hợp lệ. Vui lòng nhập theo định dạng dd/MM/yyyy.");
             }
         }
-
+        void checkInfo(string err)
+        {
+            if (err.Contains("chk_teacherIdentify"))
+            {
+                MessageBox.Show("Vui lòng nhập vào 12 số cho CCCD.");
+            }
+        }
+        void checkphoneNumber(string err)
+        {
+            if(err.Contains("chk_studentPhoneNumber"))
+            {
+                MessageBox.Show("Vui lòng nhập vào 10 số cho Số điện thoại.");
+            }
+        }
         public void FillData(DataRowView selectedRow)
         {
+            id = Convert.ToInt32(selectedRow["teacher_ID"]);
+            Console.WriteLine(id.ToString());
+            txt_Name.Text = selectedRow["teacher_name"].ToString();
+            txt_Phone.Text = selectedRow["teacher_phoneNumber"].ToString();
+            txtCCCD.Text = selectedRow["identification"].ToString();
+            txtDate.Text = Convert.ToDateTime(selectedRow["teacher_dob"]).ToString("dd/MM/yyyy");
+            int gender = Convert.ToInt32(selectedRow["gender"]);
+            if (gender == 1)
+            {
+                rbMale.IsChecked = true;
+            }
+            else
+            {
+                rbFemale.IsChecked = true;
+            }
+            txtEmail.Text= selectedRow["email"].ToString();
+            txtAddress.Text = selectedRow["teacher_address"].ToString();
+            check = false;
         }
 
         private void btn_save_Click(object sender, RoutedEventArgs e)
         {
-            
+            if (string.IsNullOrWhiteSpace(txt_Name.Text) || string.IsNullOrWhiteSpace(txtDate.Text) || string.IsNullOrWhiteSpace(txt_Phone.Text) || string.IsNullOrWhiteSpace(txtCCCD.Text) || string.IsNullOrWhiteSpace(txtEmail.Text) || string.IsNullOrWhiteSpace(txtAddress.Text))
+            {
+                MessageBox.Show("Vui lòng điền đầy đủ thông tin vào tất cả các trường.");
+                return;
+            }
+            string err = "";
+            DateTime teacherDob;
+            bool ngaythang = DateTime.TryParseExact(txtDate.Text, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out teacherDob);
+            int gender = 1;
+            if(rbFemale.IsChecked==true)
+            {
+                gender = 0;
+            }    
+            if (check == true)
+            {
+                try
+                {
+                    bool success = dbteacher.ThemGiaoVien(ref err, txt_Name.Text, teacherDob, gender, txt_Phone.Text,txtAddress.Text, txtCCCD.Text,txtEmail.Text);
+                    if (success)
+                    {
+                        MessageBox.Show("Đã thêm xong!");
+                        this.Close();
+                    }
+                    else
+                    {
+                        checkInfo(err);
+                        checkphoneNumber(err);
+                    }
+                }
+                catch (SqlException)
+                {
+                    MessageBox.Show("Không thêm được. Đã xảy ra lỗi!");
+                }
+            }
+            else
+            {
+                bool success = dbteacher.CapNhatGiaoVien(ref err, id, txt_Name.Text, teacherDob, gender, txt_Phone.Text,txtAddress.Text ,txtCCCD.Text,txtEmail.Text);
+                if (success)
+                {
+                    MessageBox.Show("Đã cập nhật xong!");
+                    this.Close();
+                }
+                else
+                {
+                    checkInfo(err);
+                    checkphoneNumber(err);
+                }
+            }
         }
     }
 }

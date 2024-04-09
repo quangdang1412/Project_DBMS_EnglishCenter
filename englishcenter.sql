@@ -17,7 +17,8 @@ GO
 ALTER TABLE STUDENT ADD CONSTRAINT chk_studentIdentify 
 CHECK (ISNUMERIC(identification) = 1 AND LEN(identification) = 12);
 /*Ràng buộc kiểm tra số điện thoại là số hay không bằng TRY CAST(nếu không chuyển sang số được sẽ trả về NULL) */
-ALTER TABLE STUDENT ADD  CONSTRAINT chk_studentPhoneNumber CHECK  ((TRY_CAST(student_phoneNumber AS int) IS NOT NULL));
+ALTER TABLE STUDENT ADD CONSTRAINT chk_studentPhoneNumber 
+CHECK (LEN(student_phoneNumber) = 10 AND student_phoneNumber NOT LIKE '%[^0-9]%');
 GO
 /*Bảng giáo viên*/
 CREATE TABLE TEACHER(
@@ -33,7 +34,7 @@ CREATE TABLE TEACHER(
 GO
 /*Tương tự như bảng học sinh */
 ALTER TABLE TEACHER ADD CONSTRAINT chk_teacherIdentify CHECK ((isnumeric(identification)=(1)));
-ALTER TABLE TEACHER ADD CONSTRAINT chk_teacherPhoneNumber CHECK  ((TRY_CAST(teacher_phoneNumber AS int) IS NOT NULL));
+ALTER TABLE TEACHER ADD CONSTRAINT chk_teacherPhoneNumber CHECK (LEN(teacher_phoneNumber) = 10 AND teacher_phoneNumber NOT LIKE '%[^0-9]%');
 /*Bảng phòng*/
 CREATE TABLE ROOM(
 	room_ID int PRIMARY KEY,
@@ -171,8 +172,6 @@ CREATE TABLE ACCOUNT(
 	permissionname NVARCHAR(250)
 );
 /*
-
-
 
 
 
@@ -483,8 +482,7 @@ BEGIN
 		student_phoneNumber
 	FROM STUDENT
 	WHERE
-		CAST(student_ID AS VARCHAR) LIKE '%' + @keyword +'%' OR
-		CAST(student_phoneNumber AS VARCHAR) LIKE '%' + @keyword +'%' OR
+		student_phoneNumber LIKE '%' + @keyword +'%' OR
 		LOWER(student_name) LIKE '%' +LOWER(@keyword) +'%'
 END
 GO
@@ -501,8 +499,7 @@ BEGIN
 		email
 	FROM TEACHER
 	WHERE
-		CAST(teacher_ID AS VARCHAR) LIKE '%' + @keyword +'%' OR
-		CAST(teacher_phoneNumber AS VARCHAR) LIKE '%' + @keyword +'%' OR
+		teacher_phoneNumber LIKE '%' + @keyword +'%' OR
 		LOWER(teacher_name) LIKE '%' +LOWER(@keyword) +'%' OR
 		LOWER(email) LIKE '%' +LOWER(@keyword)+ '%' 
 END
