@@ -75,7 +75,7 @@ namespace Project_WPF
         {
             string err = "";
             DateTime studentDob;
-            bool ngaythang = DateTime.TryParseExact(txtDate.Text, "dd/mm/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out studentDob);
+            bool ngaythang = DateTime.TryParseExact(txtDate.Text, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out studentDob);
             int gender = rbMale.IsChecked == true ? 1 : 0;
             if (check==true)
             {
@@ -89,8 +89,7 @@ namespace Project_WPF
                     }
                     else
                     {
-                        Console.WriteLine(err);
-                        MessageBox.Show("Không thêm được!");
+
                     }
                 }
                 catch (SqlException)

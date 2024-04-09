@@ -24,5 +24,22 @@ namespace Project_WPF.UserControls
         {
             InitializeComponent();
         }
+        private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+            if (string.IsNullOrWhiteSpace(SearchBox.Text))
+            {
+                txt_search.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                txt_search.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void btn_addTeacher_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
