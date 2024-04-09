@@ -52,7 +52,8 @@ namespace Project_WPF.UserControls
 
         private void btn_addTeacher_Click(object sender, RoutedEventArgs e)
         {
-
+			frm_Teachers form = new frm_Teachers();
+			form.ShowDialog();
         }
 
     }
