@@ -60,5 +60,13 @@ namespace BusinessLayer
             };
             return db.MyExecuteNonQuery("deleteTeacher",CommandType.StoredProcedure,ref err, sqlParams);
         }
+        public DataSet TimKiemGiaoVien(string searchText)
+        {
+            SqlParameter[] sqlParams =
+            {
+                new SqlParameter("@keyword",searchText)
+            };
+            return db.ExecuteQueryDataSet("selectAllTeacher", CommandType.StoredProcedure, sqlParams);
+        }
     }
 }
