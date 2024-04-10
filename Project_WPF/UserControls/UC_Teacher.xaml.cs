@@ -38,17 +38,24 @@ namespace Project_WPF.UserControls
 		}
 		private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
 		{
-			
-			if (string.IsNullOrWhiteSpace(SearchBox.Text))
-			{
-				txt_search.Visibility = Visibility.Visible;
-                searching();
+
+            if (string.IsNullOrWhiteSpace(SearchBox.Text))
+            {
+                txt_search.Text = "Search here...";
+                loadData();
             }
-			else
-			{
-				txt_search.Visibility = Visibility.Collapsed;
-			}
-		}
+            else
+            {
+                txt_search.Text = "";
+                string keyword = SearchBox.Text.Trim();
+                FilterTeachers(keyword);
+            }
+        }
+        void FilterTeachers(string keyword)
+        {
+            dtTeacher = dbteacher.TimKiemGiaoVien(keyword).Tables[0];
+            TeachersDataGrid.ItemsSource = dtTeacher.DefaultView;
+        }
         private void btn_addTeacher_Click(object sender, RoutedEventArgs e)
         {
 			frm_Teachers form = new frm_Teachers();
