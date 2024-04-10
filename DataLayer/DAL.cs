@@ -21,24 +21,35 @@ namespace DataLayer
 			conn = new SqlConnection(ConnStr);
 			comm = conn.CreateCommand();
 		}
-		// Khai bao ham thuc thi tang ket noi
-		public DataSet ExecuteQueryDataSet(string strSQL, CommandType ct, params SqlParameter[] p)
-		{
-			if (conn.State == ConnectionState.Open)
-			{
+        // Khai bao ham thuc thi tang ket noi
+        public DataSet ExecuteQueryDataSet(string strSQL, CommandType ct, params SqlParameter[] p)
+        {
+            if (conn.State == ConnectionState.Open)
+            {
                 conn.Close();
             }
-			conn.Open();
-			comm.CommandText = strSQL;
-			comm.CommandType = ct;
-			da = new SqlDataAdapter(comm);
-			conn.Close();
-			DataSet ds = new DataSet();
-			da.Fill(ds);
-			return ds;
-		}
-		// Action Query = Insert | Delete | Update | Stored Procedure
-		public bool MyExecuteNonQuery(string strSQL, CommandType ct, ref string error, params SqlParameter[] param)
+            conn.Open();
+            comm.CommandText = strSQL;
+            comm.CommandType = ct;
+            comm.Parameters.Clear();
+
+            if (p != null)
+            {
+                foreach (SqlParameter parameter in p)
+                {
+                    comm.Parameters.Add(parameter);
+                }
+            }
+
+            da = new SqlDataAdapter(comm);
+            DataSet ds = new DataSet();
+            da.Fill(ds);
+            conn.Close();
+            return ds;
+        }
+
+        // Action Query = Insert | Delete | Update | Stored Procedure
+        public bool MyExecuteNonQuery(string strSQL, CommandType ct, ref string error, params SqlParameter[] param)
 		{
 			bool f = false;
 			if (conn.State == ConnectionState.Open)

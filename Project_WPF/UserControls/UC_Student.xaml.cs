@@ -44,17 +44,27 @@ namespace Project_WPF.UserControls
 				MessageBox.Show("Error: " + ex.Message);
 			}
 		}
-		private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
-		{
-			if (string.IsNullOrWhiteSpace(SearchBox.Text))
-			{
-				Placeholder.Visibility = Visibility.Visible;
-			}
-			else
-			{
-				Placeholder.Visibility = Visibility.Collapsed;
-			}
-		}
+        private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(SearchBox.Text))
+            {
+                Placeholder.Text = "Search here...";
+                loadData();
+
+            }
+            else
+            {
+                Placeholder.Text = "";
+                string keyword = SearchBox.Text.Trim();
+                Console.WriteLine(keyword);
+                FilterTeachers(keyword);
+            }
+        }
+        void FilterTeachers(string keyword)
+        {
+            dtStudent = dbstudent.TimKiemHocSinh(keyword).Tables[0];
+            StudentsDataGrid.ItemsSource = dtStudent.DefaultView;
+        }
 
         private void btn_addstudent_Click(object sender, RoutedEventArgs e)
         {

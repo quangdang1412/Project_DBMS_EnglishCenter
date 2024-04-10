@@ -59,6 +59,14 @@ namespace BusinessLayer
 
             return db.MyExecuteNonQuery("deleteStudent", CommandType.StoredProcedure, ref err, sqlParams);
         }
+        public DataSet TimKiemHocSinh(string searchText)
+        {
+            SqlParameter[] param = new SqlParameter[]
+            {
+                 new SqlParameter("@keyword", searchText)
+            };
+            return db.ExecuteQueryDataSet("selectAllStudent", CommandType.StoredProcedure, param);
+        }
 
 
     }
