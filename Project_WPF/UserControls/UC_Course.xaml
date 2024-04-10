@@ -21,7 +21,7 @@
 
             <Grid Grid.Row="0">
                 <TextBlock Text="Course" FontSize="32" FontWeight="SemiBold" HorizontalAlignment="Left" Margin="20,0,0,0" Foreground="#FF121518"></TextBlock>
-                <Button HorizontalAlignment="Right" Style="{StaticResource addButton}" Margin="0,0,20,0" >
+                <Button HorizontalAlignment="Right" Style="{StaticResource addButton}" Margin="0,0,20,0" Click="btn_addCourse_Click" >
                     <StackPanel Orientation="Horizontal">
                         <materialDesign:PackIcon Kind="Plus" Margin="0,0,10,0" />
                         <TextBlock Text="Add new Course"/>
@@ -40,7 +40,7 @@
             <Grid Grid.Row="2">
                 <Border Background="White" CornerRadius="20,20,20,20" Margin="20,0,20,20">
                     <Grid Margin="10,10,10,0">
-                        <DataGrid x:Name="TeachersDataGrid" CellStyle="{DynamicResource DataGridCellStyle1}" Style="{DynamicResource DataGridStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" RowHeaderStyle="{DynamicResource DataGridRowHeaderStyle1}" RowStyle="{DynamicResource DataGridRowStyle1}" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="Black">
+                        <DataGrid x:Name="CourseDataGrid" CellStyle="{DynamicResource DataGridCellStyle1}" Style="{DynamicResource DataGridStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" RowHeaderStyle="{DynamicResource DataGridRowHeaderStyle1}" RowStyle="{DynamicResource DataGridRowStyle1}" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="Black">
                             <DataGrid.Columns>
                                 <DataGridCheckBoxColumn CanUserResize="False" Width="auto" ElementStyle="{StaticResource CheckBoxStyle1}">
                                     <DataGridCheckBoxColumn.HeaderTemplate>
@@ -49,41 +49,32 @@
                                         </DataTemplate>
                                     </DataGridCheckBoxColumn.HeaderTemplate>
                                 </DataGridCheckBoxColumn>
-                                <DataGridTextColumn Header="Mã giáo viên" CanUserResize="False" IsReadOnly="True" FontFamily="Kumbh Sans" Width="*" Binding="{Binding teacher_ID}"/>
-                                <DataGridTemplateColumn Header="Tên giáo viên" IsReadOnly="True" Width="*">
+                                <DataGridTemplateColumn Header="Mã khóa" IsReadOnly="True" Width="*">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="{Binding teacher_name}"/>
+                                                <TextBlock Text="{Binding course_ID}"/>
                                             </StackPanel>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
-                                <DataGridTextColumn Header="Giới tính" CanUserResize="False" IsReadOnly="True" FontFamily="Kumbh Sans" Width="*">
-                                    <DataGridTextColumn.ElementStyle>
-                                        <Style TargetType="{x:Type TextBlock}">
-                                            <Setter Property="Text" Value="{Binding gender}" />
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding gender}" Value="1">
-                                                    <Setter Property="Text" Value="Nam" />
-                                                </DataTrigger>
-                                                <DataTrigger Binding="{Binding gender}" Value="0">
-                                                    <Setter Property="Text" Value="Nữ" />
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </DataGridTextColumn.ElementStyle>
-                                </DataGridTextColumn>
-                                <DataGridTextColumn Header="Số điện thoại" CanUserResize="False" IsReadOnly="True" FontFamily="Kumbh Sans" Width="*" Binding="{Binding teacher_phoneNumber}"/>
-                                <DataGridTextColumn Header="Email" CanUserResize="False" IsReadOnly="True" FontFamily="Kumbh Sans" Width="*" Binding="{Binding email}"/>
-                                <DataGridTemplateColumn Header="Hành động" IsReadOnly="True" Width="*">
+                                <DataGridTemplateColumn Header="Tên khóa" IsReadOnly="True" Width="*">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <StackPanel Orientation="Horizontal">
-                                                <Button Style="{StaticResource x editData}">
+                                                <TextBlock Text="{Binding course_name}"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>                             
+                                <DataGridTemplateColumn Header="" IsReadOnly="True" Width="*">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Button x:Name="btn_editdata" Style="{StaticResource x editData}" Click="btn_editdata_Click" >
                                                     <materialDesign:PackIcon Kind="PencilOutline" Width="12" Height="12" VerticalAlignment="Center" />
                                                 </Button>
-                                                <Button Style="{StaticResource x deleteData}">
+                                                <Button x:Name="btn_deletedata" Style="{StaticResource x deleteData}" Click="btn_deletedata_Click" >
                                                     <materialDesign:PackIcon Kind="DeleteOutline" Width="12" Height="12" VerticalAlignment="Center" />
                                                 </Button>
                                             </StackPanel>

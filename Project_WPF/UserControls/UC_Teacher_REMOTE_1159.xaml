@@ -75,17 +75,10 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-<<<<<<< HEAD
-                                            <Button x:Name="btn_editdata" Style="{StaticResource x editData}" Click="btn_editdata_Click" >
-                                                <materialDesign:PackIcon Kind="PencilOutline" Width="12" Height="12" VerticalAlignment="Center" />
-                                            </Button>
-                                            <Button x:Name="btn_deletedata" Style="{StaticResource x deleteData}" Click="btn_deletedata_Click" >
-=======
                                             <Button x:Name="btn_edit" Style="{StaticResource x editData}" Click="btn_edit_Click">
                                                 <materialDesign:PackIcon Kind="PencilOutline" Width="12" Height="12" VerticalAlignment="Center" />
                                             </Button>
                                             <Button x:Name="btn_delete" Style="{StaticResource x deleteData}" Click="btn_delete_Click">
->>>>>>> 5cd9888709ed3a75a31b825fb251fa71aa70da56
                                                 <materialDesign:PackIcon Kind="DeleteOutline" Width="12" Height="12" VerticalAlignment="Center" />
                                             </Button>
                                         </StackPanel>
