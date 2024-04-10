@@ -79,9 +79,6 @@ namespace Project_WPF.UserControls
             }
             loadData();
         }
-<<<<<<< HEAD
-=======
-
         private void btn_delete_Click(object sender, RoutedEventArgs e)
         {
 			//xoá giáo viên
@@ -91,6 +88,5 @@ namespace Project_WPF.UserControls
         {
 			//sửa thông tin giáo viên
         }
->>>>>>> 5cd9888709ed3a75a31b825fb251fa71aa70da56
     }
 }
