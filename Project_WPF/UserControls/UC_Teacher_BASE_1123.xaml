@@ -71,14 +71,14 @@
                             </DataGridTextColumn>
                             <DataGridTextColumn Header="Số điện thoại" CanUserResize="False" IsReadOnly="True" FontFamily="Kumbh Sans" Width="*" Binding="{Binding teacher_phoneNumber}"/>
                             <DataGridTextColumn Header="Email" CanUserResize="False" IsReadOnly="True" FontFamily="Kumbh Sans" Width="*" Binding="{Binding email}"/>
-                            <DataGridTemplateColumn Header="" IsReadOnly="True" Width="*">
+                            <DataGridTemplateColumn Header="Hành động" IsReadOnly="True" Width="*">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                            <Button x:Name="btn_editdata" Style="{StaticResource x editData}" Click="btn_editdata_Click" >
+                                            <Button Style="{StaticResource x editData}">
                                                 <materialDesign:PackIcon Kind="PencilOutline" Width="12" Height="12" VerticalAlignment="Center" />
                                             </Button>
-                                            <Button x:Name="btn_deletedata" Style="{StaticResource x deleteData}" Click="btn_deletedata_Click" >
+                                            <Button Style="{StaticResource x deleteData}">
                                                 <materialDesign:PackIcon Kind="DeleteOutline" Width="12" Height="12" VerticalAlignment="Center" />
                                             </Button>
                                         </StackPanel>

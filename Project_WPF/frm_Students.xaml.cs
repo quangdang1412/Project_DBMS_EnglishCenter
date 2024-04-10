@@ -46,7 +46,6 @@ namespace Project_WPF
                 MessageBox.Show("Ngày tháng không hợp lệ. Vui lòng nhập theo định dạng dd/MM/yyyy.");
             }
         }
-
         public void FillData(DataRowView selectedRow)
         {
 
@@ -80,7 +79,6 @@ namespace Project_WPF
             else
             {
                 MessageBox.Show("Vui lòng nhập vào 10 số cho ĐT.");
-
             }
         }
         private void btn_save_Click(object sender, RoutedEventArgs e)

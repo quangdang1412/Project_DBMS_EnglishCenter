@@ -71,7 +71,7 @@
                             </DataGridTextColumn>
                             <DataGridTextColumn Header="Số điện thoại" CanUserResize="False" IsReadOnly="True" FontFamily="Kumbh Sans" Width="*" Binding="{Binding teacher_phoneNumber}"/>
                             <DataGridTextColumn Header="Email" CanUserResize="False" IsReadOnly="True" FontFamily="Kumbh Sans" Width="*" Binding="{Binding email}"/>
-                            <DataGridTemplateColumn Header="" IsReadOnly="True" Width="*">
+                            <DataGridTemplateColumn Header="Hành động" IsReadOnly="True" Width="*">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">

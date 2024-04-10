@@ -49,13 +49,36 @@ namespace Project_WPF.UserControls
 				txt_search.Visibility = Visibility.Collapsed;
 			}
 		}
-
         private void btn_addTeacher_Click(object sender, RoutedEventArgs e)
         {
 			frm_Teachers form = new frm_Teachers();
 			form.ShowDialog();
+			loadData();
         }
-
+        private void btn_editdata_Click(object sender, RoutedEventArgs e)
+        {
+            DataRowView selectedRow = (DataRowView)TeachersDataGrid.SelectedItem;
+            frm_Teachers editTeacherForm = new frm_Teachers();
+            editTeacherForm.FillData(selectedRow);
+            editTeacherForm.ShowDialog();
+            loadData();
+        }
+        private void btn_deletedata_Click(object sender, RoutedEventArgs e)
+        {
+            DataRowView selectedRow = (DataRowView)TeachersDataGrid.SelectedItem;
+            int id = Convert.ToInt32(selectedRow["teacher_ID"]);
+            string err = "";
+            bool success = dbteacher.XoaGiaoVien(ref err, id);
+            if (success)
+            {
+                MessageBox.Show("Đã xoá xong!");
+            }
+            else
+            {
+                MessageBox.Show("Không xoá được!");
+            }
+            loadData();
+        }
         private void btn_delete_Click(object sender, RoutedEventArgs e)
         {
 			//xoá giáo viên

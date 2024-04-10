@@ -33,12 +33,12 @@
             <RadioButton x:Name="rbFemale" Content="Nữ"  HorizontalAlignment="Left" Height="34" Margin="368,250,0,0" VerticalAlignment="Top" Width="133" Background="White" Foreground="#FF543939" FontSize="20" FontFamily="Kumbh Sans"/>
             <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,70">
                 <Button x:Name="btn_save" Content="SAVE" Style="{StaticResource frm_add_save}" Margin="0,0,20,0" Click="btn_save_Click"  />
-                <Button Content="CANCEL" Style="{StaticResource frm_add_save}" Click="Button_Click"  />
+                <Button x:Name="btn_cancel" Content="CANCEL" Style="{StaticResource frm_add_save}" Click="Button_Click"  />
             </StackPanel>
             <TextBlock HorizontalAlignment="Left" Height="34" Margin="64,518,0,0" TextWrapping="Wrap" FontWeight="Bold" FontFamily="Kumbh Sans" Text="Email" Foreground="#FF667F8E" VerticalAlignment="Top" Width="107" FontSize="20"/>
             <TextBlock HorizontalAlignment="Left" Height="34" Margin="64,458,0,0" TextWrapping="Wrap" FontWeight="Bold" FontFamily="Kumbh Sans" Foreground="#FF667F8E" VerticalAlignment="Top" Width="107" FontSize="20"><Run Language="vi-vn" Text="Địa "/><Run Text="chỉ"/></TextBlock>
-            <TextBox x:Name="txtCCCD_Copy" HorizontalAlignment="Left" Height="36" Margin="230,455,0,0" Style="{StaticResource textBoxadd}"   TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="304"/>
-            <TextBox x:Name="txtCCCD_Copy1" HorizontalAlignment="Left" Height="36" Margin="230,516,0,0" Style="{StaticResource textBoxadd}"   TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="304"/>
+            <TextBox x:Name="txtAddress" HorizontalAlignment="Left" Height="36" Margin="230,455,0,0" Style="{StaticResource textBoxadd}"   TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="304"/>
+            <TextBox x:Name="txtEmail" HorizontalAlignment="Left" Height="36" Margin="230,516,0,0" Style="{StaticResource textBoxadd}"   TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="304"/>
         </Grid>
     </Border>
 
