@@ -26,7 +26,6 @@ namespace Project_WPF
     {
         CourseBLL dbsCourse;
         bool check = true;
-        int id = 0;
         public frm_Course()
         {
             InitializeComponent();
