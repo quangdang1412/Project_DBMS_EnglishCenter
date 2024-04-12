@@ -1,10 +1,10 @@
 ﻿using BusinessLayer;
+using Project_WPF.Form;
 using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Windows;
 using System.Windows.Controls;
-
 namespace Project_WPF.UserControls
 {
 	public partial class UC_Course : UserControl

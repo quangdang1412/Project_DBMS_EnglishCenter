@@ -18,10 +18,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Xml.Linq;
 
-namespace Project_WPF
+namespace Project_WPF.Form
 {
     /// <summary>
-    /// Interaction logic for formAdd.xaml
+    /// Interaction logic for frm_Students.xaml
     /// </summary>
     public partial class frm_Students : Window
     {
@@ -83,7 +83,7 @@ namespace Project_WPF
         }
         private void btn_save_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txt_Name.Text) || string.IsNullOrWhiteSpace(txtDate.Text) ||string.IsNullOrWhiteSpace(txt_Phone.Text) || string.IsNullOrWhiteSpace(txtCCCD.Text))
+            if (string.IsNullOrWhiteSpace(txt_Name.Text) || string.IsNullOrWhiteSpace(txtDate.Text) || string.IsNullOrWhiteSpace(txt_Phone.Text) || string.IsNullOrWhiteSpace(txtCCCD.Text))
             {
                 MessageBox.Show("Vui lòng điền đầy đủ thông tin vào tất cả các trường.");
                 return;
@@ -92,7 +92,7 @@ namespace Project_WPF
             DateTime studentDob;
             bool ngaythang = DateTime.TryParseExact(txtDate.Text, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out studentDob);
             int gender = rbMale.IsChecked == true ? 1 : 0;
-            if (check==true)
+            if (check == true)
             {
                 try
                 {
@@ -100,7 +100,7 @@ namespace Project_WPF
                     if (success)
                     {
                         MessageBox.Show("Đã thêm xong!");
-                        this.Close(); 
+                        this.Close();
                     }
                     else
                     {
@@ -114,7 +114,7 @@ namespace Project_WPF
             }
             else
             {
-                bool success = dbstudent.CapNhatHocSinh(ref err,id, txt_Name.Text, studentDob, gender, txt_Phone.Text, txtCCCD.Text);
+                bool success = dbstudent.CapNhatHocSinh(ref err, id, txt_Name.Text, studentDob, gender, txt_Phone.Text, txtCCCD.Text);
                 if (success)
                 {
                     MessageBox.Show("Đã cập nhật xong!");
