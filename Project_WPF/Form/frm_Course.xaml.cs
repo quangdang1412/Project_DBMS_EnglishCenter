@@ -17,7 +17,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using BusinessLayer;
 
-namespace Project_WPF
+namespace Project_WPF.Form
 {
     /// <summary>
     /// Interaction logic for frm_Course.xaml

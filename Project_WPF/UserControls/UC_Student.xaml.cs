@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 using BusinessLayer;
 using System.Data;
 using System.Data.SqlClient;
+using Project_WPF.Form;
 
 namespace Project_WPF.UserControls
 {

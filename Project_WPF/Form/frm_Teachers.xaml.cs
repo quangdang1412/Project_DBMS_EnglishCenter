@@ -18,7 +18,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Xml.Linq;
 
-namespace Project_WPF
+namespace Project_WPF.Form
 {
     /// <summary>
     /// Interaction logic for formAdd.xaml
