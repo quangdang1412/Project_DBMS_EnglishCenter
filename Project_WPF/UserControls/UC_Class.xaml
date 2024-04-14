@@ -5,8 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Project_WPF.UserControls"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    
     <Grid Background="#FFF6F6F6">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3*"/>
@@ -14,7 +16,6 @@
         </Grid.ColumnDefinitions>
         <Grid Grid.Column="0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="8*"/>
             </Grid.RowDefinitions>
@@ -29,75 +30,68 @@
                 </Button>
             </Grid>
             <Grid Grid.Row="1">
-                <Border Background="White" Margin="20,17,19,20" CornerRadius="20">
-                    <Grid>
-                        <TextBlock x:Name="Placeholder" Margin="20 0" Foreground="#FFB0B9C6" IsHitTestVisible="False" Visibility="Visible" Panel.ZIndex="1" Text="Search here..." VerticalAlignment="Center"/>
-                        <TextBox x:Name="SearchBox" Style="{StaticResource HoverTextBox}" BorderBrush="{x:Null}" FocusVisualStyle="{x:Null}" VerticalAlignment="Center" Margin="20,0,40,0" Background="White" TextChanged="SearchBox_TextChanged" SelectionBrush="{x:Null}" SelectionTextBrush="White"/>
-                        <materialDesign:PackIcon Kind="Magnify" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="#FFB0B9C6" Margin="0,0,20,0"/>
-                    </Grid>
-                </Border>
-            </Grid>
-            <Grid Grid.Row="2">
-                <Border Background="White" CornerRadius="20,20,20,20" Margin="20,0,20,20">
-                    <Grid Margin="10,10,10,0">
-                        <DataGrid x:Name="CourseDataGrid" CellStyle="{DynamicResource DataGridCellStyle1}" Style="{DynamicResource DataGridStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" RowHeaderStyle="{DynamicResource DataGridRowHeaderStyle1}" RowStyle="{DynamicResource DataGridRowStyle1}" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="Black" >
-                            <DataGrid.Columns>
-                                <DataGridCheckBoxColumn CanUserResize="False" Width="auto" ElementStyle="{StaticResource CheckBoxStyle1}">
-                                    <DataGridCheckBoxColumn.HeaderTemplate>
-                                        <DataTemplate>
-                                            <CheckBox Style="{StaticResource CheckBoxStyle1}" />
-                                        </DataTemplate>
-                                    </DataGridCheckBoxColumn.HeaderTemplate>
-                                </DataGridCheckBoxColumn>
-                                <DataGridTemplateColumn Header="Mã khóa" IsReadOnly="True" Width="*">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="{Binding course_ID}"/>
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-                                <DataGridTemplateColumn Header="Tên khóa" IsReadOnly="True" Width="*">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="{Binding course_name}"/>
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-                                <DataGridTemplateColumn Header="" IsReadOnly="True" Width="*">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Orientation="Horizontal">
-                                                <Button x:Name="btn_editdata" Style="{StaticResource x editData}" Click="btn_editdata_Click" >
-                                                    <materialDesign:PackIcon Kind="PencilOutline" Width="12" Height="12" VerticalAlignment="Center" />
-                                                </Button>
-                                                <Button x:Name="btn_deletedata" Style="{StaticResource x deleteData}" Click="btn_deletedata_Click" >
-                                                    <materialDesign:PackIcon Kind="DeleteOutline" Width="12" Height="12" VerticalAlignment="Center" />
-                                                </Button>
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-                            </DataGrid.Columns>
-                        </DataGrid>
-                    </Grid>
-                </Border>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Border Background="White" CornerRadius="20,20,20,20" Margin="20,0,20,10">
+                        <Grid Margin="10,10,10,0">
+                            <DataGrid x:Name="CourseDataGrid" CellStyle="{DynamicResource DataGridCellStyle1}" Style="{DynamicResource DataGridStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" RowHeaderStyle="{DynamicResource DataGridRowHeaderStyle1}" RowStyle="{DynamicResource DataGridRowStyle1}" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="Black" >
+                                <DataGrid.Columns>
+                                    <DataGridCheckBoxColumn CanUserResize="False" Width="auto" ElementStyle="{StaticResource CheckBoxStyle1}">
+                                        <DataGridCheckBoxColumn.HeaderTemplate>
+                                            <DataTemplate>
+                                                <CheckBox Style="{StaticResource CheckBoxStyle1}" />
+                                            </DataTemplate>
+                                        </DataGridCheckBoxColumn.HeaderTemplate>
+                                    </DataGridCheckBoxColumn>
+                                    <DataGridTemplateColumn Header="Mã khóa" IsReadOnly="True" Width="*">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="{Binding course_ID}"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="Tên khóa" IsReadOnly="True" Width="*">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="{Binding course_name}"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="" IsReadOnly="True" Width="*">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Button x:Name="btn_editdata" Style="{StaticResource x editData}" Click="btn_editdata_Click" >
+                                                        <materialDesign:PackIcon Kind="PencilOutline" Width="12" Height="12" VerticalAlignment="Center" />
+                                                    </Button>
+                                                    <Button x:Name="btn_deletedata" Style="{StaticResource x deleteData}" Click="btn_deletedata_Click" >
+                                                        <materialDesign:PackIcon Kind="DeleteOutline" Width="12" Height="12" VerticalAlignment="Center" />
+                                                    </Button>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Grid>
+                    </Border>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <Border Background="White" CornerRadius="20,20,20,20" Margin="20,0,20,20">
+                       
+                    </Border>
+                </Grid>
             </Grid>
         </Grid>
         <Grid Grid.Column="1">
             <Border CornerRadius="20,20,20,20" Background="White" Margin="0 10 10 10" >
-                <Grid>
-                    <TextBlock Text="Detail" Margin="19.9,5,0,48" FontWeight="SemiBold" FontSize="30" Foreground="#FF152259" VerticalAlignment="Top"></TextBlock>
-                    <StackPanel Margin="10,80,10,0">
-                        <ScrollViewer VerticalScrollBarVisibility="Auto">
-                            <StackPanel x:Name="stackPanelContainer">
-                            </StackPanel>
-                        </ScrollViewer>
-                    </StackPanel>
-                </Grid>
             </Border>
         </Grid>
     </Grid>
