@@ -41,7 +41,7 @@
                                 <Grid Grid.Column="2" Margin="10 0 0 0">
                                     <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center">
                                         <TextBlock Text="Students" FontSize="35" Foreground="#FFB0B9C6" FontWeight="Light"/>
-                                        <TextBlock Text="150" HorizontalAlignment="Center" FontWeight="SemiBold" FontSize="40"></TextBlock>
+                                        <TextBlock x:Name="txt_Students" Text="150" HorizontalAlignment="Center" FontWeight="SemiBold" FontSize="40"></TextBlock>
                                     </StackPanel>
                                 </Grid>
                             </Grid>
@@ -64,7 +64,7 @@
                                 <Grid Grid.Column="2" Margin="10 0 0 0">
                                     <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center">
                                         <TextBlock Text="Teachers" FontSize="35" Foreground="#FFB0B9C6" FontWeight="Light"/>
-                                        <TextBlock Text="150" HorizontalAlignment="Center" FontWeight="SemiBold" FontSize="40"></TextBlock>
+                                        <TextBlock x:Name="txt_Teacher" Text="150" HorizontalAlignment="Center" FontWeight="SemiBold" FontSize="40"></TextBlock>
                                     </StackPanel>
                                 </Grid>
                             </Grid>
@@ -87,7 +87,7 @@
                                 <Grid Grid.Column="2" Margin="10 0 0 0">
                                     <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center">
                                         <TextBlock Text="Classrooms" FontSize="30" Foreground="#FFB0B9C6" FontWeight="Light"/>
-                                        <TextBlock Text="150" HorizontalAlignment="Center" FontWeight="SemiBold" FontSize="40"></TextBlock>
+                                        <TextBlock x:Name="txt_Group" Text="150" HorizontalAlignment="Center" FontWeight="SemiBold" FontSize="40"></TextBlock>
                                     </StackPanel>
                                 </Grid>
                             </Grid>
