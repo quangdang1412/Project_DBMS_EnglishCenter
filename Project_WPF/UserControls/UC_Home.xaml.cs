@@ -13,6 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using BusinessLayer;
+
 
 namespace Project_WPF.UserControls
 {
@@ -21,13 +23,22 @@ namespace Project_WPF.UserControls
 	/// </summary>
 	public partial class UC_Home : UserControl
 	{
-		public UC_Home()
+		HomeBLL home;
+
+        public UC_Home()
 		{
+			home= new HomeBLL();
 			InitializeComponent();
 			calender.SelectedDate = DateTime.Now;
 			string dayOfWeek = DateTime.Today.ToString("dddd", new CultureInfo("en"));
 			textThu.Text = dayOfWeek;
+			Total();
 
+
+        }
+		public void Total()
+		{
+			txt_Students.Text = home.TongSoHocSinh().ToString();
 		}
 		private void Calendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
 		{
