@@ -24,5 +24,22 @@ namespace Project_WPF.UserControls
         {
             InitializeComponent();
         }
+        public string ClassName
+        {
+            get => txt_classname.Text;
+            set => txt_classname.Text = value;
+        }
+
+        public string ClassID
+        {
+            get => txt_classID.Text;
+            set => txt_classID.Text = value;
+        }
+
+        public string TotalDay
+        {
+            get => txt_Day.Text;
+            set => txt_Day.Text = value;
+        }
     }
 }

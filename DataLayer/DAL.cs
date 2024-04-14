@@ -108,6 +108,31 @@ namespace DataLayer
 
             return result;
         }
+        public DataTable ExecuteQueryDataTable(string procName, CommandType cmdType, SqlParameter[] parameters)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                SqlCommand cmd = new SqlCommand(procName, conn);
+                cmd.CommandType = cmdType;
+                if (parameters != null)
+                {
+                    foreach (SqlParameter parameter in parameters)
+                    {
+                        cmd.Parameters.Add(parameter);
+                    }
+                }
+
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            return dt;
+        }
 
     }
 }
