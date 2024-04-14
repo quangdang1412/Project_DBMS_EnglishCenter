@@ -40,7 +40,7 @@
             <Grid Grid.Row="2">
                 <Border Background="White" CornerRadius="20,20,20,20" Margin="20,0,20,20">
                     <Grid Margin="10,10,10,0">
-                        <DataGrid x:Name="CourseDataGrid" CellStyle="{DynamicResource DataGridCellStyle1}" Style="{DynamicResource DataGridStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" RowHeaderStyle="{DynamicResource DataGridRowHeaderStyle1}" RowStyle="{DynamicResource DataGridRowStyle1}" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="Black">
+                        <DataGrid x:Name="CourseDataGrid" CellStyle="{DynamicResource DataGridCellStyle1}" Style="{DynamicResource DataGridStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" RowHeaderStyle="{DynamicResource DataGridRowHeaderStyle1}" RowStyle="{DynamicResource DataGridRowStyle1}" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="Black" SelectionChanged="CourseDataGrid_SelectionChanged">
                             <DataGrid.Columns>
                                 <DataGridCheckBoxColumn CanUserResize="False" Width="auto" ElementStyle="{StaticResource CheckBoxStyle1}">
                                     <DataGridCheckBoxColumn.HeaderTemplate>
@@ -66,7 +66,7 @@
                                             </StackPanel>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>                             
+                                </DataGridTemplateColumn>
                                 <DataGridTemplateColumn Header="" IsReadOnly="True" Width="*">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
@@ -89,12 +89,15 @@
         </Grid>
         <Grid Grid.Column="1">
             <Border CornerRadius="20,20,20,20" Background="White" Margin="0 10 10 10" >
-                <StackPanel Margin="20,0,0,0">
-                    <TextBlock Text="Detail" Margin="0,5,0,0" FontWeight="SemiBold" FontSize="30" Foreground="#FF152259"></TextBlock>
-                    <Border>
-                        
-                    </Border>
-                </StackPanel>
+                <Grid>
+                    <TextBlock Text="Detail" Margin="19.9,5,0,48" FontWeight="SemiBold" FontSize="30" Foreground="#FF152259" VerticalAlignment="Top"></TextBlock>
+                    <StackPanel Margin="10,80,10,0">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <StackPanel x:Name="stackPanelContainer">
+                            </StackPanel>
+                        </ScrollViewer>
+                    </StackPanel>
+                </Grid>
             </Border>
         </Grid>
     </Grid>

@@ -17,7 +17,9 @@ namespace Project_WPF.UserControls
 			InitializeComponent();
 			dbcourse = new CourseBLL();
 			loadData();
-		}
+            AddDetailCoursesDynamically(2);
+
+        }
         void loadData()
         {
             try
@@ -29,6 +31,16 @@ namespace Project_WPF.UserControls
             catch (SqlException ex)
             {
                 MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+        private void AddDetailCoursesDynamically(int x)
+        {
+
+            for (int i = 0; i < x; i++)
+            {
+                UC_DetailCourse detailCourse = new UC_DetailCourse();
+                detailCourse.Margin = new Thickness(0, 10, 0, 20);
+                stackPanelContainer.Children.Add(detailCourse);
             }
         }
 
@@ -89,6 +101,12 @@ namespace Project_WPF.UserControls
             frm_Course course = new frm_Course();
             course.ShowDialog();
             loadData();
+        }
+
+        private void CourseDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            
+
         }
     }
 }
