@@ -20,6 +20,14 @@ namespace BusinessLayer
         {
             return Convert.ToInt32(db.ExecuteScalar("SELECT COUNT(*) FROM STUDENT", CommandType.Text));
         }
+        public int TongSoGiaoVien()
+        {
+            return Convert.ToInt32(db.ExecuteScalar("SELECT COUNT(*) FROM TEACHER", CommandType.Text));
+        }
+        public int TongSoNhomHoc()
+        {
+            return Convert.ToInt32(db.ExecuteScalar("SELECT COUNT(*) FROM STUDY_GROUP", CommandType.Text));
+        }
 
 
 

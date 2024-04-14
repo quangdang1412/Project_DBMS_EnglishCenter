@@ -39,8 +39,11 @@ namespace Project_WPF.UserControls
 		public void Total()
 		{
 			txt_Students.Text = home.TongSoHocSinh().ToString();
-		}
-		private void Calendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
+            txt_Teacher.Text = home.TongSoGiaoVien().ToString();
+            txt_Group.Text = home.TongSoNhomHoc().ToString();
+
+        }
+        private void Calendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
 		{
 			// Kiểm tra xem có ngày nào được chọn không
 			if (calender.SelectedDate.HasValue)
