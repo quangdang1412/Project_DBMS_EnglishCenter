@@ -37,7 +37,7 @@
                 <Grid Grid.Row="0">
                     <Border Background="White" CornerRadius="20,20,20,20" Margin="20,0,20,10">
                         <Grid Margin="10,10,10,0">
-                            <DataGrid x:Name="CourseDataGrid" CellStyle="{DynamicResource DataGridCellStyle1}" Style="{DynamicResource DataGridStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" RowHeaderStyle="{DynamicResource DataGridRowHeaderStyle1}" RowStyle="{DynamicResource DataGridRowStyle1}" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="Black" >
+                            <DataGrid x:Name="ClassDataGrid" CellStyle="{DynamicResource DataGridCellStyle1}" Style="{DynamicResource DataGridStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" RowHeaderStyle="{DynamicResource DataGridRowHeaderStyle1}" RowStyle="{DynamicResource DataGridRowStyle1}" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="Black" >
                                 <DataGrid.Columns>
                                     <DataGridCheckBoxColumn CanUserResize="False" Width="auto" ElementStyle="{StaticResource CheckBoxStyle1}">
                                         <DataGridCheckBoxColumn.HeaderTemplate>
@@ -46,24 +46,43 @@
                                             </DataTemplate>
                                         </DataGridCheckBoxColumn.HeaderTemplate>
                                     </DataGridCheckBoxColumn>
-                                    <DataGridTemplateColumn Header="Mã khóa" IsReadOnly="True" Width="*">
+                                    <DataGridTemplateColumn Header="Mã lớp" IsReadOnly="True" Width="*">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
                                                 <StackPanel Orientation="Horizontal">
-                                                    <TextBlock Text="{Binding course_ID}"/>
+                                                    <TextBlock Text="{Binding class_ID}"/>
                                                 </StackPanel>
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
-                                    <DataGridTemplateColumn Header="Tên khóa" IsReadOnly="True" Width="*">
+                                    <DataGridTemplateColumn Header="Tên Lớp" IsReadOnly="True" Width="*">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
                                                 <StackPanel Orientation="Horizontal">
-                                                    <TextBlock Text="{Binding course_name}"/>
+                                                    <TextBlock Text="{Binding clname}"/>
                                                 </StackPanel>
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="Số buổi học" IsReadOnly="True" Width="*">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="{Binding totalDay}"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="Học phí" IsReadOnly="True" Width="*">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="{Binding fee}"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
                                     <DataGridTemplateColumn Header="" IsReadOnly="True" Width="*">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>

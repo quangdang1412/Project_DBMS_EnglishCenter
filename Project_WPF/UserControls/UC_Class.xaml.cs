@@ -18,6 +18,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using BusinessLayer;
+using System.Data.SqlClient;
 
 namespace Project_WPF.UserControls
 {
@@ -26,36 +28,27 @@ namespace Project_WPF.UserControls
     /// </summary>
     public partial class UC_Class : UserControl
     {
-        public UC_Class()
+        DataTable dtClass;
+        ClassBLL dbclass;
+       public UC_Class()
         {
             InitializeComponent();
-            SeriesCollection = new SeriesCollection
-            {
-                new ColumnSeries
-                {
-                    Title = "2015",
-                    Values = new ChartValues<double> { 10, 50, 39, 50 }
-                }
-            };
-
-            //adding series will update and animate the chart automatically
-            SeriesCollection.Add(new ColumnSeries
-            {
-                Title = "2016",
-                Values = new ChartValues<double> { 11, 56, 42 }
-            });
-
-            //also adding values updates and animates the chart automatically
-            SeriesCollection[1].Values.Add(48d);
-
-            Labels = new[] { "Maria", "Susan", "Charles", "Frida" };
-            Formatter = value => value.ToString("N");
-
-            DataContext = this;
+            dbclass = new ClassBLL();
+            loadData();
         }
-        public SeriesCollection SeriesCollection { get; set; }
-        public string[] Labels { get; set; }
-        public Func<double, string> Formatter { get; set; }
+        void loadData()
+        {
+            try
+            {
+                dtClass = dbclass.LayClass().Tables[0];
+
+                ClassDataGrid.ItemsSource = dtClass.DefaultView;
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
         private void btn_addclass_Click(object sender, RoutedEventArgs e)
         {
 

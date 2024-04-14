@@ -59,6 +59,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClassBLL.cs" />
     <Compile Include="CourseBLL.cs" />
     <Compile Include="HomeBLL.cs" />
     <Compile Include="StudentBLL.cs" />
