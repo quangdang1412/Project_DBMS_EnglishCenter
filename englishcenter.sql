@@ -72,12 +72,12 @@ GO
 /*Bảng nhóm học*/
 CREATE TABLE STUDY_GROUP(
 	group_ID int PRIMARY KEY,
-	minStudent tinyint NOT NULL,
-	maxStudent tinyint NOT NULL,
+	minStudent INT NOT NULL,
+	maxStudent INT NOT NULL,
 	dayStart date NOT NULL,
 	dayEnd date NOT NULL,
 	grStatus int NOT NULL,
-	totalStudent tinyint NOT NULL,
+	totalStudent INT NOT NULL,
 	teacher_ID int NOT NULL,
 	class_ID int NOT NULL,
 	room_ID int NULL,
@@ -87,6 +87,7 @@ CREATE TABLE STUDY_GROUP(
 	FOREIGN KEY(room_ID) REFERENCES ROOM (room_ID),
 	FOREIGN KEY(shift_ID) REFERENCES STUDY_SHIFT (shift_ID)
 );
+ALTER TABLE STUDY_GROUP ADD DEFAULT ((0)) FOR totalStudent
 GO
 /*Bảng danh sách lớp học*/
 CREATE TABLE GROUP_LIST(
@@ -345,14 +346,27 @@ BEGIN
 	DELETE FROM CLASS WHERE class_ID=@class_ID
 END
 GO
+/*Tìm kiếm class dựa trên courseID*/
+CREATE PROCEDURE selectClassByCourse
+	@courseID VARCHAR(10)
+AS
+BEGIN
+	SELECT
+		class_ID,
+		clname,
+		totalDay,
+		fee
+	FROM CLASS
+	WHERE course_ID=@courseID
+END
+GO
 /*Procedure tạo nhóm học mới*/
 CREATE PROCEDURE insertStudyGr
-	@minstudent TINYINT,
-	@maxstudent TINYINT,
+	@minstudent INT,
+	@maxstudent INT,
 	@dayStart DATE,
 	@dayEnd DATE,
 	@grStatus INT, -- -1 là đang mở để đăng kí,0 là lớp đang mở và đang còn học, 1 là lớp đã học xong
-	@totalStudent TINYINT,
 	@teacher_ID INT,
 	@class_ID INT,
 	@room_ID INT,
@@ -361,19 +375,18 @@ AS
 BEGIN
 DECLARE @maxID INT;
 SELECT @maxID=ISNULL(MAX(group_ID),0) +1 FROM STUDY_GROUP;
-INSERT INTO STUDY_GROUP(group_ID,minStudent,maxStudent,dayStart,dayEnd,grStatus,totalStudent,teacher_ID,class_ID,room_ID,shift_ID)
-VALUES(@maxID,@minstudent,@maxstudent,@dayStart,@dayEnd,@grStatus,@totalStudent,@teacher_ID,@class_ID,@room_ID,@shift_ID);
+INSERT INTO STUDY_GROUP(group_ID,minStudent,maxStudent,dayStart,dayEnd,grStatus,teacher_ID,class_ID,room_ID,shift_ID)
+VALUES(@maxID,@minstudent,@maxstudent,@dayStart,@dayEnd,@grStatus,@teacher_ID,@class_ID,@room_ID,@shift_ID);
 END
 GO
 /*Procedure cập nhật nhóm học*/
 CREATE PROCEDURE updateStudyGr
 	@groupID INT,
-	@minstudent TINYINT,
-	@maxstudent TINYINT,
+	@minstudent INT,
+	@maxstudent INT,
 	@dayStart DATE,
 	@dayEnd DATE,
 	@grStatus INT, -- -1 là đang mở để đăng kí,0 là lớp đang mở và đang còn học, 1 là lớp đã học xong
-	@totalStudent TINYINT,
 	@teacher_ID INT,
 	@class_ID INT,
 	@room_ID INT,
@@ -388,7 +401,6 @@ BEGIN
 		dayStart = @dayStart,
 		dayEnd = @dayEnd,
 		grStatus = @grStatus,
-		totalStudent = @totalStudent,
 		teacher_ID = @teacher_ID,
 		class_ID = @class_ID,
 		room_ID = @room_ID,
@@ -729,14 +741,16 @@ VALUES
 GO
 
 /*Thêm nhóm học*/ --  -1 là lớp đang mở để đăng kí || 0 là đang mở để học || 1 là lớp đã học xong
-exec insertStudyGr 20, 36, '2022-01-05', '2022-10-05', 1, 36, 2, 3, 3, 2;
-exec insertStudyGr 10, 16, '2022-03-02', '2023-09-02', 1, 15, 4, 6, 6, 1;
-exec insertStudyGr 20, 36, '2022-01-05', '2023-06-05', 1, 26, 6, 4, 4, 1;
-exec insertStudyGr 20, 36, '2023-01-05', '2023-10-05', 1, 19, 5, 1, 1, 1;
-exec insertStudyGr 10, 16, '2023-06-05', '2024-02-05', 1, 10, 3, 5, 5, 2;
-exec insertStudyGr 20, 36, '2024-01-05', '2024-10-05', 0, 11, 1, 2, 2, 1;
-exec insertStudyGr 10, 16, '2024-01-05', '2023-06-05', -1, 16, 4, 6, 6, 1;
-exec insertStudyGr 20, 36, '2023-09-02', '2024-05-02', 0, 26, 6, 4, 4, 1;
+exec insertStudyGr 20, 36, '2022-01-05', '2022-10-05', 1, 2, 3, 3, 2;
+exec insertStudyGr 10, 16, '2022-03-02', '2023-09-02', 1, 4, 6, 6, 1;
+exec insertStudyGr 20, 36, '2022-01-05', '2023-06-05', 1, 6, 4, 4, 1;
+exec insertStudyGr 20, 36, '2023-01-05', '2023-10-05', 1, 5, 1, 1, 1;
+exec insertStudyGr 10, 16, '2023-06-05', '2024-02-05', 1, 3, 5, 5, 2;
+exec insertStudyGr 20, 36, '2024-01-05', '2024-10-05', 0, 1, 2, 2, 1;
+exec insertStudyGr 10, 16, '2024-01-05', '2023-06-05', -1, 4, 6, 6, 1;
+exec insertStudyGr 20, 36, '2023-09-02', '2024-05-02', 0, 6, 4, 4, 1;
+
+
 
 GO
 /*Thêm thông báo*/
