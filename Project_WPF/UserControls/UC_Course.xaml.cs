@@ -102,7 +102,6 @@ namespace Project_WPF.UserControls
             if (CourseDataGrid.SelectedItem is DataRowView selectedRow)
             {
                 string courseID = selectedRow["course_ID"].ToString();
-                Console.WriteLine(courseID);
                 findClass(courseID);
             }
         }
