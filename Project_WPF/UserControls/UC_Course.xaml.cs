@@ -117,7 +117,7 @@ namespace Project_WPF.UserControls
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error retrieving class details: " + ex.Message);
+                MessageBox.Show(ex.Message);
             }
         }
         private void AddDetailCoursesDynamically(int x,string courseID)
