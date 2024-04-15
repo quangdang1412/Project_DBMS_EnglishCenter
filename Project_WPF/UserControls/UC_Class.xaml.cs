@@ -1,0 +1,68 @@
+﻿using LiveCharts.Wpf;
+using LiveCharts;
+using Project_WPF.Form;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Reflection.Emit;
+using System.Runtime.Serialization;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+using BusinessLayer;
+using System.Data.SqlClient;
+
+namespace Project_WPF.UserControls
+{
+    /// <summary>
+    /// Interaction logic for UC_Class.xaml
+    /// </summary>
+    public partial class UC_Class : UserControl
+    {
+        DataTable dtClass;
+        ClassBLL dbclass;
+       public UC_Class()
+        {
+            InitializeComponent();
+            dbclass = new ClassBLL();
+            loadData();
+        }
+        void loadData()
+        {
+            try
+            {
+                dtClass = dbclass.LayClass().Tables[0];
+
+                ClassDataGrid.ItemsSource = dtClass.DefaultView;
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+        private void btn_addclass_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+       
+        private void btn_editdata_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+
+        private void btn_deletedata_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+    }
+}

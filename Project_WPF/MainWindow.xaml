@@ -4,7 +4,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         xmlns:local="clr-namespace:Project_WPF.UserControls"
         mc:Ignorable="d" 
         Height="900" Width="1600" WindowStyle="None" AllowsTransparency="True" Background="Transparent"  Loaded="Window_Loaded">
@@ -53,7 +52,7 @@
                                 <TextBlock Text="Group" VerticalAlignment="Center" FontSize="36" FontFamily="Segoe UI"/>
                             </StackPanel>
                         </Button>
-                        <Button x:Name="btn_classroom" Style="{StaticResource hoverMenu}">
+                        <Button x:Name="btn_classroom" Style="{StaticResource hoverMenu}" Click="btn_classroom_Click" GotFocus="GotFocus" LostFocus="LostFocus">
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon Kind="CastEducation" VerticalAlignment="Center" Margin="0,0,20,10" Width="48" Height="48"/>
                                 <TextBlock Text="Classroom" VerticalAlignment="Center" FontSize="36" FontFamily="Kumbh Sans"/>

@@ -1,4 +1,5 @@
 ﻿using BusinessLayer;
+using Microsoft.Xaml.Behaviors.Media;
 using Project_WPF.Form;
 using System;
 using System.Data;
@@ -11,13 +12,15 @@ namespace Project_WPF.UserControls
 	{
 		DataTable dtb;
         CourseBLL dbcourse;
+        DataTable dt_find;
 		
         public UC_Course()
 		{
 			InitializeComponent();
 			dbcourse = new CourseBLL();
 			loadData();
-		}
+
+        }
         void loadData()
         {
             try
@@ -25,12 +28,15 @@ namespace Project_WPF.UserControls
                 dtb = dbcourse.LayCourse().Tables[0];
 
                 CourseDataGrid.ItemsSource = dtb.DefaultView;
+                string firstCourseID = dtb.Rows[0]["course_ID"].ToString();
+                findClass(firstCourseID);
             }
             catch (SqlException ex)
             {
                 MessageBox.Show("Error: " + ex.Message);
             }
         }
+       
 
         private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
 		{
@@ -89,6 +95,46 @@ namespace Project_WPF.UserControls
             frm_Course course = new frm_Course();
             course.ShowDialog();
             loadData();
+        }
+
+        private void CourseDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (CourseDataGrid.SelectedItem is DataRowView selectedRow)
+            {
+                string courseID = selectedRow["course_ID"].ToString();
+                findClass(courseID);
+            }
+        }
+        public void findClass(string courseID)
+        {
+            try
+            {
+                dt_find = dbcourse.Course_FindClass(courseID);
+
+                stackPanelContainer.Children.Clear();
+
+                AddDetailCoursesDynamically(dt_find.Rows.Count,courseID);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        private void AddDetailCoursesDynamically(int x,string courseID)
+        {
+            for (int i = 0; i < x; i++)
+            {
+                DataRow row = dt_find.Rows[i];
+
+                UC_DetailCourse detailCourse = new UC_DetailCourse();
+
+                detailCourse.ClassName = row["clname"].ToString();
+                detailCourse.ClassID = courseID;
+                detailCourse.TotalDay = row["totalDay"].ToString() + " total";
+                detailCourse.Margin = new Thickness(0, 10, 0, 20);
+
+                stackPanelContainer.Children.Add(detailCourse);
+            }
         }
     }
 }

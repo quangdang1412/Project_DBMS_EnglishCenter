@@ -77,6 +77,62 @@ namespace DataLayer
 			}
 			return f;
 		}
+        public object ExecuteScalar(string strSQL, CommandType ct, params SqlParameter[] param)
+        {
+            object result = null;
+            if (conn.State == ConnectionState.Open)
+                conn.Close();
 
-	}
+            try
+            {
+                conn.Open();
+                comm.Parameters.Clear();
+                comm.CommandText = strSQL;
+                comm.CommandType = ct;
+
+                foreach (SqlParameter p in param)
+                {
+                    comm.Parameters.Add(p);
+                }
+
+                result = comm.ExecuteScalar();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error executing scalar query: " + ex.Message, ex);
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return result;
+        }
+        public DataTable ExecuteQueryDataTable(string procName, CommandType cmdType, SqlParameter[] parameters)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                SqlCommand cmd = new SqlCommand(procName, conn);
+                cmd.CommandType = cmdType;
+                if (parameters != null)
+                {
+                    foreach (SqlParameter parameter in parameters)
+                    {
+                        cmd.Parameters.Add(parameter);
+                    }
+                }
+
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            return dt;
+        }
+
+    }
 }
