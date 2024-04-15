@@ -116,15 +116,15 @@ GO
 CREATE TABLE WEEKDAY(
 	weekday_ID tinyint PRIMARY KEY
 );
+INSERT INTO WEEKDAY (weekday_ID)
+	VALUES(2),(3),(4),(5),(6),(7),(8);
 GO
 /*Bảng thông báo*/
 CREATE TABLE NOTIFICATION(
 	notification_ID int PRIMARY KEY,
 	title nvarchar(max) NOT NULL,
 	content nvarchar(max) NOT NULL,
-	daytime_send datetime NOT NULL DEFAULT (getdate()),
-	group_ID int NOT NULL,
-	FOREIGN KEY(group_ID) REFERENCES STUDY_GROUP (group_ID)
+	daytime_send datetime NOT NULL,
 );
 GO
 /*Bảng điểm danh sinh ra từ mối qua hệ ba ngôi: học sinh,nhóm học,ngày học*/
@@ -176,7 +176,6 @@ CREATE TABLE ACCOUNT(
 
 
 
-
 */
 /*Procedure tạo học viên mới*/
 GO
@@ -221,6 +220,23 @@ CREATE PROCEDURE deleteStudent
 AS
 BEGIN
 	DELETE FROM STUDENT WHERE student_ID=@student_ID
+END
+GO
+/*Procedure Tìm học viên dựa trên từ khóa*/
+CREATE PROCEDURE selectAllStudent
+	@keyword NVARCHAR(300)
+AS
+BEGIN
+	SELECT
+		student_ID,
+		student_name,
+		student_dob,
+		student_gender,
+		student_phoneNumber
+	FROM STUDENT
+	WHERE
+		student_phoneNumber LIKE '%' + @keyword +'%' OR
+		LOWER(student_name) LIKE '%' +LOWER(@keyword) +'%'
 END
 GO
 /*Procedure tạo giáo viên mới*/
@@ -274,6 +290,24 @@ AS
 	BEGIN
 		DELETE FROM TEACHER WHERE teacher_ID=@teacher_ID
 	END
+GO
+/*Procedure tìm giáo viên dựa trên từ khóa*/
+CREATE PROCEDURE selectAllTeacher
+	@keyword NVARCHAR(300)
+AS
+BEGIN
+	SELECT
+		teacher_ID,
+		teacher_name,
+		gender,
+		teacher_phoneNumber,
+		email
+	FROM TEACHER
+	WHERE
+		teacher_phoneNumber LIKE '%' + @keyword +'%' OR
+		LOWER(teacher_name) LIKE '%' +LOWER(@keyword) +'%' OR
+		LOWER(email) LIKE '%' +LOWER(@keyword)+ '%' 
+END
 GO
 /*Procedure tạo khóa học mới*/
 CREATE PROCEDURE insertCourse
@@ -415,18 +449,157 @@ BEGIN
 	DELETE FROM STUDY_GROUP WHERE group_ID=@group_ID
 END
 GO
-/*Procedure tạo thông báo mới*/
+/*Tìm các nhóm học có cùng ID lớp*/
+/*Tìm các nhóm học có cùng ID lớp*/
+CREATE PROCEDURE selectGrByClass
+	@classID INT
+AS
+BEGIN
+	/*Lấy tên giáo viên dựa trên @classID*/
+	DECLARE @teacherName NVARCHAR(300);
+	SELECT @teacherName= teacher_name FROM TEACHER t 
+		WHERE t.teacher_ID = 
+			(SELECT teacher_ID FROM STUDY_GROUP WHERE @classID=class_ID);
+	SELECT 
+		group_ID,
+		minStudent,
+		maxStudent
+		dayStart,
+		dayEnd,
+		grStatus,
+		totalStudent,
+		@teacherName  AS teacher_name,
+		CASE
+			WHEN shift_ID=1
+				THEN '17:30:00 - 19:00:00'
+			ELSE
+				'19:30:00 - 21:00:00'
+		END AS studyShift
+	FROM STUDY_GROUP 
+	WHERE @classID=class_ID
+END
+GO
+/*Tạo thông báo cho nhóm học*/
 CREATE PROCEDURE insertNotification
 	@title NVARCHAR(MAX),
 	@content NVARCHAR(MAX),
-	@daytime_send DATETIME,
 	@group_ID INT
 AS
 BEGIN
-DECLARE @maxID INT;
-SELECT @maxID=ISNULL(MAX(notification_ID),0) +1 FROM NOTIFICATION;
-INSERT INTO NOTIFICATION(notification_ID,title,content,daytime_send,group_ID)
-VALUES(@maxID,@title,@content,@daytime_send,@group_ID);
+	BEGIN TRANSACTION
+		DECLARE @maxID INT;
+		SELECT @maxID=ISNULL(MAX(notification_ID),0) +1 FROM NOTIFICATION;	
+		INSERT INTO NOTIFICATION(notification_ID,title,content,daytime_send)
+		VALUES(@maxID,@title,@content,GETDATE());
+		IF(@@ERROR <>0)
+		BEGIN
+			RAISERROR ('Không thể tạo thông báo',16,1);
+			ROLLBACK TRANSACTION;
+		END
+		INSERT INTO NOTIFY(notification_ID,group_ID)
+		VALUES(@maxID,@group_ID);
+		IF(@@ERROR <>0)
+		BEGIN
+			RAISERROR ('Không thể tạo thông báo cho nhóm %d',16,1,@group_ID);
+			ROLLBACK TRANSACTION;
+		END
+	COMMIT TRANSACTION
+END
+GO
+/*Cập nhật thông báo cho nhóm học*/
+CREATE PROCEDURE updateNotification
+	@notificationID INT,
+	@title NVARCHAR(MAX),
+	@content NVARCHAR(MAX),
+	@group_ID INT
+AS
+BEGIN
+	BEGIN TRANSACTION
+		UPDATE NOTIFICATION
+		SET
+			title=@title,
+			content=@content,
+			daytime_send=GETDATE()
+		WHERE notification_ID=@notificationID
+		IF(@@ERROR <>0)
+		BEGIN
+			RAISERROR ('Không thể tìm thấy thông báo để cập nhật',16,1);
+			ROLLBACK TRANSACTION;
+		END
+		UPDATE  NOTIFY
+		SET
+			group_ID=@group_ID
+		WHERE notification_ID=@notificationID
+		IF(@@ERROR <>0)
+		BEGIN
+			RAISERROR ('Không thể tìm thấy nhóm học %d để gửi thông báo',16,1,@group_ID);
+			ROLLBACK TRANSACTION;
+		END
+	COMMIT TRANSACTION
+END
+GO
+/*Xóa thông báo cho 1 lớp nếu không còn lớp nào có thông báo đó thì xóa luôn thông báo khỏi hệ thống*/
+CREATE PROCEDURE deleteNotification
+	@notificationID INT,
+	@groupID INT
+AS
+BEGIN
+	BEGIN TRANSACTION
+		DELETE FROM NOTIFY WHERE group_ID=@groupID AND notification_ID=@notificationID
+		IF(@@ERROR <>0)
+		BEGIN
+			RAISERROR ('Không thể tìm thấy nhóm học %d hoặc thông báo %d',16,1,@groupID,@notificationID);
+			ROLLBACK TRANSACTION;
+		END
+		DELETE FROM NOTIFICATION WHERE notification_ID=@notificationID
+	COMMIT TRANSACTION
+END
+GO
+/*Lấy tên giáo viên đã gửi thông báo cho học sinh*/
+CREATE FUNCTION teacherSendMessage
+(
+	@notificationID INT
+)
+RETURNS NVARCHAR(300)
+AS
+BEGIN
+	DECLARE @teacherName NVARCHAR(300) =NULL;
+	SELECT @teacherName=teacher_name FROM TEACHER t
+		WHERE t.teacher_ID=(SELECT teacher_ID FROM STUDY_GROUP gr
+			WHERE gr.group_ID=(SELECT group_ID FROM NOTIFY 
+				WHERE notification_ID=@notificationID));
+	RETURN @teacherName;
+END
+GO
+/*Thêm lịch học cho nhóm học trong 1 ngày*/
+CREATE PROCEDURE insertStudyOn
+	@weekday_ID TINYINT,
+	@group_ID INT
+AS
+BEGIN
+	INSERT INTO STUDY_ON(weekday_ID,group_ID)
+	VALUES (@weekday_ID,@group_ID)
+END
+GO
+/*Cập nhật lịch học cho nhóm học*/
+CREATE PROCEDURE updateStudyOn
+	@weekday_ID TINYINT,
+	@group_ID INT
+AS
+BEGIN
+	UPDATE STUDY_ON
+	SET 
+	weekday_ID=@weekday_ID,
+	group_ID=@group_ID
+END
+GO
+/*Xóa lịch học cho nhóm học*/
+CREATE PROCEDURE deleteStudyOn
+	@weekday_ID TINYINT,
+	@group_ID INT
+AS
+BEGIN
+	DELETE FROM STUDY_ON WHERE weekday_ID=@weekday_ID AND group_ID=@group_ID
 END
 GO
 /*Procedure tạo phòng mới*/
@@ -468,53 +641,56 @@ BEGIN
 		firstScore = @firstScore
 END;
 GO
-/*Procedure nhập điểm cho học sinh*/
-CREATE PROCEDURE updateLastScore
-	@student_ID INT,
-	@group_ID INT,
-	@lastScore INT
+/*Xóa học sinh khỏi nhóm học*/
+CREATE PROCEDURE deleleGrList
+	@studentID INT,
+	@groupID INT
 AS
 BEGIN
-	UPDATE GROUP_LIST
-	SET 
-		lastScore=@lastScore
-	WHERE student_ID=@student_ID AND group_ID=@group_ID
+	DELETE FROM GROUP_LIST WHERE student_ID=@studentID AND group_ID=@groupID
 END
 GO
-/*Procedure Tìm học viên dựa trên từ khóa*/
-CREATE PROCEDURE selectAllStudent
-	@keyword NVARCHAR(300)
+/*Trigger Đếm số lượng học sinh của một lớp*/
+CREATE TRIGGER trg_TotalStudent
+ON GROUP_LIST
+AFTER INSERT,DELETE, UPDATE
 AS
 BEGIN
-	SELECT
-		student_ID,
-		student_name,
-		student_dob,
-		student_gender,
-		student_phoneNumber
-	FROM STUDENT
-	WHERE
-		student_phoneNumber LIKE '%' + @keyword +'%' OR
-		LOWER(student_name) LIKE '%' +LOWER(@keyword) +'%'
+	DECLARE @count INT;
+	DECLARE @groupID INT;
+	IF EXISTS (SELECT * FROM inserted)
+	BEGIN 
+		SELECT @groupID=group_ID FROM inserted;
+	END
+	ELSE IF EXISTS (SELECT * FROM deleted)
+	BEGIN
+		SELECT @groupID=group_ID FROM deleted ;
+	END
+	SELECT @count=COUNT(*) FROM GROUP_LIST WHERE @groupID=group_ID ;
+	UPDATE STUDY_GROUP
+	SET
+		totalStudent=@count
+	WHERE @groupID=group_ID;
 END
 GO
-/*Procedure tìm giáo viên dựa trên từ khóa*/
-CREATE PROCEDURE selectAllTeacher
-	@keyword NVARCHAR(300)
+/*Trigger kiểm tra số lượng học sinh đã vượt mức tối đa chưa*/
+CREATE TRIGGER chkTotalStudent
+ON GROUP_LIST
+AFTER INSERT,UPDATE
 AS
-BEGIN
-	SELECT
-		teacher_ID,
-		teacher_name,
-		gender,
-		teacher_phoneNumber,
-		email
-	FROM TEACHER
-	WHERE
-		teacher_phoneNumber LIKE '%' + @keyword +'%' OR
-		LOWER(teacher_name) LIKE '%' +LOWER(@keyword) +'%' OR
-		LOWER(email) LIKE '%' +LOWER(@keyword)+ '%' 
-END
+	BEGIN
+	DECLARE @group_ID INT;
+	SELECT @group_ID=group_ID FROM inserted;
+	DECLARE @total INT;
+	SELECT @total=totalStudent FROM STUDY_GROUP WHERE group_ID=@group_ID;
+	DECLARE @max INT;
+	SELECT @max=maxStudent FROM STUDY_GROUP WHERE group_ID=@group_ID;
+	IF(@total>@max)
+	BEGIN
+		RAISERROR ('Số lượng học sinh đã vượt mức tối đa không thể thêm vào nữa', 16, 1);
+		ROLLBACK TRANSACTION;
+	END
+END;
 GO
 /*Trigger kiểm tra điểm để thêm vào lớp giao tiếp phản xạ toàn diện */
 CREATE TRIGGER trg_CheckFscore
@@ -576,66 +752,21 @@ BEGIN
     END
 END;
 GO
-/*Trigger Đếm số lượng học sinh của một lớp*/
-CREATE TRIGGER trg_TotalStudent
-ON GROUP_LIST
-AFTER INSERT,DELETE, UPDATE
+/*Procedure nhập điểm cho học sinh*/
+CREATE PROCEDURE updateLastScore
+	@student_ID INT,
+	@group_ID INT,
+	@lastScore INT
 AS
 BEGIN
-	DECLARE @count INT;
-	DECLARE @groupID INT;
-	IF EXISTS (SELECT * FROM inserted)
-	BEGIN 
-		SELECT @groupID=group_ID FROM inserted;
-	END
-	ELSE IF EXISTS (SELECT * FROM deleted)
-	BEGIN
-		SELECT @groupID=group_ID FROM deleted ;
-	END
-	SELECT @count=COUNT(*) FROM GROUP_LIST WHERE @groupID=group_ID ;
-	UPDATE STUDY_GROUP
-	SET
-		totalStudent=@count
-	WHERE @groupID=group_ID;
+	UPDATE GROUP_LIST
+	SET 
+		lastScore=@lastScore
+	WHERE student_ID=@student_ID AND group_ID=@group_ID
 END
 GO
-/*Trigger kiểm tra số lượng học sinh đã vượt mức tối đa chưa*/
-CREATE TRIGGER chkTotalStudent
-ON GROUP_LIST
-AFTER INSERT,UPDATE
-AS
-	BEGIN
-	DECLARE @group_ID INT;
-	SELECT @group_ID=group_ID FROM inserted;
-	DECLARE @total INT;
-	SELECT @total=totalStudent FROM STUDY_GROUP WHERE group_ID=@group_ID;
-	DECLARE @max INT;
-	SELECT @max=maxStudent FROM STUDY_GROUP WHERE group_ID=@group_ID;
-	IF(@total>@max)
-	BEGIN
-		RAISERROR ('Số lượng học sinh đã vượt mức tối đa không thể thêm vào nữa', 16, 1);
-		ROLLBACK TRANSACTION;
-	END
-END;
-GO
-/*Trigger kiểm tra xem học viên đó còn học không trước khi xóa*/
-CREATE TRIGGER chkStudentStatus
-ON GROUP_LIST
-AFTER DELETE
-AS
-	BEGIN
-	DECLARE @groupID INT;
-	IF EXISTS(SELECT * FROM deleted)
-	BEGIN
-		SELECT @groupID=group_ID FROM deleted;
-	END
-	IF EXISTS(SELECT grStatus FROM STUDY_GROUP WHERE group_ID=@groupID)
-	BEGIN
-		RAISERROR ('Học sinh này vẫn còn đang học ở nhóm %d, không thể xóa',16,1,@groupID);
-		ROLLBACK TRANSACTION;
-	END
-END;
-GO
+
+
 
 /* Đổ dữ liệu */
 USE EnglishCenter
@@ -719,8 +850,6 @@ EXEC insertClass N'Lớp phản xạ giao tiếp cơ bản',16,2500000,'SPK';
 EXEC insertClass N'Lớp phản xạ giao tiếp toàn diện',20,5000000,'SPK';
 GO
 
-
-
 /*Thêm ca học*/
 INSERT INTO STUDY_SHIFT (shift_ID,time_start, time_end)
 VALUES
@@ -751,12 +880,12 @@ exec insertStudyGr 10, 16, '2024-01-05', '2023-06-05', -1, 4, 6, 6, 1;
 exec insertStudyGr 20, 36, '2023-09-02', '2024-05-02', 0, 6, 4, 4, 1;
 
 
-
 GO
 /*Thêm thông báo*/
-exec insertNotification N'Thông báo kỳ thi giữa kỳ', N'Thi giữa kỳ sẽ diễn ra vào ngày 15/06/2024', '2024-06-01 16:00:00',1;
-exec insertNotification N'Thông báo mở lớp học', N'Lớp sẽ bắt đầu học vào ngày 06-06-2023', '2023-06-01 16:00:00',4;
-exec insertNotification N'Thông báo kỳ nghỉ lễ', N'Nghỉ lễ Quốc khánh từ ngày 01/09/2022 đến ngày 03/09/2022', '2022-08-29 16:00:00',2;
-exec insertNotification N'Thông báo hỗ trợ tài liệu', N'Cung cấp tài liệu miễn phí cho sinh viên', '2024-01-01 16:00:00',4;
-exec insertNotification N'Cảnh báo thời tiết xấu', N'Ngày mai sẽ có bão, lớp học có thể bị hủy', '2023-06-01 16:00:00',3;
+exec insertNotification N'Thông báo kỳ thi giữa kỳ', N'Thi giữa kỳ sẽ diễn ra vào ngày 15/06/2024',1;
+exec insertNotification N'Thông báo mở lớp học', N'Lớp sẽ bắt đầu học vào ngày 06-06-2023',4;
+exec insertNotification N'Thông báo kỳ nghỉ lễ', N'Nghỉ lễ Quốc khánh từ ngày 01/09/2022 đến ngày 03/09/2022',2;
+exec insertNotification N'Thông báo hỗ trợ tài liệu', N'Cung cấp tài liệu miễn phí cho sinh viên',4;
+exec insertNotification N'Cảnh báo thời tiết xấu', N'Ngày mai sẽ có bão, lớp học có thể bị hủy',3;
 GO
+
