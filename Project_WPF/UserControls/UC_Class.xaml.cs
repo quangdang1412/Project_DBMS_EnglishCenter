@@ -33,6 +33,7 @@ namespace Project_WPF.UserControls
         ClassBLL dbclass;
         public ObservableCollection<string> ChartLabels { get; set; }
 
+
         public UC_Class()
         {
             InitializeComponent();
@@ -81,7 +82,6 @@ namespace Project_WPF.UserControls
                 }
             }
         }
-
 
     }
 }
