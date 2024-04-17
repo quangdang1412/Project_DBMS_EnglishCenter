@@ -935,12 +935,24 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="Button">
-                            <Border Background="{TemplateBinding Background}" CornerRadius="7">
+                            <Border Background="{TemplateBinding Background}" CornerRadius="8">
                                 <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center"/>
                             </Border>
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="#7b5cd6" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            <!--account-->
+            <Style x:Key="b_account" TargetType="Border">
+                <Setter Property="Background" Value="{x:Null}" />
+                <Setter Property="BorderBrush" Value="{x:Null}" />
+                <Setter Property="CornerRadius" Value="8"/>
+                <Setter Property="HorizontalAlignment" Value="Stretch" />
                 <Style.Triggers>
                     <Trigger Property="IsMouseOver" Value="True">
                         <Setter Property="Background" Value="#7b5cd6" />
