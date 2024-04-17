@@ -78,7 +78,7 @@
                     
                     <materialDesign:PackIcon Kind="BellBadgeOutline" Width="36" Height="36" Margin="0,0,0,0" VerticalAlignment="Center" Foreground="#FF424242" />
                     <Rectangle Width="2" Fill="#FF424242" Margin="10,10,10,10" Opacity="0.5"/>
-                    <Border x:Name="account" Style="{StaticResource b_account }" >
+                    <Border x:Name="account" Style="{StaticResource b_account }" MouseEnter="account_MouseEnter" MouseLeave="account_MouseLeave" >
                         <materialDesign:PackIcon Kind="AccountCircleOutline" Width="36" Height="36" VerticalAlignment="Center" Foreground="#FF424242" />
                     </Border>
                     <!--<materialDesign:PackIcon Kind="AccountCircleOutline" Width="36" Height="36" VerticalAlignment="Center" Foreground="#FF424242" />-->
@@ -90,6 +90,7 @@
             </Grid>
             <Grid x:Name="MainGrid" Grid.Row="1">
                 <local:UC_Home/>
+                <local:UC_DetailAccount x:Name="UC_DetailAccount" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,3,123,0" Visibility="Collapsed"/>
             </Grid>
         </Grid>
     </Grid>
