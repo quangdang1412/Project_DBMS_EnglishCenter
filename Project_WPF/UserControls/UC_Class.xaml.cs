@@ -20,6 +20,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using BusinessLayer;
 using System.Data.SqlClient;
+using System.Collections.ObjectModel;
 
 namespace Project_WPF.UserControls
 {
@@ -30,11 +31,15 @@ namespace Project_WPF.UserControls
     {
         DataTable dtClass;
         ClassBLL dbclass;
-       public UC_Class()
+        public ObservableCollection<string> ChartLabels { get; set; }
+
+        public UC_Class()
         {
             InitializeComponent();
             dbclass = new ClassBLL();
             loadData();
+            LoadChartData();
+            this.DataContext = this;
         }
         void loadData()
         {
@@ -64,5 +69,19 @@ namespace Project_WPF.UserControls
         {
 
         }
+        public void LoadChartData()
+        {
+            ChartLabels = new ObservableCollection<string>();
+            if (dtClass != null)
+            {
+                foreach (DataRow row in dtClass.Rows)
+                {
+                    var id = row["class_ID"].ToString();
+                    ChartLabels.Add(id);
+                }
+            }
+        }
+
+
     }
 }
