@@ -89,5 +89,16 @@ namespace Project_WPF
             MainGrid.Children.Clear(); // Xóa tất cả các UserControl hiện tại
             MainGrid.Children.Add(uC_Class);
         }
+
+        private void account_MouseEnter(object sender, MouseEventArgs e)
+        {
+            UC_DetailAccount.Visibility = Visibility.Visible;
+        }
+
+        private void account_MouseLeave(object sender, MouseEventArgs e)
+        {
+            UC_DetailAccount.Visibility = Visibility.Collapsed;
+
+        }
     }
 }
