@@ -116,9 +116,7 @@ GO
 CREATE TABLE WEEKDAY(
 	weekday_ID tinyint PRIMARY KEY
 );
-INSERT INTO WEEKDAY (weekday_ID)
-	VALUES(2),(3),(4),(5),(6),(7),(8);
-GO
+
 /*Bảng thông báo*/
 CREATE TABLE NOTIFICATION(
 	notification_ID int PRIMARY KEY,
@@ -765,9 +763,56 @@ BEGIN
 	WHERE student_ID=@student_ID AND group_ID=@group_ID
 END
 GO
-
-
-
+/*Lấy học sinh dựa trên groupID*/
+CREATE FUNCTION selectStudentByGr
+(
+	@groupID INT
+)
+RETURNS TABLE
+AS
+RETURN
+(
+	SELECT 
+		student_ID,
+		student_name,
+		student_dob,
+		student_gender
+	FROM STUDENT 
+	WHERE student_ID IN (SELECT student_ID FROM GROUP_LIST WHERE  group_ID=@groupID)
+)
+GO
+/*Hàm lấy danh sách học sinh chưa thanh toán*/
+CREATE FUNCTION LayDSChuaThanhToan(@group_ID INT)
+RETURNS TABLE 
+AS RETURN 
+	SELECT student_ID,student_name FROM STUDENT
+		WHERE student_ID IN 
+			(SELECT student_ID FROM GROUP_LIST 
+				WHERE group_ID=@group_ID AND (payment_state = 0 OR payment_state=-1));
+GO
+/*View thời khóa biểu của tất cả nhóm học trong tuần*/
+CREATE VIEW Schedule 
+AS
+SELECT 
+    CASE 
+        WHEN w.weekday_ID = 2 THEN N'Thứ 2'
+        WHEN w.weekday_ID = 3 THEN N'Thứ 3'
+        WHEN w.weekday_ID = 4 THEN N'Thứ 4'
+        WHEN w.weekday_ID = 5 THEN N'Thứ 5'
+        WHEN w.weekday_ID = 6 THEN N'Thứ 6'
+        WHEN w.weekday_ID = 7 THEN N'Thứ 7'
+        ELSE N'Chủ Nhật'
+    END AS weekday,
+    gr.group_ID,
+    gr.room_ID,
+    CASE 
+        WHEN gr.shift_ID = 1 THEN '17:30:00 - 19:00:00'
+        WHEN gr.shift_ID = 2 THEN '19:30:00 - 21:00:00'
+    END AS shift
+FROM WEEKDAY w 
+LEFT JOIN STUDY_ON s ON w.weekday_ID = s.weekday_ID 
+LEFT JOIN STUDY_GROUP gr ON s.group_ID = gr.group_ID
+GO
 /* Đổ dữ liệu */
 USE EnglishCenter
 GO
@@ -850,6 +895,7 @@ EXEC insertClass N'Lớp phản xạ giao tiếp cơ bản',16,2500000,'SPK';
 EXEC insertClass N'Lớp phản xạ giao tiếp toàn diện',20,5000000,'SPK';
 GO
 
+
 /*Thêm ca học*/
 INSERT INTO STUDY_SHIFT (shift_ID,time_start, time_end)
 VALUES
@@ -879,13 +925,53 @@ exec insertStudyGr 20, 36, '2024-01-05', '2024-10-05', 0, 1, 2, 2, 1;
 exec insertStudyGr 10, 16, '2024-01-05', '2023-06-05', -1, 4, 6, 6, 1;
 exec insertStudyGr 20, 36, '2023-09-02', '2024-05-02', 0, 6, 4, 4, 1;
 
-
 GO
 /*Thêm thông báo*/
 exec insertNotification N'Thông báo kỳ thi giữa kỳ', N'Thi giữa kỳ sẽ diễn ra vào ngày 15/06/2024',1;
 exec insertNotification N'Thông báo mở lớp học', N'Lớp sẽ bắt đầu học vào ngày 06-06-2023',4;
 exec insertNotification N'Thông báo kỳ nghỉ lễ', N'Nghỉ lễ Quốc khánh từ ngày 01/09/2022 đến ngày 03/09/2022',2;
 exec insertNotification N'Thông báo hỗ trợ tài liệu', N'Cung cấp tài liệu miễn phí cho sinh viên',4;
-exec insertNotification N'Cảnh báo thời tiết xấu', N'Ngày mai sẽ có bão, lớp học có thể bị hủy',3;
+exec insertNotification N'Cảnh báo thời tiết xấu', N'Ngày mai sẽ có bão, lớp học có thể bị hủy', 3;
+GO
+
+/*Thêm học sinh vào nhóm học*/
+exec insertGroupList 1,1,1,500;
+exec insertGroupList 2,1,1,550;
+exec insertGroupList 3,1,1,550;
+exec insertGroupList 4,1,1,500;
+exec insertGroupList 5,1,1,500;
+exec insertGroupList 6,1,1,500;
+exec insertGroupList 7,5,1,0;
+exec insertGroupList 8,5,1,0;
+exec insertGroupList 9,5,1,10;
+exec insertGroupList 10,4,1,10;
+exec insertGroupList 11,4,1,100;
+exec insertGroupList 12,4,1,100;
+exec insertGroupList 13,6,0,400;
+exec insertGroupList 14,6,0,450;
+exec insertGroupList 15,6,1,500;
+exec insertGroupList 16,6,1,420;
+exec insertGroupList 17,3,1,0;
+exec insertGroupList 18,3,1,10;
+exec insertGroupList 19,3,1,20;
+exec insertGroupList 20,3,1,20;
+exec insertGroupList 21,3,1,30;
+GO
+
+/*Dữ liệu về thứ trong tuần*/
+INSERT INTO WEEKDAY (weekday_ID)
+	VALUES(2),(3),(4),(5),(6),(7),(8);
+GO
+
+/*Dữ liệu StudyOn*/
+EXEC insertStudyOn 2,1
+EXEC insertStudyOn 2,8
+EXEC insertStudyOn 7,2
+EXEC insertStudyOn 3,3
+EXEC insertStudyOn 3,4
+EXEC insertStudyOn 4,5
+EXEC insertStudyOn 6,6
+EXEC insertStudyOn 5,7
+
 GO
 
