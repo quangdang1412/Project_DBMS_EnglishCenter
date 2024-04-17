@@ -803,8 +803,15 @@ SELECT
         WHEN w.weekday_ID = 7 THEN N'Thứ 7'
         ELSE N'Chủ Nhật'
     END AS weekday,
-    gr.group_ID,
-    gr.room_ID,
+	CASE 
+		WHEN gr.group_ID IS NOT NULL THEN CONCAT (N'Nhóm',' ',gr.group_ID)
+		ELSE NULL
+    END AS groupID,
+	cl.clname,
+	CASE
+		WHEN gr.room_ID IS NOT NULL THEN CONCAT(N'Phòng ', gr.room_ID)
+		ELSE NULL
+	END AS room,
     CASE 
         WHEN gr.shift_ID = 1 THEN '17:30:00 - 19:00:00'
         WHEN gr.shift_ID = 2 THEN '19:30:00 - 21:00:00'
@@ -812,6 +819,36 @@ SELECT
 FROM WEEKDAY w 
 LEFT JOIN STUDY_ON s ON w.weekday_ID = s.weekday_ID 
 LEFT JOIN STUDY_GROUP gr ON s.group_ID = gr.group_ID
+LEFT JOIN CLASS cl ON cl.class_ID=gr.class_ID
+GO
+/*Danh sách nhóm học của trung tâm*/
+CREATE VIEW ListGrOfCenter AS
+SELECT
+	CONCAT(N'Nhóm 1',' ',s.group_ID) AS groupID,
+	cl.clname,
+	t.teacher_name,
+	s.grStatus,
+	s.totalStudent,
+	s.dayStart,
+	s.dayEnd,
+	cl.fee
+FROM STUDY_GROUP s
+LEFT JOIN CLASS cl ON s.class_ID  = cl.class_ID
+LEFT JOIN TEACHER t ON t.teacher_ID= s.teacher_ID
+GO
+/*Tính doanh thu của trung tâm*/
+CREATE FUNCTION totalIncome
+(
+	@daystart DATE,
+	@dayend DATE 
+)
+RETURNS INT
+AS	
+BEGIN
+	DECLARE @totalincome INT=0;
+	SELECT @totalincome = SUM(fee*totalStudent) FROM ListGrOfCenter WHERE @daystart<=dayStart AND @dayend>=dayStart;
+	RETURN @totalincome;
+END;
 GO
 /* Đổ dữ liệu */
 USE EnglishCenter
