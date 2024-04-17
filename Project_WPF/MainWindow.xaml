@@ -78,7 +78,10 @@
                     
                     <materialDesign:PackIcon Kind="BellBadgeOutline" Width="36" Height="36" Margin="0,0,0,0" VerticalAlignment="Center" Foreground="#FF424242" />
                     <Rectangle Width="2" Fill="#FF424242" Margin="10,10,10,10" Opacity="0.5"/>
-                    <materialDesign:PackIcon Kind="AccountCircleOutline" Width="36" Height="36" VerticalAlignment="Center" Foreground="#FF424242" />
+                    <Border x:Name="account" Style="{StaticResource b_account }" >
+                        <materialDesign:PackIcon Kind="AccountCircleOutline" Width="36" Height="36" VerticalAlignment="Center" Foreground="#FF424242" />
+                    </Border>
+                    <!--<materialDesign:PackIcon Kind="AccountCircleOutline" Width="36" Height="36" VerticalAlignment="Center" Foreground="#FF424242" />-->
                     <Rectangle Width="2" Fill="#FF424242" Margin="10,10,10,10" Opacity="0.5"/>
                     <Button x:Name="btn_exit" Click="btn_exit_Click"  Style="{StaticResource btn_exit }" >
                         <materialDesign:PackIcon Kind="Logout" Width="36" Height="36" VerticalAlignment="Center" Foreground="#FF424242" />
