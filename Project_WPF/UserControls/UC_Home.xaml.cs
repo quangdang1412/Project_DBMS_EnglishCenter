@@ -59,7 +59,6 @@ namespace Project_WPF.UserControls
                 DayOfWeek selectedDayOfWeek = calender.SelectedDate.Value.DayOfWeek;
                 // Chuyển đổi từ DayOfWeek sang số nguyên (int)
                 int selectedDayInt = (int)selectedDayOfWeek + 1;
-				Console.WriteLine(selectedDayInt);
 				findDayOfWeek(selectedDayInt);
             }
 		}
@@ -140,7 +139,6 @@ namespace Project_WPF.UserControls
                 detailCalendar.ClassName = row["clname"].ToString();
 				detailCalendar.GroupID = row["groupID"].ToString();
                 string fullTime = row["shift"].ToString();
-                Console.WriteLine(fullTime);
 				detailCalendar.Time = XuliTime(fullTime);
 
                 detailCalendar.Room = row["room"].ToString();

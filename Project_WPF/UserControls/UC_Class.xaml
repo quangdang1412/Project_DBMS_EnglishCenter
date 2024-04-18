@@ -112,7 +112,7 @@
                             <lvc:CartesianChart LegendLocation="None" Margin="10,40,0,0">
 
                                 <lvc:CartesianChart.DataTooltip>
-                                    <lvc:DefaultTooltip Background="#24336a" Foreground="#d5e2ff">
+                                    <lvc:DefaultTooltip Background="#24336a" Foreground="#d5e2ff" >
                                     </lvc:DefaultTooltip>
                                 </lvc:CartesianChart.DataTooltip>
 
@@ -125,7 +125,7 @@
                                 </lvc:CartesianChart.AxisX>
 
                                 <lvc:CartesianChart.AxisY>
-                                    <lvc:Axis Foreground="#bcc0c6" Title="Doanh thu (Triệu VNĐ)" ShowLabels="True" MinValue="0" MaxValue="30">
+                                    <lvc:Axis Foreground="#bcc0c6" Title="Doanh thu (Triệu VNĐ)" ShowLabels="True" MinValue="0" MaxValue="{Binding maxChart}" >
                                         <lvc:Axis.Separator>
                                             <lvc:Separator StrokeThickness="0"/>
                                         </lvc:Axis.Separator>
@@ -133,9 +133,11 @@
                                 </lvc:CartesianChart.AxisY>
 
                                 <lvc:CartesianChart.Series>
-                                    <lvc:StackedColumnSeries Title="Doanh thu" Fill=" #7166f9" MaxColumnWidth="15" Values="5,1,3,5,6,7"/>
+                                    <lvc:StackedColumnSeries Title="Doanh thu: " Fill=" #7166f9" MaxColumnWidth="25" Values="40,91,130,32.5,50" />
+
                                 </lvc:CartesianChart.Series>
-                                
+
+
                             </lvc:CartesianChart>
                         </Grid>
                     </Border>

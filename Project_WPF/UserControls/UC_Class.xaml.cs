@@ -32,7 +32,12 @@ namespace Project_WPF.UserControls
         DataTable dtClass;
         ClassBLL dbclass;
         DataTable dtGroupFind;
+        DataTable dtTotal;
+
         public ObservableCollection<string> ChartLabels { get; set; }
+        public decimal maxChart { get; set; }
+        public SeriesCollection ChartSeries { get; set; }
+
 
 
         public UC_Class()
@@ -76,15 +81,49 @@ namespace Project_WPF.UserControls
         public void LoadChartData()
         {
             ChartLabels = new ObservableCollection<string>();
+            ChartSeries = new SeriesCollection();
+            decimal maxTotal = decimal.MinValue;
+
             if (dtClass != null)
             {
                 foreach (DataRow row in dtClass.Rows)
                 {
                     var id = row["class_ID"].ToString();
+                    int classID = Convert.ToInt32(id);
+                    dtTotal = dbclass.TotalIncome(classID);
+
+                    decimal total = Convert.ToDecimal(dtTotal.Rows[0]["total"]);
+                    total = total / 1000000;
+
+                    if (total > maxTotal)
+                    {
+                        maxTotal = total;
+                    }
+
                     ChartLabels.Add(id);
+                    ChartValues<decimal> chartValues = new ChartValues<decimal> { total };
+
+                    // In ra các giá trị trong ChartValues
+                    Console.WriteLine("ChartValues:");
+                    foreach (var value in chartValues)
+                    {
+                        Console.WriteLine(value);
+                    }
+                    ChartSeries.Add(new ColumnSeries
+                    {
+                        Title = "Doanh thu: ",
+                        Values = chartValues
+                    });
                 }
+                maxChart = maxTotal;
+                Console.WriteLine(ChartSeries);
             }
         }
+
+
+
+
+
         public void findGroup(int x)
         {
             try
@@ -109,7 +148,6 @@ namespace Project_WPF.UserControls
                 detailCalendar.TeacherName = row["teacher_name"].ToString();
                 detailCalendar.GroupID = "Nhóm " + row["group_ID"].ToString();
                 string fullTime = row["studyShift"].ToString();
-                Console.WriteLine(fullTime);
                 detailCalendar.Time = XuliTime(fullTime);
 
                 detailCalendar.Total = row["totalStudent"].ToString() + " students";
@@ -122,14 +160,10 @@ namespace Project_WPF.UserControls
         {
             int spaceIndex = input.IndexOf(' ');
             int dashIndex = input.IndexOf('-');
-
-            // Lấy phần chuỗi thời gian bắt đầu từ vị trí 0 đến trước dấu gạch nối
+            
             string startTime = input.Substring(0, dashIndex).Trim();
 
-            // Lấy phần chuỗi thời gian kết thúc từ sau dấu gạch nối đến hết chuỗi
             string endTime = input.Substring(dashIndex + 1).Trim();
-
-            // Lấy giờ và phút của thời gian bắt đầu và kết thúc
             string formattedTimeRange = $"{startTime.Substring(0, 5)} - {endTime.Substring(0, 5)}";
             return formattedTimeRange;
         }

@@ -67,5 +67,14 @@ namespace BusinessLayer
             };
             return db.ExecuteQueryDataSet("selectAllStudent", CommandType.StoredProcedure, param);
         }
+        public DataTable TotalIncome(int @classID)
+        {
+            SqlParameter[] sqlParams = new SqlParameter[]
+            {
+                new SqlParameter("@classID", @classID),
+            };
+
+            return db.ExecuteQueryDataTable("GetTotalIncome", CommandType.StoredProcedure, sqlParams);
+        }
     }
 }
