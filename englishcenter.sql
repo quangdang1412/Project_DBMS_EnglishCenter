@@ -522,8 +522,8 @@ AS
 BEGIN
 	/*Lấy tên giáo viên dựa trên @classID*/
 	DECLARE @teacherName NVARCHAR(300);
-	SELECT @teacherName= teacher_name FROM TEACHER t 
-		WHERE t.teacher_ID = 
+	SELECT @teacherName = teacher_name FROM TEACHER t 
+		WHERE t.teacher_ID IN 
 			(SELECT teacher_ID FROM STUDY_GROUP WHERE @classID=class_ID);
 	SELECT 
 		group_ID,
