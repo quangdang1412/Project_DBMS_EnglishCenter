@@ -447,7 +447,40 @@ BEGIN
 	DELETE FROM STUDY_GROUP WHERE group_ID=@group_ID
 END
 GO
-/*Tìm các nhóm học có cùng ID lớp*/
+/*Procedure Thêm học viên mới vào 1 nhóm học*/
+CREATE PROCEDURE insertStudentIntoGr
+	@studentName NVARCHAR(300),
+	@studentDob DATE,
+	@studentGender TINYINT,
+	@studentPhone VARCHAR(10),
+	@identification VARCHAR(12),
+	@groupID INT,
+	@paymentState TINYINT,
+	@firstScore INT
+AS
+BEGIN
+	DECLARE @maxStudentID INT;
+	SELECT @maxStudentID= ISNULL(MAX(student_ID),0)+1 FROM STUDENT;
+	BEGIN TRANSACTION
+		INSERT INTO STUDENT(student_ID,student_name,student_dob,student_gender,student_phoneNumber,identification)
+		VALUES(@maxStudentID,@studentName,@studentDob,@studentGender,@studentPhone,@identification)
+		IF @@ERROR <>0
+		BEGIN
+			RAISERROR ('Không thể thêm học viên',16,1)
+			ROLLBACK TRANSACTION
+			RETURN
+		END
+		INSERT INTO GROUP_LIST(student_ID,group_ID,payment_state,firstScore)
+		VALUES(@maxStudentID,@groupID,@paymentState,@firstScore)
+		IF @@ERROR <>0
+		BEGIN
+			RAISERROR ('Không thể thêm học viên vào nhóm học %d',16,1,@groupID)
+			ROLLBACK TRANSACTION
+			RETURN
+		END
+		COMMIT TRANSACTION
+END
+GO
 /*Tìm các nhóm học có cùng ID lớp*/
 CREATE PROCEDURE selectGrByClass
 	@classID INT
@@ -794,15 +827,7 @@ GO
 CREATE VIEW Schedule 
 AS
 SELECT 
-    CASE 
-        WHEN w.weekday_ID = 2 THEN N'Thứ 2'
-        WHEN w.weekday_ID = 3 THEN N'Thứ 3'
-        WHEN w.weekday_ID = 4 THEN N'Thứ 4'
-        WHEN w.weekday_ID = 5 THEN N'Thứ 5'
-        WHEN w.weekday_ID = 6 THEN N'Thứ 6'
-        WHEN w.weekday_ID = 7 THEN N'Thứ 7'
-        ELSE N'Chủ Nhật'
-    END AS weekday,
+    w.weekday_ID,
 	CASE 
 		WHEN gr.group_ID IS NOT NULL THEN CONCAT (N'Nhóm',' ',gr.group_ID)
 		ELSE NULL
@@ -820,6 +845,15 @@ FROM WEEKDAY w
 LEFT JOIN STUDY_ON s ON w.weekday_ID = s.weekday_ID 
 LEFT JOIN STUDY_GROUP gr ON s.group_ID = gr.group_ID
 LEFT JOIN CLASS cl ON cl.class_ID=gr.class_ID
+GO
+/*Lấy thời khóa biểu theo thứ*/
+CREATE PROCEDURE ScheduleByDay
+	@weekdayID INT
+AS
+BEGIN
+	SELECT * FROM Schedule
+	WHERE weekday_ID=@weekdayID
+END
 GO
 /*Danh sách nhóm học của trung tâm*/
 CREATE VIEW ListGrOfCenter AS
@@ -842,13 +876,12 @@ CREATE FUNCTION totalIncome
 	@daystart DATE,
 	@dayend DATE 
 )
-RETURNS INT
-AS	
-BEGIN
-	DECLARE @totalincome INT=0;
-	SELECT @totalincome = SUM(fee*totalStudent) FROM ListGrOfCenter WHERE @daystart<=dayStart AND @dayend>=dayStart;
-	RETURN @totalincome;
-END;
+RETURNS TABLE
+AS 
+RETURN
+(
+	SELECT clname,SUM(fee*totalStudent) AS total FROM ListGrOfCenter WHERE @daystart<=dayStart AND @dayend>=dayStart GROUP BY clname
+)
 GO
 /* Đổ dữ liệu */
 USE EnglishCenter

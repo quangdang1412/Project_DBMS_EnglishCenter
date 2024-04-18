@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -24,6 +25,7 @@ namespace Project_WPF.UserControls
 	public partial class UC_Home : UserControl
 	{
 		HomeBLL home;
+		DataTable dtDay;
 
         public UC_Home()
 		{
@@ -53,8 +55,15 @@ namespace Project_WPF.UserControls
 				convertMonth(calender.SelectedDate.Value.Month);
 				string dayOfWeek = calender.SelectedDate.Value.ToString("dddd", new CultureInfo("en"));
 				textThu.Text = dayOfWeek;
-			}
+
+                DayOfWeek selectedDayOfWeek = calender.SelectedDate.Value.DayOfWeek;
+                // Chuyển đổi từ DayOfWeek sang số nguyên (int)
+                int selectedDayInt = (int)selectedDayOfWeek + 1;
+				Console.WriteLine(selectedDayInt);
+				findDayOfWeek(selectedDayInt);
+            }
 		}
+		
 		private void convertMonth(int x)
 		{
 			if(x==1) {
@@ -107,5 +116,53 @@ namespace Project_WPF.UserControls
 			}
 
 		}
-	}
+		public void findDayOfWeek(int x)
+		{
+			try
+			{
+				dtDay = home.layLichHoc(x);
+				stackPanelContainer.Children.Clear();
+				AddDetailCoursesDynamically(dtDay.Rows.Count);
+			}
+			catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+		}
+        private void AddDetailCoursesDynamically(int x)
+        {
+            for (int i = 0; i < x; i++)
+            {
+                DataRow row = dtDay.Rows[i];
+
+                UC_DetailCalendar detailCalendar = new UC_DetailCalendar();
+
+                detailCalendar.ClassName = row["clname"].ToString();
+				detailCalendar.GroupID = row["groupID"].ToString();
+                string fullTime = row["shift"].ToString();
+                Console.WriteLine(fullTime);
+				detailCalendar.Time = XuliTime(fullTime);
+
+                detailCalendar.Room = row["room"].ToString();
+                detailCalendar.Margin = new Thickness(0, 10, 0, 20);
+
+                stackPanelContainer.Children.Add(detailCalendar);
+            }
+        }
+		public string XuliTime(string input)
+		{
+            int spaceIndex = input.IndexOf(' ');
+            int dashIndex = input.IndexOf('-');
+
+            // Lấy phần chuỗi thời gian bắt đầu từ vị trí 0 đến trước dấu gạch nối
+            string startTime = input.Substring(0, dashIndex).Trim();
+
+            // Lấy phần chuỗi thời gian kết thúc từ sau dấu gạch nối đến hết chuỗi
+            string endTime = input.Substring(dashIndex + 1).Trim();
+
+            // Lấy giờ và phút của thời gian bắt đầu và kết thúc
+            string formattedTimeRange = $"{startTime.Substring(0, 5)} - {endTime.Substring(0, 5)}";
+			return formattedTimeRange;
+        }
+    }
 }

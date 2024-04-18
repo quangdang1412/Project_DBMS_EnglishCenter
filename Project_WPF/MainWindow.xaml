@@ -90,7 +90,7 @@
             </Grid>
             <Grid x:Name="MainGrid" Grid.Row="1">
                 <local:UC_Home/>
-                <local:UC_DetailAccount x:Name="UC_DetailAccount" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,3,123,0" Visibility="Collapsed"/>
+                <local:UC_DetailAccount x:Name="UC_DetailAccount" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,3,10,0" Visibility="Collapsed"/>
             </Grid>
         </Grid>
     </Grid>
