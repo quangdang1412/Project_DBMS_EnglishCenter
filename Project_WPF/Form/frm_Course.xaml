@@ -8,16 +8,6 @@
          Height="400" Width="600" WindowStartupLocation="CenterScreen" WindowStyle="None" Background="Transparent" AllowsTransparency="True">
     <Border CornerRadius="20,20,20,20" Background="#FFF6F6F6" BorderThickness="1" BorderBrush="Black">
 
-        <!--
-                <Border.Effect>
-        <DropShadowEffect
-              ShadowDepth="4"
-              Direction="330"
-              Color="Black"
-              Opacity="0.5"
-             BlurRadius="4"/>
-    </Border.Effect>
-        -->
         <Grid Margin="0,-3,0,3">
             <TextBlock TextWrapping="Wrap" FontFamily="Kumbh Sans" Foreground="#FF152259" Text="COURSE" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,25,0,0" FontWeight="SemiBold"/>
             <TextBlock HorizontalAlignment="Left" Height="34" Margin="64,98,0,0" TextWrapping="Wrap" FontWeight="Bold"  FontFamily="Kumbh Sans" Text="ID khóa" VerticalAlignment="Top" Width="107" FontSize="20" RenderTransformOrigin="0.516,-1.906" Foreground="#FF667F8E"/>

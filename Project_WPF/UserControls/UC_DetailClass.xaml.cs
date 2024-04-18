@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MaterialDesignThemes.Wpf;
+using Project_WPF.Form;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -47,5 +49,10 @@ namespace Project_WPF.UserControls
             set => txtTotalStudents.Text = value;
         }
 
+        private void btn_more_Click(object sender, RoutedEventArgs e)
+        {
+            frm_Group frm_Group = new frm_Group();
+            frm_Group.ShowDialog();
+        }
     }
 }

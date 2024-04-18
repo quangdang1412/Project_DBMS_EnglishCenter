@@ -60,9 +60,7 @@ namespace Project_WPF.UserControls
         }
         private void btn_addclass_Click(object sender, RoutedEventArgs e)
         {
-            UC_Group uC_Group = new UC_Group();
-            grid_Change.Children.Clear();
-            grid_Change.Children.Add(uC_Group);
+            
         }
        
         private void btn_editdata_Click(object sender, RoutedEventArgs e)
