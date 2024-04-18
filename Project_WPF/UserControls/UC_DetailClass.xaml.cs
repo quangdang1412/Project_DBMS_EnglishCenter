@@ -24,5 +24,28 @@ namespace Project_WPF.UserControls
         {
             InitializeComponent();
         }
+        public string TeacherName
+        {
+            get => txt_Teacher.Text;
+            set => txt_Teacher.Text = value;
+        }
+
+        public string GroupID
+        {
+            get => txt_GroupID.Text;
+            set => txt_GroupID.Text = value;
+        }
+
+        public string Time
+        {
+            get => txtTime.Text;
+            set => txtTime.Text = value;
+        }
+        public string Total
+        {
+            get => txtTotalStudents.Text;
+            set => txtTotalStudents.Text = value;
+        }
+
     }
 }
