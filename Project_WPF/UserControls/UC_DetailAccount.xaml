@@ -4,10 +4,18 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Project_WPF.UserControls"
+                xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             
              mc:Ignorable="d" 
-             Width="172" Height="168" Foreground="{x:Null}" BorderThickness="0"  >
+             Width="278" Height="186" Foreground="{x:Null}" BorderThickness="0">
 
-    <Border Background="Red" CornerRadius="15" Margin="0,0,-46,-54">
-        
+    <Border Background="White" CornerRadius="15" Margin="0,0,0,-118" BorderBrush="#FFF6F6F6" BorderThickness="2" >
+        <StackPanel Margin="0,70,0,0" HorizontalAlignment="Center">
+            <materialDesign:PackIcon Kind="AccountCircleOutline" Foreground="#FF152259" Width="120" Height="120" HorizontalAlignment="Center"/>
+            <TextBlock Text="Nguyễn Đăng Quang" FontWeight="SemiBold" FontSize="18" Foreground="Black"/>
+            <Border Background="White" Width="40" CornerRadius="10" HorizontalAlignment="Center" Margin="0,10,0,0" BorderBrush="#FF152259" BorderThickness="1">
+                <TextBlock Text="QTV" Foreground="Black" FontWeight="DemiBold" FontSize="15" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Border>
+        </StackPanel>
     </Border>
 </UserControl>

@@ -28,7 +28,15 @@ namespace BusinessLayer
         {
             return Convert.ToInt32(db.ExecuteScalar("SELECT COUNT(*) FROM STUDY_GROUP", CommandType.Text));
         }
+        public DataTable layLichHoc(int weekdayID)
+        {
+            SqlParameter[] sqlParams = new SqlParameter[]
+            {
+                new SqlParameter("@weekdayID", @weekdayID),
+            };
 
+            return db.ExecuteQueryDataTable("ScheduleByDay", CommandType.StoredProcedure, sqlParams);
+        }
 
 
     }

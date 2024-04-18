@@ -94,6 +94,12 @@
     <Compile Include="UserControls\UC_DetailAccount.xaml.cs">
       <DependentUpon>UC_DetailAccount.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\UC_DetailCalendar.xaml.cs">
+      <DependentUpon>UC_DetailCalendar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\UC_DetailClass.xaml.cs">
+      <DependentUpon>UC_DetailClass.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\UC_DetailCourse.xaml.cs">
       <DependentUpon>UC_DetailCourse.xaml</DependentUpon>
     </Compile>
@@ -147,6 +153,14 @@
     <Page Include="UserControls\UC_DetailAccount.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\UC_DetailCalendar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\UC_DetailClass.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="UserControls\UC_DetailCourse.xaml">
       <SubType>Designer</SubType>
