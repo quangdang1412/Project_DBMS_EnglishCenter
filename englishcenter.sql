@@ -730,6 +730,26 @@ BEGIN
 	RETURN @teacherName;
 END
 GO
+/*Lấy thông báo mà giáo viên đã gửi cho học viên*/
+CREATE PROCEDURE teacherSendMessageToGr
+	@notificationID INT
+AS
+BEGIN 
+	DECLARE @teacherName NVARCHAR(300);
+	SELECT @teacherName=dbo.teacherSendMessage(@notificationID);
+	DECLARE @groupID INT;
+	SELECT @groupID= group_ID FROM NOTIFY WHERE notification_ID=@notificationID; 
+	SELECT
+		notification_ID,
+		@teacherName AS teacherName,
+		@groupID AS groupID,
+		daytime_send,
+		title,
+		content
+	FROM NOTIFICATION
+	WHERE notification_ID=@notificationID
+END
+GO
 /*Xóa lịch học cho nhóm học*/
 CREATE PROCEDURE deleteStudyOn
 	@weekday_ID TINYINT,
@@ -875,6 +895,7 @@ BEGIN
 		student_name,
 		student_dob,
 		student_gender,
+		student_phoneNumber
 		student_phoneNumber,
 		identification
 	FROM STUDENT 
@@ -896,13 +917,20 @@ BEGIN
 END
 GO
 /*Hàm lấy danh sách học sinh chưa thanh toán*/
-CREATE FUNCTION LayDSChuaThanhToan(@group_ID INT)
+CREATE FUNCTION LayDSChuaThanhToan()
 RETURNS TABLE 
 AS RETURN 
-	SELECT student_ID,student_name FROM STUDENT
-		WHERE student_ID IN 
-			(SELECT student_ID FROM GROUP_LIST 
-				WHERE group_ID=@group_ID AND (payment_state = 0 OR payment_state=-1));
+	SELECT group_ID,s.student_ID,s.student_name FROM STUDENT s
+	INNER JOIN GROUP_LIST g ON g.student_ID=s.student_ID
+	WHERE g.payment_state=0 OR g.payment_state=-1
+GO
+/*Lấy danh sách chưa thanh toán theo nhóm học*/
+CREATE PROCEDURE LayDSChuaThanhToanTheoNhom
+	@groupID INT
+AS
+BEGIN
+	SELECT * FROM LayDSChuaThanhToan() WHERE group_ID=@groupID
+END
 GO
 /*View thời khóa biểu của tất cả nhóm học trong tuần*/
 CREATE VIEW Schedule 
@@ -966,12 +994,11 @@ RETURN
 	GROUP BY class_ID,clname
 )
 GO
+/*Lấy doanh thu của trung tâm theo classID*/
 CREATE PROCEDURE GetTotalIncome
     @classID INT
 AS
 BEGIN
-    SET NOCOUNT ON;
-
     SELECT * FROM totalIncome(@classID);
 END
 GO
@@ -1145,7 +1172,6 @@ EXEC insertStudentIntoGr N'Lê Thị San', '2000-01-18', 0, '0987654328', '08060
 EXEC insertStudentIntoGr N'Hoàng Văn Thịnh', '2000-01-19', 1, '0987654329', '080604013721',8,0,420;
 EXEC insertStudentIntoGr N'Phạm Thị Uyển', '2000-01-20', 0, '0987654330', '080604013722',8,0,400;
 GO
-
 /*Cập nhật last Score đối với các nhóm đã kết thúc*/
 exec updateLastScore 1,1,400;
 exec updateLastScore 2,1,400;
