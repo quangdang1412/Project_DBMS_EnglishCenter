@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MaterialDesignThemes.Wpf;
+using Project_WPF.Form;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,5 +26,40 @@ namespace Project_WPF.UserControls
         {
             InitializeComponent();
         }
+        public string TeacherName
+        {
+            get => txt_Teacher.Text;
+            set => txt_Teacher.Text = value;
+        }
+
+        public string GroupID
+        {
+            get => txt_GroupID.Text;
+            set => txt_GroupID.Text = value;
+        }
+
+        public string Time
+        {
+            get => txtTime.Text;
+            set => txtTime.Text = value;
+        }
+        public string Total
+        {
+            get => txtTotalStudents.Text;
+            set => txtTotalStudents.Text = value;
+        }
+
+        private void btn_more_Click(object sender, RoutedEventArgs e)
+        {
+            frm_Group frm_Group = new frm_Group();
+            string fixGroupID = GroupID.Replace("Nhóm ", "");
+
+
+
+            frm_Group.UpdateGroupID(fixGroupID);
+
+            frm_Group.ShowDialog();
+        }
+
     }
 }
