@@ -898,6 +898,7 @@ GO
 CREATE VIEW ListGrOfCenter AS
 SELECT
 	CONCAT(N'Nhóm',' ',s.group_ID) AS groupID,
+	cl.class_ID,
 	cl.clname,
 	t.teacher_name,
 	s.grStatus,
@@ -912,6 +913,7 @@ GO
 /*Tính doanh thu của trung tâm*/
 CREATE FUNCTION totalIncome
 (
+	@classID INT,
 	@daystart DATE,
 	@dayend DATE 
 )
@@ -919,7 +921,8 @@ RETURNS TABLE
 AS 
 RETURN
 (
-	SELECT clname,SUM(fee*totalStudent) AS total FROM ListGrOfCenter WHERE @daystart<=dayStart AND @dayend>=dayStart GROUP BY clname
+	SELECT class_ID,clname,SUM(fee*totalStudent) AS total FROM ListGrOfCenter 
+	WHERE class_ID=@classID AND @daystart<=dayStart AND @dayend>=dayStart GROUP BY class_ID,clname
 )
 GO
 /* Đổ dữ liệu */
