@@ -464,21 +464,55 @@ BEGIN
 	BEGIN TRANSACTION
 		INSERT INTO STUDENT(student_ID,student_name,student_dob,student_gender,student_phoneNumber,identification)
 		VALUES(@maxStudentID,@studentName,@studentDob,@studentGender,@studentPhone,@identification)
-		IF @@ERROR <>0
+		IF @@ERROR <> 0
 		BEGIN
 			RAISERROR ('Không thể thêm học viên',16,1)
-			ROLLBACK TRANSACTION
-			RETURN
+			ROLLBACK TRANSACTION;
+			RETURN;
 		END
 		INSERT INTO GROUP_LIST(student_ID,group_ID,payment_state,firstScore)
 		VALUES(@maxStudentID,@groupID,@paymentState,@firstScore)
 		IF @@ERROR <>0
 		BEGIN
 			RAISERROR ('Không thể thêm học viên vào nhóm học %d',16,1,@groupID)
-			ROLLBACK TRANSACTION
-			RETURN
+			ROLLBACK TRANSACTION;
+			RETURN;
 		END
-		COMMIT TRANSACTION
+		COMMIT TRANSACTION;
+END
+GO
+/*Xóa học viên khỏi nhóm học nếu học viên đó không còn học nhóm nào nữa thì xóa*/
+CREATE PROCEDURE deleteStudentFromGr
+	@studentID INT,
+	@groupID INT
+AS
+BEGIN
+	DECLARE @studentName NVARCHAR(300);
+	SELECT @studentName= student_name FROM STUDENT WHERE student_ID=@studentID;
+	IF @studentName IS NULL
+	BEGIN
+		RAISERROR('Không tồn tại học viên với mã học viên %d',16,1,@studentID)
+		RETURN
+	END
+	BEGIN TRANSACTION
+	DELETE FROM GROUP_LIST WHERE student_ID=@studentID AND group_ID=@groupID
+		IF @@ROWCOUNT = 0
+		BEGIN
+			RAISERROR ('Không có học viên %s trong nhóm học %d',16,1,@studentName,@groupID)
+			ROLLBACK TRANSACTION;
+			RETURN;
+		END
+	IF NOT EXISTS (SELECT 1 FROM GROUP_LIST WHERE student_ID=@studentID)
+	BEGIN
+		DELETE FROM STUDENT WHERE student_ID=@studentID;
+		IF @@ERROR <>0
+		BEGIN
+			RAISERROR ('Không thể xóa học viên',16,1)
+			ROLLBACK TRANSACTION;
+			RETURN;
+		END
+		COMMIT TRANSACTION;
+	END
 END
 GO
 /*Tìm các nhóm học có cùng ID lớp*/
@@ -494,7 +528,7 @@ BEGIN
 	SELECT 
 		group_ID,
 		minStudent,
-		maxStudent
+		maxStudent,
 		dayStart,
 		dayEnd,
 		grStatus,
@@ -526,6 +560,7 @@ BEGIN
 		BEGIN
 			RAISERROR ('Không thể tạo thông báo',16,1);
 			ROLLBACK TRANSACTION;
+			RETURN;
 		END
 		INSERT INTO NOTIFY(notification_ID,group_ID)
 		VALUES(@maxID,@group_ID);
@@ -533,6 +568,7 @@ BEGIN
 		BEGIN
 			RAISERROR ('Không thể tạo thông báo cho nhóm %d',16,1,@group_ID);
 			ROLLBACK TRANSACTION;
+			RETURN;
 		END
 	COMMIT TRANSACTION
 END
@@ -556,6 +592,7 @@ BEGIN
 		BEGIN
 			RAISERROR ('Không thể tìm thấy thông báo để cập nhật',16,1);
 			ROLLBACK TRANSACTION;
+			RETURN;
 		END
 		UPDATE  NOTIFY
 		SET
@@ -565,8 +602,9 @@ BEGIN
 		BEGIN
 			RAISERROR ('Không thể tìm thấy nhóm học %d để gửi thông báo',16,1,@group_ID);
 			ROLLBACK TRANSACTION;
+			RETURN;
 		END
-	COMMIT TRANSACTION
+	COMMIT TRANSACTION	
 END
 GO
 /*Xóa thông báo cho 1 lớp nếu không còn lớp nào có thông báo đó thì xóa luôn thông báo khỏi hệ thống*/
@@ -581,9 +619,10 @@ BEGIN
 		BEGIN
 			RAISERROR ('Không thể tìm thấy nhóm học %d hoặc thông báo %d',16,1,@groupID,@notificationID);
 			ROLLBACK TRANSACTION;
+			RETURN;
 		END
 		DELETE FROM NOTIFICATION WHERE notification_ID=@notificationID
-	COMMIT TRANSACTION
+	COMMIT TRANSACTION;
 END
 GO
 /*Lấy tên giáo viên đã gửi thông báo cho học sinh*/
@@ -858,7 +897,7 @@ GO
 /*Danh sách nhóm học của trung tâm*/
 CREATE VIEW ListGrOfCenter AS
 SELECT
-	CONCAT(N'Nhóm 1',' ',s.group_ID) AS groupID,
+	CONCAT(N'Nhóm',' ',s.group_ID) AS groupID,
 	cl.clname,
 	t.teacher_name,
 	s.grStatus,

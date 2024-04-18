@@ -122,14 +122,14 @@ namespace Project_WPF.UserControls
 			{
 				dtDay = home.layLichHoc(x);
 				stackPanelContainer.Children.Clear();
-				AddDetailCoursesDynamically(dtDay.Rows.Count);
+                AddDetailCalendarDynamically(dtDay.Rows.Count);
 			}
 			catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
 		}
-        private void AddDetailCoursesDynamically(int x)
+        private void AddDetailCalendarDynamically(int x)
         {
             for (int i = 0; i < x; i++)
             {

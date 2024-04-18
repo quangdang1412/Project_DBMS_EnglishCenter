@@ -46,12 +46,12 @@
                                 <TextBlock Text="Student" VerticalAlignment="Center" FontSize="36" FontFamily="Kumbh Sans"/>
                             </StackPanel>
                         </Button>
-                        <Button x:Name="btn_studygroup" Style="{StaticResource hoverMenu}" Click="btn_studygroup_Click" GotFocus="GotFocus" LostFocus="LostFocus">
+                        <!--<Button x:Name="btn_studygroup" Style="{StaticResource hoverMenu}" Click="btn_studygroup_Click" GotFocus="GotFocus" LostFocus="LostFocus">
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon Kind="AccountGroup" VerticalAlignment="Center" Margin="0,0,20,10" Width="45" Height="45"/>
                                 <TextBlock Text="Group" VerticalAlignment="Center" FontSize="36" FontFamily="Segoe UI"/>
                             </StackPanel>
-                        </Button>
+                        </Button>-->
                         <Button x:Name="btn_classroom" Style="{StaticResource hoverMenu}" Click="btn_classroom_Click" GotFocus="GotFocus" LostFocus="LostFocus">
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon Kind="CastEducation" VerticalAlignment="Center" Margin="0,0,20,10" Width="48" Height="48"/>
