@@ -522,8 +522,8 @@ AS
 BEGIN
 	/*Lấy tên giáo viên dựa trên @classID*/
 	DECLARE @teacherName NVARCHAR(300);
-	SELECT @teacherName= teacher_name FROM TEACHER t 
-		WHERE t.teacher_ID = 
+	SELECT @teacherName = teacher_name FROM TEACHER t 
+		WHERE t.teacher_ID IN 
 			(SELECT teacher_ID FROM STUDY_GROUP WHERE @classID=class_ID);
 	SELECT 
 		group_ID,
@@ -898,6 +898,7 @@ GO
 CREATE VIEW ListGrOfCenter AS
 SELECT
 	CONCAT(N'Nhóm',' ',s.group_ID) AS groupID,
+	cl.class_ID,
 	cl.clname,
 	t.teacher_name,
 	s.grStatus,
@@ -912,14 +913,15 @@ GO
 /*Tính doanh thu của trung tâm*/
 CREATE FUNCTION totalIncome
 (
-	@daystart DATE,
-	@dayend DATE 
+	@classID INT
 )
 RETURNS TABLE
 AS 
 RETURN
 (
-	SELECT clname,SUM(fee*totalStudent) AS total FROM ListGrOfCenter WHERE @daystart<=dayStart AND @dayend>=dayStart GROUP BY clname
+	SELECT class_ID,clname,SUM(fee*totalStudent) AS total FROM ListGrOfCenter 
+	WHERE class_ID=@classID 
+	GROUP BY class_ID,clname
 )
 GO
 /* Đổ dữ liệu */
