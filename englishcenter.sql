@@ -913,16 +913,15 @@ GO
 /*Tính doanh thu của trung tâm*/
 CREATE FUNCTION totalIncome
 (
-	@classID INT,
-	@daystart DATE,
-	@dayend DATE 
+	@classID INT
 )
 RETURNS TABLE
 AS 
 RETURN
 (
 	SELECT class_ID,clname,SUM(fee*totalStudent) AS total FROM ListGrOfCenter 
-	WHERE class_ID=@classID AND @daystart<=dayStart AND @dayend>=dayStart GROUP BY class_ID,clname
+	WHERE class_ID=@classID 
+	GROUP BY class_ID,clname
 )
 GO
 /* Đổ dữ liệu */
