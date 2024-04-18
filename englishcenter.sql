@@ -966,6 +966,16 @@ RETURN
 	GROUP BY class_ID,clname
 )
 GO
+CREATE PROCEDURE GetTotalIncome
+    @classID INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT * FROM totalIncome(@classID);
+END
+GO
+
 /* Đổ dữ liệu */
 USE EnglishCenter
 /*Thêm khóa học*/

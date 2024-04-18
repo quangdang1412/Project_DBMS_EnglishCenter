@@ -125,7 +125,7 @@
                                 </lvc:CartesianChart.AxisX>
 
                                 <lvc:CartesianChart.AxisY>
-                                    <lvc:Axis Foreground="#bcc0c6" ShowLabels="True" MinValue="0" MaxValue="30">
+                                    <lvc:Axis Foreground="#bcc0c6" Title="Doanh thu (Triệu VNĐ)" ShowLabels="True" MinValue="0" MaxValue="30">
                                         <lvc:Axis.Separator>
                                             <lvc:Separator StrokeThickness="0"/>
                                         </lvc:Axis.Separator>
