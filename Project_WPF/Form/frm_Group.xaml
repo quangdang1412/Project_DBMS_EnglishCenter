@@ -17,13 +17,18 @@
             </Grid.RowDefinitions>
             <Grid Grid.Row="0" Margin="10,0,0,0">
                 <StackPanel HorizontalAlignment="Left">
-                    <TextBlock Text="Lớp học Toeic Foundation 1" FontSize="20" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,5" Foreground="#FF152259"/>
-                    <TextBlock Text="GV : Đinh Công Đoan" FontSize="15" FontWeight="SemiBold" Foreground="#FF152259" />
+                    <TextBlock x:Name="txt_class" Text="Lớp học Toeic Foundation 1" FontSize="20" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,5" Foreground="#FF152259"/>
+                    <TextBlock x:Name="txt_TeacherName" Text="GV : Đinh Công Đoan" FontSize="15" FontWeight="SemiBold" Foreground="#FF152259" Margin="0,3,0,0" />
                 </StackPanel>
                 <Button Background="{x:Null}" HorizontalAlignment="Right" BorderThickness="0" VerticalAlignment="Top" Width="22" Height="22" Click="Button_Click">
                     <materialDesign:PackIcon Kind="CloseThick" Foreground="#FF152259" />
                 </Button>
-
+                <Button x:Name="btn_addstudent" HorizontalAlignment="Right" Style="{StaticResource addButton}" Margin="0,0,20,0"  Click="btn_addstudent_Click" VerticalAlignment="Bottom">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="Plus" Margin="0,0,10,0" />
+                        <TextBlock Text="Add new Student"/>
+                    </StackPanel>
+                </Button>
             </Grid>
             <Grid Grid.Row="1">
                 <Border Background="White" Margin="20,20,20,20" CornerRadius="20">

@@ -52,7 +52,14 @@ namespace Project_WPF.UserControls
         private void btn_more_Click(object sender, RoutedEventArgs e)
         {
             frm_Group frm_Group = new frm_Group();
+            string fixGroupID = GroupID.Replace("Nhóm ", "");
+
+
+
+            frm_Group.UpdateGroupID(fixGroupID);
+
             frm_Group.ShowDialog();
         }
+
     }
 }

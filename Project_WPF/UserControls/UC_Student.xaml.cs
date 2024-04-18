@@ -67,16 +67,10 @@ namespace Project_WPF.UserControls
             StudentsDataGrid.ItemsSource = dtStudent.DefaultView;
         }
 
-        private void btn_addstudent_Click(object sender, RoutedEventArgs e)
-        {
-            frm_Students form =new frm_Students();
-			form.ShowDialog();
-			loadData();
-        }
+        
 
         private void btn_editdata_Click(object sender, RoutedEventArgs e)
         {
-            // Lấy hàng được chọn từ DataGrid
             DataRowView selectedRow = (DataRowView)StudentsDataGrid.SelectedItem;
             // Tạo một instance của form frm_Students
             frm_Students editStudentForm = new frm_Students();
@@ -95,7 +89,6 @@ namespace Project_WPF.UserControls
         private void btn_deletedata_Click(object sender, RoutedEventArgs e)
         {
 
-            // Lấy hàng được chọn từ DataGrid
             DataRowView selectedRow = (DataRowView)StudentsDataGrid.SelectedItem;
 
             // Lấy giá trị của cột ID từ hàng được chọn
@@ -111,7 +104,7 @@ namespace Project_WPF.UserControls
             else
             {
                 Console.WriteLine(err);
-                MessageBox.Show("Không xoá được!");
+                MessageBox.Show("Không xoá được!" );
             }
             loadData();
         }
