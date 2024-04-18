@@ -842,13 +842,12 @@ CREATE FUNCTION totalIncome
 	@daystart DATE,
 	@dayend DATE 
 )
-RETURNS INT
-AS	
-BEGIN
-	DECLARE @totalincome INT=0;
-	SELECT @totalincome = SUM(fee*totalStudent) FROM ListGrOfCenter WHERE @daystart<=dayStart AND @dayend>=dayStart;
-	RETURN @totalincome;
-END;
+RETURNS TABLE
+AS 
+RETURN
+(
+	SELECT clname,SUM(fee*totalStudent) AS total FROM ListGrOfCenter WHERE @daystart<=dayStart AND @dayend>=dayStart GROUP BY clname
+)
 GO
 /* Đổ dữ liệu */
 USE EnglishCenter
