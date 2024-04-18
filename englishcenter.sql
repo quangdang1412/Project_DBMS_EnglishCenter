@@ -12,7 +12,6 @@ CREATE TABLE STUDENT(
 	identification varchar(12) NOT NULL UNIQUE,
 );
 GO
-
 /*Kiểm tra mã định danh là số hay không(đúng trả về 1) và chiều dài nó đúng bằng 12*/
 ALTER TABLE STUDENT ADD CONSTRAINT chk_studentIdentify 
 CHECK (ISNUMERIC(identification) = 1 AND LEN(identification) = 12);
@@ -87,7 +86,7 @@ CREATE TABLE STUDY_GROUP(
 	FOREIGN KEY(room_ID) REFERENCES ROOM (room_ID),
 	FOREIGN KEY(shift_ID) REFERENCES STUDY_SHIFT (shift_ID)
 );
-ALTER TABLE STUDY_GROUP ADD DEFAULT ((0)) FOR totalStudent
+ALTER TABLE STUDY_GROUP ADD DEFAULT ((0)) FOR totalStudent;
 GO
 /*Bảng danh sách lớp học*/
 CREATE TABLE GROUP_LIST(
@@ -170,28 +169,10 @@ CREATE TABLE ACCOUNT(
 	pass VARCHAR(100),
 	permissionname NVARCHAR(250)
 );
+GO
 /*
 
-
-
 */
-/*Procedure tạo học viên mới*/
-GO
-CREATE PROCEDURE insertStudent
-	@student_name NVARCHAR(300),
-	@student_dob DATE,
-	@student_gender TINYINT,
-	@student_phoneNumber VARCHAR(10),
-	@identification VARCHAR(12)
-AS
-BEGIN
-	DECLARE @maxID INT;
-	SELECT @maxID= ISNULL(MAX(student_ID),0) + 1 FROM STUDENT;
-	INSERT INTO 
-	STUDENT(student_ID,student_name,student_dob,student_gender,student_phoneNumber,identification)
-	VALUES(@maxID,@student_name,@student_dob,@student_gender,@student_phoneNumber,@identification);
-END
-GO
 /*Procedure cập nhật thông tin học viên*/
 CREATE PROCEDURE updateStudent
 	@student_ID INT,
@@ -392,7 +373,7 @@ BEGIN
 	WHERE course_ID=@courseID
 END
 GO
-/*Procedure tạo nhóm học mới*/
+/*Procedure tạo nhóm học mới và xếp lịch cho nhóm học đó*/
 CREATE PROCEDURE insertStudyGr
 	@minstudent INT,
 	@maxstudent INT,
@@ -402,16 +383,54 @@ CREATE PROCEDURE insertStudyGr
 	@teacher_ID INT,
 	@class_ID INT,
 	@room_ID INT,
-	@shift_ID TINYINT
+	@shift_ID TINYINT,
+	@weekdayID INT
 AS
 BEGIN
-DECLARE @maxID INT;
-SELECT @maxID=ISNULL(MAX(group_ID),0) +1 FROM STUDY_GROUP;
-INSERT INTO STUDY_GROUP(group_ID,minStudent,maxStudent,dayStart,dayEnd,grStatus,teacher_ID,class_ID,room_ID,shift_ID)
-VALUES(@maxID,@minstudent,@maxstudent,@dayStart,@dayEnd,@grStatus,@teacher_ID,@class_ID,@room_ID,@shift_ID);
+	BEGIN TRANSACTION
+		IF @dayStart >@dayEnd
+		BEGIN
+			RAISERROR ('Ngày bắt đầu phải nhỏ hơn ngày kết thúc',16,1);
+			RETURN;
+		END
+		IF EXISTS (SELECT teacher_ID FROM STUDY_GROUP s WHERE 
+					group_ID IN (SELECT group_ID FROM STUDY_ON WHERE weekday_ID=@weekdayID AND shift_ID=@shift_ID))
+		BEGIN
+			RAISERROR ('Giáo viên này đã có lịch dạy vào thứ %d ca %d',16,1,@weekdayID,@shift_ID);
+			RETURN;
+		END
+		IF EXISTS (SELECT room_ID FROM STUDY_GROUP s WHERE 
+					group_ID IN (SELECT group_ID FROM STUDY_ON WHERE weekday_ID=@weekdayID AND shift_ID=@shift_ID))
+		BEGIN
+			RAISERROR ('Phòng học này đã được sử dụng vào thứ %d ca %d',16,1,@weekdayID,@shift_ID);
+			RETURN;
+		END
+		DECLARE @maxID INT;
+		SELECT @maxID=ISNULL(MAX(group_ID),0) +1 FROM STUDY_GROUP;
+		INSERT INTO STUDY_GROUP
+			(group_ID,minStudent,maxStudent,dayStart,dayEnd,grStatus,teacher_ID,class_ID,room_ID,shift_ID)
+		VALUES
+			(@maxID,@minstudent,@maxstudent,@dayStart,@dayEnd,@grStatus,@teacher_ID,@class_ID,@room_ID,@shift_ID);
+		IF @@ERROR <> 0
+		BEGIN
+			RAISERROR ('Không thể thêm nhóm học',16,1);
+			ROLLBACK TRANSACTION;
+			RETURN;
+		END
+		INSERT INTO STUDY_ON
+			(group_ID,weekday_ID)
+		VALUES
+			(@maxID,@weekdayID)
+		IF @@ERROR <> 0
+		BEGIN 
+			RAISERROR ('Không thể xếp lịch học cho nhóm học %d vào thứ %d',16,1,@maxID,@weekdayID)
+			ROLLBACK TRANSACTION;
+			RETURN;
+		END
+		COMMIT TRANSACTION;
 END
 GO
-/*Procedure cập nhật nhóm học*/
+/*Procedure cập nhật nhóm học và lịch học cho nhóm học*/
 CREATE PROCEDURE updateStudyGr
 	@groupID INT,
 	@minstudent INT,
@@ -422,29 +441,83 @@ CREATE PROCEDURE updateStudyGr
 	@teacher_ID INT,
 	@class_ID INT,
 	@room_ID INT,
-	@shift_ID TINYINT
+	@shift_ID TINYINT,
+	@weekdayID INT
 AS
 BEGIN
-	UPDATE STUDY_GROUP
-	SET
-		group_ID = @groupID,
-		minStudent = @minstudent,
-		maxStudent = @maxstudent,
-		dayStart = @dayStart,
-		dayEnd = @dayEnd,
-		grStatus = @grStatus,
-		teacher_ID = @teacher_ID,
-		class_ID = @class_ID,
-		room_ID = @room_ID,
-		shift_ID = @shift_ID
+	BEGIN TRANSACTION
+		IF @dayStart >@dayEnd
+		BEGIN
+			RAISERROR ('Ngày bắt đầu phải nhỏ hơn ngày kết thúc',16,1);
+			RETURN;
+		END
+		IF EXISTS (SELECT teacher_ID FROM STUDY_GROUP s WHERE 
+					group_ID IN (SELECT group_ID FROM STUDY_ON WHERE weekday_ID=@weekdayID AND shift_ID=@shift_ID))
+		BEGIN
+			RAISERROR ('Giáo viên này đã có lịch dạy vào thứ %d ca %d',16,1,@weekdayID,@shift_ID);
+			RETURN;
+		END
+		IF EXISTS (SELECT room_ID FROM STUDY_GROUP s WHERE 
+					group_ID IN (SELECT group_ID FROM STUDY_ON WHERE weekday_ID=@weekdayID AND shift_ID=@shift_ID))
+		BEGIN
+			RAISERROR ('Phòng học này đã được sử dụng vào thứ %d ca %d',16,1,@weekdayID,@shift_ID);
+			RETURN;
+		END
+		UPDATE STUDY_GROUP
+			SET 
+				minStudent=@minstudent,
+				maxStudent=@maxstudent,
+				dayStart=@dayStart,
+				dayEnd=@dayEnd,
+				grStatus=@grStatus,
+				teacher_ID=@teacher_ID,
+				class_ID=@class_ID,
+				room_ID=@room_ID,
+				shift_ID=@shift_ID
+			WHERE group_ID=@groupID
+		IF @@ERROR <> 0
+		BEGIN
+			RAISERROR ('Không thể chỉnh sửa nhóm học',16,1);
+			ROLLBACK TRANSACTION;
+			RETURN;
+		END
+		UPDATE STUDY_ON
+		SET
+			group_ID=@groupID
+		WHERE weekday_ID=@weekdayID AND group_ID=@groupID
+		IF @@ERROR <> 0
+		BEGIN 
+			RAISERROR ('Không thể xếp lịch học cho nhóm học %d vào thứ %d',16,1,@groupID,@weekdayID)
+			ROLLBACK TRANSACTION;
+			RETURN;
+		END
+		COMMIT TRANSACTION;
 END
 GO
 /*Xóa nhóm học dựa trên ID*/
 CREATE PROCEDURE deleteStudyGr
-	@group_ID INT
+	@groupID INT
 AS
 BEGIN
-	DELETE FROM STUDY_GROUP WHERE group_ID=@group_ID
+	BEGIN TRANSACTION
+		IF NOT EXISTS (SELECT 1 FROM STUDY_ON WHERE group_ID=@groupID)
+		BEGIN
+			IF EXISTS (SELECT 1 FROM GROUP_LIST WHERE group_ID=@groupID)
+			BEGIN
+				RAISERROR ('Vẫn còn học sinh trong nhóm học này',16,1)
+				ROLLBACK TRANSACTION;
+				RETURN;
+			END
+			ELSE
+				DELETE FROM STUDY_GROUP WHERE group_ID=@groupID;
+		END
+		ELSE
+		BEGIN
+			RAISERROR ('Không thể xóa do nhóm học vẫn còn lịch học',16,1);
+			ROLLBACK TRANSACTION;
+			RETURN;
+		END
+		COMMIT TRANSACTION;
 END
 GO
 /*Procedure Thêm học viên mới vào 1 nhóm học*/
@@ -463,7 +536,7 @@ BEGIN
 	SELECT @maxStudentID= ISNULL(MAX(student_ID),0)+1 FROM STUDENT;
 	BEGIN TRANSACTION
 		INSERT INTO STUDENT(student_ID,student_name,student_dob,student_gender,student_phoneNumber,identification)
-		VALUES(@maxStudentID,@studentName,@studentDob,@studentGender,@studentPhone,@identification)
+		VALUES(@maxStudentID,@studentName,@studentDob,@studentGender,@studentPhone,@identification);
 		IF @@ERROR <> 0
 		BEGIN
 			RAISERROR ('Không thể thêm học viên',16,1)
@@ -471,7 +544,7 @@ BEGIN
 			RETURN;
 		END
 		INSERT INTO GROUP_LIST(student_ID,group_ID,payment_state,firstScore)
-		VALUES(@maxStudentID,@groupID,@paymentState,@firstScore)
+		VALUES(@maxStudentID,@groupID,@paymentState,@firstScore);
 		IF @@ERROR <>0
 		BEGIN
 			RAISERROR ('Không thể thêm học viên vào nhóm học %d',16,1,@groupID)
@@ -480,6 +553,22 @@ BEGIN
 		END
 		COMMIT TRANSACTION;
 END
+GO
+/*Cập nhật thông tin nhóm học*/
+CREATE PROCEDURE updateGroupList
+	@student_ID INT,
+	@group_ID INT,
+	@paymenstate TINYINT,
+	@firstScore INT
+AS
+BEGIN
+	UPDATE GROUP_LIST
+	SET
+		student_ID = @student_ID,
+		group_ID = @group_ID,
+		payment_state = @paymenstate,
+		firstScore = @firstScore
+END;
 GO
 /*Xóa học viên khỏi nhóm học nếu học viên đó không còn học nhóm nào nữa thì xóa*/
 CREATE PROCEDURE deleteStudentFromGr
@@ -641,28 +730,6 @@ BEGIN
 	RETURN @teacherName;
 END
 GO
-/*Thêm lịch học cho nhóm học trong 1 ngày*/
-CREATE PROCEDURE insertStudyOn
-	@weekday_ID TINYINT,
-	@group_ID INT
-AS
-BEGIN
-	INSERT INTO STUDY_ON(weekday_ID,group_ID)
-	VALUES (@weekday_ID,@group_ID)
-END
-GO
-/*Cập nhật lịch học cho nhóm học*/
-CREATE PROCEDURE updateStudyOn
-	@weekday_ID TINYINT,
-	@group_ID INT
-AS
-BEGIN
-	UPDATE STUDY_ON
-	SET 
-	weekday_ID=@weekday_ID,
-	group_ID=@group_ID
-END
-GO
 /*Xóa lịch học cho nhóm học*/
 CREATE PROCEDURE deleteStudyOn
 	@weekday_ID TINYINT,
@@ -682,43 +749,6 @@ SELECT @maxID=ISNULL(MAX(room_ID),0) +1 FROM ROOM;
 INSERT INTO ROOM(room_ID,number_of_seats)
 VALUES(@maxID,@number_of_seats);
 END;
-GO
-/*Procedure thêm học sinh mới vào nhóm học*/
-CREATE PROCEDURE insertGroupList
-	@student_ID INT,
-	@group_ID INT,
-	@paymenstate TINYINT,
-	@firstScore INT
-AS
-BEGIN
-	INSERT INTO GROUP_LIST(student_ID,group_ID,payment_state,firstScore)
-	VALUES(@student_ID,@group_ID,@paymenstate,@firstScore)
-END;
-GO
-/*Procedure cập nhật thông tin lớp học*/
-CREATE PROCEDURE updateGroupList
-	@student_ID INT,
-	@group_ID INT,
-	@paymenstate TINYINT,
-	@firstScore INT
-AS
-BEGIN
-	UPDATE GROUP_LIST
-	SET
-		student_ID = @student_ID,
-		group_ID = @group_ID,
-		payment_state = @paymenstate,
-		firstScore = @firstScore
-END;
-GO
-/*Xóa học sinh khỏi nhóm học*/
-CREATE PROCEDURE deleleGrList
-	@studentID INT,
-	@groupID INT
-AS
-BEGIN
-	DELETE FROM GROUP_LIST WHERE student_ID=@studentID AND group_ID=@groupID
-END
 GO
 /*Trigger Đếm số lượng học sinh của một lớp*/
 CREATE TRIGGER trg_TotalStudent
@@ -836,22 +866,32 @@ BEGIN
 END
 GO
 /*Lấy học sinh dựa trên groupID*/
-CREATE FUNCTION selectStudentByGr
-(
+CREATE PROCEDURE GetStudentsByGroupID
 	@groupID INT
-)
-RETURNS TABLE
 AS
-RETURN
-(
-	SELECT 
+BEGIN 
+	SELECT
 		student_ID,
 		student_name,
 		student_dob,
 		student_gender
 	FROM STUDENT 
 	WHERE student_ID IN (SELECT student_ID FROM GROUP_LIST WHERE  group_ID=@groupID)
-)
+END
+GO
+/*Lấy tên lớp và tên giáo viên dạy nhóm học đó*/
+CREATE PROCEDURE selectTeacherandClassByGr
+	@groupID INT
+AS
+BEGIN
+	DECLARE @teacherName NVARCHAR(300);
+	DECLARE @className NVARCHAR(300);
+	SELECT @teacherName=teacher_name FROM TEACHER 
+		WHERE teacher_ID =(SELECT teacher_ID FROM STUDY_GROUP WHERE group_ID=@groupID);
+	SELECT @className= clname FROM CLASS
+		WHERE class_ID =(SELECT class_ID FROM STUDY_GROUP WHERE group_ID=@groupID);
+	SELECT @groupID,@className AS className,@teacherName AS teacherName;
+END
 GO
 /*Hàm lấy danh sách học sinh chưa thanh toán*/
 CREATE FUNCTION LayDSChuaThanhToan(@group_ID INT)
@@ -924,165 +964,5 @@ RETURN
 	GROUP BY class_ID,clname
 )
 GO
-/* Đổ dữ liệu */
-USE EnglishCenter
-GO
-/*Thêm học sinh*/
-EXEC insertStudent N'Bùi Văn Đức', '2005-01-25', 1, '0369852745', '080604013660';
-EXEC insertStudent N'Mai Thị Khiết', '2004-04-18', 0, '0369258745', '080604013661';
-EXEC insertStudent N'Lý Văn Lâm', '2003-08-30', 1, '0369852746', '080604013662';
-EXEC insertStudent N'Hồ Thị Mai', '2002-06-22', 0, '0369258746', '080604013663';
-EXEC insertStudent N'Đinh Văn Nhàn', '2004-11-09', 1, '0369852747', '080604013664';
-EXEC insertStudent N'Trần Thị Nữ', '2003-10-05', 0, '0369258747', '080604013665';
-EXEC insertStudent N'Phạm Văn Phát', '2005-02-14', 1, '0369852748', '080604013666';
-EXEC insertStudent N'Hoàng Thị Quyên', '2004-07-20', 0, '0369258748', '080604013667';
-EXEC insertStudent N'Lê Văn Ri', '2003-03-28', 1, '0369852749', '080604013668';
-EXEC insertStudent N'Vũ Thị San', '2002-09-16', 0, '0369258749', '080604013669';
-EXEC insertStudent N'Nguyễn Văn Triết', '2004-12-03', 1, '0369852750', '080604013670';
-EXEC insertStudent N'Trần Thị Uyên', '2003-04-26', 0, '0369258750', '080604013671';
-EXEC insertStudent N'Hoàng Thị Vy', '2004-09-12', 0, '0369852751', '080604013672';
-EXEC insertStudent N'Lê Văn Phúc', '2003-07-05', 1, '0369258751', '080604013673';
-EXEC insertStudent N'Nguyễn Thị Xuyến', '2002-05-29', 0, '0369852752', '080604013674';
-EXEC insertStudent N'Trần Văn Yến', '2004-10-18', 1, '0369258752', '080604013675';
-EXEC insertStudent N'Phạm Thị Phượng', '2003-11-23', 0, '0369852753', '080604013676';
-EXEC insertStudent N'Vũ Văn An', '2002-08-14', 1, '0369258753', '080604013677';
-EXEC insertStudent N'Lê Ngọc Trâm', '2004-12-07', 0, '0369852754', '080604013678';
-EXEC insertStudent N'Hồ Văn Sỹ', '2003-02-04', 1, '0369258754', '080604013679';
-EXEC insertStudent N'Nguyễn Thị Duyên', '2005-01-09', 0, '0369852755', '080604013680';
-EXEC insertStudent N'Phạm Văn Tiến', '2004-06-14', 1, '0369258755', '080604013681';
-EXEC insertStudent N'Trần Thị Trang', '2003-03-17', 0, '0369852756', '080604013682';
-EXEC insertStudent N'Hoàng Văn Nam', '2002-07-30', 1, '0369258756', '080604013683';
-EXEC insertStudent N'Bùi Thị Thanh', '2004-05-11', 0, '0369852757', '080604013684';
-EXEC insertStudent N'Lê Văn Hùng', '2003-09-24', 1, '0369258757', '080604013685';
-EXEC insertStudent N'Nguyễn Thị Lan', '2005-03-08', 0, '0369852758', '080604013686';
-EXEC insertStudent N'Đỗ Văn Long', '2004-08-13', 1, '0369258758', '080604013687';
-EXEC insertStudent N'Vũ Thị Nga', '2003-05-27', 0, '0369852759', '080604013688';
-EXEC insertStudent N'Trần Văn Phong', '2002-10-12', 1, '0369258759', '080604013689';
-EXEC insertStudent N'Phạm Thị Hà', '2004-01-26', 0, '0369852760', '080604013690';
-EXEC insertStudent N'Hoàng Văn Tuấn', '2003-12-11', 1, '0369258760', '080604013691';
-EXEC insertStudent N'Lê Thị Tuyết', '2002-04-04', 0, '0369852761', '080604013692';
-EXEC insertStudent N'Vũ Văn Duy', '2004-09-21', 1, '0369258761', '080604013693';
-EXEC insertStudent N'Nguyễn Thị Dung', '2003-06-16', 0, '0369852762', '080604013694';
-EXEC insertStudent N'Phạm Văn Hiếu', '2002-11-08', 1, '0369258762', '080604013695';
-EXEC insertStudent N'Trần Thị Minh', '2004-02-25', 0, '0369852763', '080604013696';
-EXEC insertStudent N'Hoàng Văn Quân', '2003-08-29', 1, '0369258763', '080604013697';
-EXEC insertStudent N'Lê Văn Tùng', '2002-01-18', 0, '0369852764', '080604013698';
-EXEC insertStudent N'Vũ Thị Thanh', '2004-03-22', 1, '0369258764', '080604013699';
-EXEC insertStudent N'Nguyễn Thị Vân', '2003-07-23', 0, '0369852765', '080604013700';
-EXEC insertStudent N'Phạm Văn Nam', '2002-12-07', 1, '0369258765', '080604013701';
-EXEC insertStudent N'Trần Thị Hương', '2004-04-17', 0, '0369852766', '080604013702';
-GO
-/*Thêm phòng học*/
-exec insertRoom 36;
-exec insertRoom 36;
-exec insertRoom 36;
-exec insertRoom 36;
-exec insertRoom 16;
-exec insertRoom 16;
-GO
 
-/*Thêm giáo viên*/
-EXEC insertTeacher N'Nguyễn Minh Đạo','1986-12-04',1,'03952498123',N'Thanh Hóa','050286456231','daonm@gmail.com';
-EXEC insertTeacher N'Nguyễn Đăng Quang','1982-06-25',1,'0682422369',N'Nghệ An','060682425689','quangnd@gmail.com';
-EXEC insertTeacher N'Nguyễn Thị Thanh Vân','1990-08-19',0,'0254635412',N'Bình Dương','030890362152','vanntt@gmail.com';
-EXEC insertTeacher N'Nguyễn Thành Sơn','1985-02-26',1,'0362452198',N'Tây Ninh','020285621452','sonnt@gmail.com';
-EXEC insertTeacher N'Đinh Công Đoan','1899-04-25',1,'0526314589',N'Bình Tân','0504993695214','doandc@gmail.com';
-EXEC insertTEACHER N'Nguyễn Thị Kim Oanh','1896-05-04',0,'0236214569',N'Tây Ninh','020496369258','oanhntk@gmail.com';
-GO
-
-/*Thêm khóa học*/
-INSERT INTO COURSE(course_ID,course_name)
-VALUES
-	('TOE',N'Khóa học Toeic'),
-	('SPK',N'Khóa học tiếng anh giao tiếp');
-GO
-
-/*Thêm lớp học*/
-EXEC insertClass N'Lớp học Toeic Foundation',24,2000000,'TOE';
-EXEC insertClass N'Lớp Toeic Intensive',22,3500000,'TOE';
-EXEC insertClass N'Lớp Toeic luyện đề',20,1500000,'TOE';
-EXEC insertClass N'Lớp Toeic Hoàn Hảo',20,6500000,'TOE';
-EXEC insertClass N'Lớp phản xạ giao tiếp cơ bản',16,2500000,'SPK';
-EXEC insertClass N'Lớp phản xạ giao tiếp toàn diện',20,5000000,'SPK';
-GO
-
-
-/*Thêm ca học*/
-INSERT INTO STUDY_SHIFT (shift_ID,time_start, time_end)
-VALUES
-	(1, '17:30:00', '19:00:00'),
-	(2, '19:30:00', '21:00:00');
-
-GO
-
-/*Thêm quản lí*/
-INSERT INTO MANAGE(teacher_ID,course_ID)
-VALUES
-	(1,'TOE'),
-	(2,'TOE'),
-	(3,'SPK'),
-	(4,'SPK'),
-	(5,'TOE'),
-	(6,'TOE');
-GO
-
-/*Thêm nhóm học*/ --  -1 là lớp đang mở để đăng kí || 0 là đang mở để học || 1 là lớp đã học xong
-exec insertStudyGr 20, 36, '2022-01-05', '2022-10-05', 1, 2, 3, 3, 2;
-exec insertStudyGr 10, 16, '2022-03-02', '2023-09-02', 1, 4, 6, 6, 1;
-exec insertStudyGr 20, 36, '2022-01-05', '2023-06-05', 1, 6, 4, 4, 1;
-exec insertStudyGr 20, 36, '2023-01-05', '2023-10-05', 1, 5, 1, 1, 1;
-exec insertStudyGr 10, 16, '2023-06-05', '2024-02-05', 1, 3, 5, 5, 2;
-exec insertStudyGr 20, 36, '2024-01-05', '2024-10-05', 0, 1, 2, 2, 1;
-exec insertStudyGr 10, 16, '2024-01-05', '2023-06-05', -1, 4, 6, 6, 1;
-exec insertStudyGr 20, 36, '2023-09-02', '2024-05-02', 0, 6, 4, 4, 1;
-
-GO
-/*Thêm thông báo*/
-exec insertNotification N'Thông báo kỳ thi giữa kỳ', N'Thi giữa kỳ sẽ diễn ra vào ngày 15/06/2024',1;
-exec insertNotification N'Thông báo mở lớp học', N'Lớp sẽ bắt đầu học vào ngày 06-06-2023',4;
-exec insertNotification N'Thông báo kỳ nghỉ lễ', N'Nghỉ lễ Quốc khánh từ ngày 01/09/2022 đến ngày 03/09/2022',2;
-exec insertNotification N'Thông báo hỗ trợ tài liệu', N'Cung cấp tài liệu miễn phí cho sinh viên',4;
-exec insertNotification N'Cảnh báo thời tiết xấu', N'Ngày mai sẽ có bão, lớp học có thể bị hủy', 3;
-GO
-
-/*Thêm học sinh vào nhóm học*/
-exec insertGroupList 1,1,1,500;
-exec insertGroupList 2,1,1,550;
-exec insertGroupList 3,1,1,550;
-exec insertGroupList 4,1,1,500;
-exec insertGroupList 5,1,1,500;
-exec insertGroupList 6,1,1,500;
-exec insertGroupList 7,5,1,0;
-exec insertGroupList 8,5,1,0;
-exec insertGroupList 9,5,1,10;
-exec insertGroupList 10,4,1,10;
-exec insertGroupList 11,4,1,100;
-exec insertGroupList 12,4,1,100;
-exec insertGroupList 13,6,0,400;
-exec insertGroupList 14,6,0,450;
-exec insertGroupList 15,6,1,500;
-exec insertGroupList 16,6,1,420;
-exec insertGroupList 17,3,1,0;
-exec insertGroupList 18,3,1,10;
-exec insertGroupList 19,3,1,20;
-exec insertGroupList 20,3,1,20;
-exec insertGroupList 21,3,1,30;
-GO
-
-/*Dữ liệu về thứ trong tuần*/
-INSERT INTO WEEKDAY (weekday_ID)
-	VALUES(2),(3),(4),(5),(6),(7),(8);
-GO
-
-/*Dữ liệu StudyOn*/
-EXEC insertStudyOn 2,1
-EXEC insertStudyOn 2,8
-EXEC insertStudyOn 7,2
-EXEC insertStudyOn 3,3
-EXEC insertStudyOn 3,4
-EXEC insertStudyOn 4,5
-EXEC insertStudyOn 6,6
-EXEC insertStudyOn 5,7
-
-GO
 
