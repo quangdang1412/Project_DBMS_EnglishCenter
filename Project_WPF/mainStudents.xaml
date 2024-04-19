@@ -1,0 +1,89 @@
+﻿<Window x:Class="Project_WPF.mainStudents"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Project_WPF"
+                xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+
+        mc:Ignorable="d"
+        Height="900" Width="1600" WindowStyle="None" AllowsTransparency="True" Background="Transparent"  Loaded="Window_Loaded">
+    <Grid Background="#F0F7FF">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0" Background="#FF152259">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="3*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" >
+                    <Image Source="Images/logo.png" Stretch="None" Width="100" Height="100"></Image>
+                    <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="#DDFFFFFF" FontSize="18" FontFamily="Gill Sans Ultra Bold" >Udemy Inter. school</Label>
+                </StackPanel>
+            </Grid>
+            <Rectangle HorizontalAlignment="Center" Height="2" Grid.Row="0" VerticalAlignment="Bottom" Width="400" Fill="#BDBDBD"/>
+            <Grid Grid.Row="1" Margin="0,30,0,0">
+                <Grid>
+                    <StackPanel Margin="50 0 0 0">
+                        <Button x:Name="btn_Home" Style="{StaticResource hoverMenu}"  GotFocus="GotFocus" LostFocus="LostFocus">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="HomeVariantOutline" VerticalAlignment="Center" Margin="0,0,20,10" Width="48" Height="48"/>
+                                <TextBlock Text="Dashboard" VerticalAlignment="Center" FontSize="36" FontFamily="Kumbh Sans"/>
+                            </StackPanel>
+                        </Button>
+                        <Button x:Name="btn_Teacher" Style="{StaticResource hoverMenu}"  GotFocus="GotFocus" LostFocus="LostFocus">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="AccountSchoolOutline" VerticalAlignment="Center" Margin="0,0,20,10" Width="48" Height="48"/>
+                                <TextBlock Text="Teacher" VerticalAlignment="Center" FontSize="36" FontFamily="Kumbh Sans"/>
+                            </StackPanel>
+                        </Button>
+                        <Button x:Name="btn_Student" Style="{StaticResource hoverMenu}"  GotFocus="GotFocus" LostFocus="LostFocus">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="SchoolOutline" VerticalAlignment="Center" Margin="0,0,20,10" Width="48" Height="48"/>
+                                <TextBlock Text="Student" VerticalAlignment="Center" FontSize="36" FontFamily="Kumbh Sans"/>
+                            </StackPanel>
+                        </Button>
+                        <Button x:Name="btn_classroom" Style="{StaticResource hoverMenu}"  GotFocus="GotFocus" LostFocus="LostFocus">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="CastEducation" VerticalAlignment="Center" Margin="0,0,20,10" Width="48" Height="48"/>
+                                <TextBlock Text="Classroom" VerticalAlignment="Center" FontSize="36" FontFamily="Kumbh Sans"/>
+                            </StackPanel>
+                        </Button>
+                        <Button x:Name="btn_course" Style="{StaticResource hoverMenu}" GotFocus="GotFocus" LostFocus="LostFocus">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="BookEducationOutline" VerticalAlignment="Center" Margin="0,0,20,10" Width="45" Height="45"/>
+                                <TextBlock Text="Course" VerticalAlignment="Center" FontSize="36" FontFamily="Segoe UI"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </Grid>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.5*"/>
+                <RowDefinition Height="8*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" Background="#FFF6F6F6">
+                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Margin="0,10,30,0">
+
+                    <materialDesign:PackIcon Kind="BellBadgeOutline" Width="36" Height="36" Margin="0,0,0,0" VerticalAlignment="Center" Foreground="#FF424242" />
+                    <Rectangle Width="2" Fill="#FF424242" Margin="10,10,10,10" Opacity="0.5"/>
+                    <Border x:Name="account" Style="{StaticResource b_account }" >
+                        <materialDesign:PackIcon Kind="AccountCircleOutline" Width="36" Height="36" VerticalAlignment="Center" Foreground="#FF424242" />
+                    </Border>
+                    <!--<materialDesign:PackIcon Kind="AccountCircleOutline" Width="36" Height="36" VerticalAlignment="Center" Foreground="#FF424242" />-->
+                    <Rectangle Width="2" Fill="#FF424242" Margin="10,10,10,10" Opacity="0.5"/>
+                    <Button x:Name="btn_exit"   Style="{StaticResource btn_exit }" >
+                        <materialDesign:PackIcon Kind="Logout" Width="36" Height="36" VerticalAlignment="Center" Foreground="#FF424242" />
+                    </Button>
+                </StackPanel>
+            </Grid>
+            <Grid x:Name="MainGrid" Grid.Row="1">
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>
