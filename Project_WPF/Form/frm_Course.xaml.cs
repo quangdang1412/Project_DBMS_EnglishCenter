@@ -65,7 +65,7 @@ namespace Project_WPF.Form
                 }
                 catch (SqlException)
                 {
-                    MessageBox.Show("Không thêm được. Đã xảy ra lỗi!");
+                    MessageBox.Show("err");
                 }
             }
             else

@@ -65,18 +65,49 @@ namespace Project_WPF.UserControls
         }
         private void btn_addclass_Click(object sender, RoutedEventArgs e)
         {
-            
+            frm_Class frm = new frm_Class();
+            frm.ShowDialog();
+            loadData();
         }
        
         private void btn_editdata_Click(object sender, RoutedEventArgs e)
         {
+            // Lấy hàng được chọn từ DataGrid
+            DataRowView selectedRow = (DataRowView)ClassDataGrid.SelectedItem;
+            // Tạo một instance của form frm_Students
+            frm_Class editClassForm = new frm_Class();
 
+            // Truyền dữ liệu từ hàng được chọn vào form
+            editClassForm.FillData(selectedRow);
+
+            // Hiển thị form để chỉnh sửa thông tin
+            editClassForm.ShowDialog();
+
+            loadData();
         }
 
 
         private void btn_deletedata_Click(object sender, RoutedEventArgs e)
         {
+            // Lấy hàng được chọn từ DataGrid
+            DataRowView selectedRow = (DataRowView)ClassDataGrid.SelectedItem;
 
+            // Lấy giá trị của cột ID từ hàng được chọn
+            int id = Convert.ToInt32(selectedRow["class_ID"]);
+
+            // Thực hiện xoá học sinh
+            string err = "";
+            bool success = dbclass.XoaClass(ref err, id);
+            if (success)
+            {
+                MessageBox.Show("Đã xoá xong!");
+            }
+            else
+            {
+                Console.WriteLine(err);
+                MessageBox.Show(err);
+            }
+            loadData();
         }
         public void LoadChartData()
         {
@@ -103,8 +134,6 @@ namespace Project_WPF.UserControls
                     ChartLabels.Add(id);
                     ChartValues<decimal> chartValues = new ChartValues<decimal> { total };
 
-                    // In ra các giá trị trong ChartValues
-                    Console.WriteLine("ChartValues:");
                     foreach (var value in chartValues)
                     {
                         Console.WriteLine(value);
@@ -116,7 +145,6 @@ namespace Project_WPF.UserControls
                     });
                 }
                 maxChart = maxTotal;
-                Console.WriteLine(ChartSeries);
             }
         }
 
