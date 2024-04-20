@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BusinessLayer;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,6 +21,7 @@ namespace Project_WPF
 	/// </summary>
 	public partial class Login : Window
 	{
+		LoginBLL loginBLL = new LoginBLL();
 		public Login()
 		{
 			InitializeComponent();
@@ -60,12 +62,27 @@ namespace Project_WPF
 		{
 			txtPass.Focus();
 		}
-
+		public void login( string err,string user, string pass)
+		{
+			
+        }
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
-			MainWindow mainWindow = new MainWindow();
-			mainWindow.Show();
-			this.Close();
+			string err = "";
+			Console.WriteLine(txtPass.Password);
+            bool success = loginBLL.Login(ref err, txtUser.Text, txtPass.Password);
+            if (success)
+            {
+                MessageBox.Show("Đăng nhập thành công");
+                MainWindow mainWindow = new MainWindow();
+                mainWindow.Show();
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show(err);
+            }
+            
 		}
 	}
 }
