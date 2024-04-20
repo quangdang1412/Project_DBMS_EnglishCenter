@@ -136,6 +136,7 @@ CREATE TABLE ATTENDANCE(
     FOREIGN KEY (school_day) REFERENCES School_DAYS (school_day)
 );
 GO
+ALTER TABLE ATTENDANCE ADD DEFAULT((0)) FOR present;
 /*Bảng sinh ra từ mối quan hệ nhiều nhiều: ngày học và nhóm học*/
 CREATE TABLE STUDY_ON(
 	weekday_ID tinyint,
@@ -165,9 +166,10 @@ CREATE TABLE MANAGE(
 GO
 /*Bảng tài khoản*/
 CREATE TABLE ACCOUNT(
-	username VARCHAR(100),
-	pass VARCHAR(100),
-	permissionname NVARCHAR(250)
+	permissionname VARCHAR(10),
+	username NVARCHAR(300),
+	account VARCHAR(100),
+	pass VARCHAR(100)
 );
 GO
 /*
@@ -1002,9 +1004,98 @@ BEGIN
     SELECT * FROM totalIncome(@classID);
 END
 GO
-
+/*Tạo danh sách điểm danh cho nhóm học*/
+CREATE PROCEDURE insertStudentAttendance
+	@groupID INT
+AS
+BEGIN
+	BEGIN TRANSACTION
+		INSERT INTO SCHOOL_DAYS(school_day) VALUES(GETDATE());
+		IF NOT EXISTS (SELECT 1 FROM STUDY_ON WHERE weekday_ID=DATEPART(WEEKDAY,GETDATE())+1 AND group_ID=@groupID)
+		BEGIN
+			RAISERROR ('Không thể tạo bảng điểm danh do nhóm không có lịch học vào hôm nay',16,1);
+			ROLLBACK TRANSACTION;
+			RETURN;
+		END
+		SELECT student_ID FROM GROUP_LIST WHERE group_ID=@groupID;
+		INSERT INTO ATTENDANCE (group_ID, student_ID, school_day)
+		SELECT @groupID, student_ID, GETDATE() FROM GROUP_LIST WHERE group_ID=@groupID;
+		IF @@ROWCOUNT =0
+		BEGIN
+			RAISERROR ('Không thể tạo bảng điểm danh cho nhóm học',16,1);
+			ROLLBACK TRANSACTION;
+			RETURN;
+		END
+	COMMIT TRANSACTION
+END
+GO
+/*Tạo tài khoản cho học viên*/
+CREATE TRIGGER insertStudentAccount
+ON STUDENT
+AFTER INSERT,UPDATE,DELETE
+AS
+BEGIN
+	DECLARE @phoneNumber VARCHAR(10);
+	DECLARE @studentName NVARCHAR(300);
+	IF EXISTS (SELECT * FROM inserted)
+	BEGIN
+		SELECT 
+			@phoneNumber=student_phoneNumber,
+			@studentName=student_name
+		FROM inserted 
+		DECLARE @pass VARCHAR(300) ='123456';
+		INSERT INTO ACCOUNT(permissionname,username,account,pass)
+		VALUES('HS',@studentName,@phoneNumber,@pass);
+	END
+	ELSE IF EXISTS (SELECT * FROM deleted)
+	BEGIN
+		SELECT @phoneNumber=student_phoneNumber FROM inserted
+		DELETE FROM ACCOUNT WHERE username=@phoneNumber
+	END
+END
+GO
+/*Tạo tài khoản cho giáo viên*/
+CREATE TRIGGER insertTeacherAccount
+ON TEACHER
+AFTER INSERT,UPDATE,DELETE
+AS
+BEGIN
+	DECLARE @phoneNumber VARCHAR(10);
+	DECLARE @teachName NVARCHAR(300);
+	IF EXISTS (SELECT * FROM inserted)
+	BEGIN
+		SELECT 
+			@phoneNumber=teacher_phoneNumber,
+			@teachName=teacher_name
+		FROM inserted 
+		DECLARE @pass VARCHAR(300) ='123456';
+		INSERT INTO ACCOUNT(permissionname,username,account,pass)
+		VALUES('GV',@teachName,@phoneNumber,@pass);
+	END
+	ELSE IF EXISTS (SELECT * FROM deleted)
+	BEGIN
+		SELECT @phoneNumber=teacher_phoneNumber FROM inserted
+		DELETE FROM ACCOUNT WHERE username=@phoneNumber
+	END
+END
+GO
+/*Cập nhật mật khẩu cho account*/
+CREATE PROCEDURE updatePassword
+	@username VARCHAR(10),
+	@password VARCHAR(300)
+AS
+BEGIN
+	UPDATE ACCOUNT
+	SET pass=@password
+	WHERE username=@username
+END;
+GO
 /* Đổ dữ liệu */
 USE EnglishCenter
+/*Tài khoản admin*/
+INSERT INTO ACCOUNT (permissionname,username,account,pass)
+VALUES('QTV','ADMIN','admin','admin');
+GO
 /*Thêm khóa học*/
 INSERT INTO COURSE(course_ID,course_name)
 VALUES
@@ -1015,9 +1106,9 @@ GO
 EXEC insertClass N'Lớp học Toeic Foundation',24,2000000,'TOE';
 EXEC insertClass N'Lớp Toeic Intensive',22,3500000,'TOE';
 EXEC insertClass N'Lớp Toeic luyện đề',20,1500000,'TOE';
-EXEC insertClass N'Lớp Toeic Hoàn Hảo',20,6500000,'TOE';
+EXEC insertClass N'Lớp Toeic Hoàn Hảo',66,6500000,'TOE';
 EXEC insertClass N'Lớp phản xạ giao tiếp cơ bản',16,2500000,'SPK';
-EXEC insertClass N'Lớp phản xạ giao tiếp toàn diện',20,5000000,'SPK';
+EXEC insertClass N'Lớp phản xạ giao tiếp toàn diện',36,5000000,'SPK';
 GO
 /*Thêm phòng học*/
 exec insertRoom 36;
@@ -1037,7 +1128,7 @@ EXEC insertTeacher N'Nguyễn Thị Kim Oanh','1896-05-04',0,'0236214569',N'Tây
 GO
 /*Dữ liệu về thứ trong tuần*/
 INSERT INTO WEEKDAY (weekday_ID)
-	VALUES(2),(3),(4),(5),(6),(7),(8);
+	VALUES(1),(2),(3),(4),(5),(6),(7);
 GO
 /*Thêm ca học*/
 INSERT INTO STUDY_SHIFT (shift_ID,time_start, time_end)
@@ -1253,4 +1344,3 @@ exec insertNotification N'Thông báo kỳ nghỉ lễ', N'Nghỉ lễ Quốc kh
 exec insertNotification N'Thông báo hỗ trợ tài liệu', N'Cung cấp tài liệu miễn phí cho sinh viên',4;
 exec insertNotification N'Cảnh báo thời tiết xấu', N'Ngày mai sẽ có bão, lớp học có thể bị hủy', 3;
 GO
-

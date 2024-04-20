@@ -119,12 +119,7 @@ namespace Project_WPF.UserControls
                 Console.WriteLine(ChartSeries);
             }
         }
-
-
-
-
-
-        public void findGroup(int x)
+        public void findGroup(int x) 
         {
             try
             {
