@@ -76,6 +76,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Form\frm_Class.xaml.cs">
+      <DependentUpon>frm_Class.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Form\frm_Course.xaml.cs">
       <DependentUpon>frm_Course.xaml</DependentUpon>
     </Compile>
@@ -90,6 +93,12 @@
     </Compile>
     <Compile Include="Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="mainStudents.xaml.cs">
+      <DependentUpon>mainStudents.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="mainTeachers.xaml.cs">
+      <DependentUpon>mainTeachers.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\UC_Class.xaml.cs">
       <DependentUpon>UC_Class.xaml</DependentUpon>
@@ -118,6 +127,10 @@
     <Compile Include="UserControls\UC_Teacher.xaml.cs">
       <DependentUpon>UC_Teacher.xaml</DependentUpon>
     </Compile>
+    <Page Include="Form\frm_Class.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Form\frm_Course.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -135,6 +148,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Login.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="mainStudents.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="mainTeachers.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -230,6 +251,7 @@
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MaterialDesignThemes.5.0.0\build\MaterialDesignThemes.targets" Condition="Exists('..\packages\MaterialDesignThemes.5.0.0\build\MaterialDesignThemes.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

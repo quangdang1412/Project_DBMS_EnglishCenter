@@ -20,6 +20,44 @@ namespace BusinessLayer
         {
             return db.ExecuteQueryDataSet("select * from CLASS", CommandType.Text, null);
         }
+        public DataSet LayClassByCourseID()
+        {
+            return db.ExecuteQueryDataSet("select course_name from COURSE", CommandType.Text, null);
+        }
+        public bool ThemClass(ref string err, string class_name, string soBuoi, string fee, string courseID)
+        {
+            SqlParameter[] sqlParams =
+            {
+                new SqlParameter("@clname", class_name),
+                new SqlParameter("@totalDay", soBuoi),
+                new SqlParameter("@fee",fee),
+                new SqlParameter("@course_ID",courseID)
+            };
+
+            return db.MyExecuteNonQuery("insertClass", CommandType.StoredProcedure, ref err, sqlParams);
+        }
+        public bool CapNhatClass(ref string err, int classID, string clname, int totalDay, float fee, string courseID)
+        {
+            SqlParameter[] sqlParameters =
+            {
+                        new SqlParameter("@classID", classID),
+                        new SqlParameter("@clname", clname),
+                        new SqlParameter("@totalDay", totalDay),
+                        new SqlParameter("@fee",fee),
+                        new SqlParameter("@course_ID",courseID)
+            };
+            return db.MyExecuteNonQuery("updateClass", CommandType.StoredProcedure, ref err, sqlParameters);
+        }
+        public bool XoaClass(ref string err, int class_id)
+        {
+            // Tạo một mảng chứa các tham số cho thủ tục lưu trữ
+            SqlParameter[] sqlParams =
+            {
+                new SqlParameter("@class_ID",class_id),
+            };
+
+            return db.MyExecuteNonQuery("deleteClass", CommandType.StoredProcedure, ref err, sqlParams);
+        }
         public DataTable FindGroup(int classID)
         {
             SqlParameter[] sqlParams = new SqlParameter[]
@@ -75,6 +113,15 @@ namespace BusinessLayer
             };
 
             return db.ExecuteQueryDataTable("GetTotalIncome", CommandType.StoredProcedure, sqlParams);
+        }
+        public DataTable selectCourseByClassID(int @classID)
+        {
+            SqlParameter[] sqlParams = new SqlParameter[]
+            {
+                new SqlParameter("@classID", @classID),
+            };
+
+            return db.ExecuteQueryDataTable("selectCourseByClassID", CommandType.StoredProcedure, sqlParams);
         }
     }
 }
