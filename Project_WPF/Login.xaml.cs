@@ -63,8 +63,8 @@ namespace Project_WPF
 
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
-			MainWindow mainWindow = new MainWindow();
-			mainWindow.Show();
+			mainTeachers mainTeacher = new mainTeachers();
+            mainTeacher.Show();
 			this.Close();
 		}
 	}

@@ -1,0 +1,46 @@
+﻿<UserControl x:Class="Project_WPF.UserControls.UC_TeacherInformation"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Project_WPF.UserControls"
+                 xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="847.058823529412" d:DesignWidth="1200">
+
+    <Grid Background="#FFF6F6F6" x:Name="grid_Change" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.35*"/>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="0.55*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <TextBlock Text="Information" FontSize="32" FontWeight="SemiBold" HorizontalAlignment="Left" Margin="20,0,0,0" Foreground="#FF121518"></TextBlock>
+        </Grid>
+        <Grid Grid.Row="1" >
+            <TextBlock HorizontalAlignment="Left" Height="34" Margin="100,50,0,0" TextWrapping="Wrap" FontWeight="Bold" FontFamily="Kumbh Sans" Text="ID :" VerticalAlignment="Top" Width="192" FontSize="25" RenderTransformOrigin="0.516,-1.906" Foreground="#FF667F8E"/>
+            <TextBox x:Name="txt_ID" HorizontalAlignment="Left" Height="34" Margin="325,50,0,0" Style="{StaticResource textBoxadd}" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="623" SelectionTextBrush="White" SelectionBrush="#FF0078D8" Background="White" />
+            <TextBlock HorizontalAlignment="Left" Height="34" Margin="100,130,0,0" TextWrapping="Wrap" FontWeight="Bold" FontFamily="Kumbh Sans" Text="Name :" VerticalAlignment="Top" Width="192" FontSize="25" RenderTransformOrigin="0.516,-1.906" Foreground="#FF667F8E"/>
+            <TextBox x:Name="txt_Name" HorizontalAlignment="Left" Height="36" Margin="325,130,0,0" Style="{StaticResource textBoxadd}" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="623" SelectionTextBrush="White" SelectionBrush="#FF0078D8" Background="White"/>
+            <TextBlock HorizontalAlignment="Left" Height="34" Margin="100,210,0,0" TextWrapping="Wrap" FontWeight="Bold" FontFamily="Kumbh Sans" Text="Date :" VerticalAlignment="Top" Width="192" FontSize="25" RenderTransformOrigin="0.516,-1.906" Foreground="#FF667F8E"/>
+            <TextBox x:Name="txt_Date" HorizontalAlignment="Left" Height="36" Margin="325,210,0,0" Style="{StaticResource textBoxadd}" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="623" SelectionTextBrush="White" SelectionBrush="#FF0078D8" Background="White"/>
+            <TextBlock HorizontalAlignment="Left" Height="34" Margin="100,290,0,0" TextWrapping="Wrap" FontWeight="Bold" FontFamily="Kumbh Sans" Text="Gender :" VerticalAlignment="Top" Width="192" FontSize="25" RenderTransformOrigin="0.516,-1.906" Foreground="#FF667F8E" />
+            <RadioButton x:Name="rbMale" Content="Male"  HorizontalAlignment="Left" Height="34" Margin="380,290,0,0" VerticalAlignment="Top" Width="220" Background="White" Foreground="#FF543939" FontSize="25" FontFamily="Kumbh Sans"/>
+            <RadioButton x:Name="rbFemale" Content="Female"  HorizontalAlignment="Left" Height="34" Margin="691,290,0,0" VerticalAlignment="Top" Width="220" Background="White" Foreground="#FF543939" FontSize="25" FontFamily="Kumbh Sans"/>
+            <TextBlock HorizontalAlignment="Left" Height="34" Margin="100,370,0,0" TextWrapping="Wrap" FontWeight="Bold" FontFamily="Kumbh Sans" Text="Phone Number :" VerticalAlignment="Top" Width="192" FontSize="25" RenderTransformOrigin="0.516,-1906" Foreground="#FF667F8E"/>
+            <TextBox x:Name="txt_phoneNumber" HorizontalAlignment="Left" Height="36" Margin="325,370,0,0" Style="{StaticResource textBoxadd}" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="623" SelectionTextBrush="White" SelectionBrush="#FF0078D8" Background="White"/>
+            <TextBlock HorizontalAlignment="Left" Height="34" Margin="100,450,0,0" TextWrapping="Wrap" FontWeight="Bold" FontFamily="Kumbh Sans" Text="Address :" VerticalAlignment="Top" Width="192" FontSize="25" RenderTransformOrigin="0.516,-1906" Foreground="#FF667F8E"/>
+            <TextBox x:Name="txt_Address" HorizontalAlignment="Left" Height="36" Margin="325,450,0,0" Style="{StaticResource textBoxadd}" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="623" SelectionTextBrush="White" SelectionBrush="#FF0078D8" Background="White"/>
+            <TextBlock HorizontalAlignment="Left" Height="34" Margin="100,530,0,0" TextWrapping="Wrap" FontWeight="Bold" FontFamily="Kumbh Sans" Text="Identification :" VerticalAlignment="Top" Width="192" FontSize="25" RenderTransformOrigin="0.516,-1906" Foreground="#FF667F8E"/>
+            <TextBox x:Name="txt_Identification" HorizontalAlignment="Left" Height="36" Margin="325,530,0,0" Style="{StaticResource textBoxadd}" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="623" SelectionTextBrush="White" SelectionBrush="#FF0078D8" Background="White"/>
+            <TextBlock HorizontalAlignment="Left" Height="34" Margin="100,610,0,0" TextWrapping="Wrap" FontWeight="Bold" FontFamily="Kumbh Sans" Text="Email :" VerticalAlignment="Top" Width="192" FontSize="25" RenderTransformOrigin="0.516,-1906" Foreground="#FF667F8E"/>
+            <TextBox x:Name="txt_Email" HorizontalAlignment="Left" Height="36" Margin="325,610,0,0" Style="{StaticResource textBoxadd}" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="623" SelectionTextBrush="White" SelectionBrush="#FF0078D8" Background="White"/>
+        </Grid>
+        <Grid Grid.Row="2">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="70,0,0,10">
+                <Button x:Name="btn_save" Content="SAVE" Style="{StaticResource frm_add_save}" Margin="0,0,40,0" Click="btn_save_Click" Height="50" Width="180"  />
+                <Button x:Name="btn_cancel" Content="CANCEL" Style="{StaticResource frm_add_save}" Click="btn_cancel_Click" Height="50" Width="180"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

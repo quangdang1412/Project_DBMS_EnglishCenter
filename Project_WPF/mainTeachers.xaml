@@ -34,28 +34,22 @@
                                 <TextBlock Text="Dashboard" VerticalAlignment="Center" FontSize="36" FontFamily="Kumbh Sans"/>
                             </StackPanel>
                         </Button>
-                        <Button x:Name="btn_Teacher" Style="{StaticResource hoverMenu}"  GotFocus="GotFocus" LostFocus="LostFocus">
+                        <Button x:Name="btn_Teacher" Style="{StaticResource hoverMenu}" Click="btn_information_Click"  GotFocus="GotFocus" LostFocus="LostFocus">
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon Kind="AccountSchoolOutline" VerticalAlignment="Center" Margin="0,0,20,10" Width="48" Height="48"/>
-                                <TextBlock Text="Teacher" VerticalAlignment="Center" FontSize="36" FontFamily="Kumbh Sans"/>
+                                <TextBlock Text="Information" VerticalAlignment="Center" FontSize="36" FontFamily="Kumbh Sans"/>
                             </StackPanel>
                         </Button>
-                        <Button x:Name="btn_Student" Style="{StaticResource hoverMenu}"  GotFocus="GotFocus" LostFocus="LostFocus">
-                            <StackPanel Orientation="Horizontal">
-                                <materialDesign:PackIcon Kind="SchoolOutline" VerticalAlignment="Center" Margin="0,0,20,10" Width="48" Height="48"/>
-                                <TextBlock Text="Student" VerticalAlignment="Center" FontSize="36" FontFamily="Kumbh Sans"/>
-                            </StackPanel>
-                        </Button>
-                        <Button x:Name="btn_classroom" Style="{StaticResource hoverMenu}"  GotFocus="GotFocus" LostFocus="LostFocus">
+                        <Button x:Name="btn_classroom" Style="{StaticResource hoverMenu}" Click="btn_classroom_Click" GotFocus="GotFocus" LostFocus="LostFocus">
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon Kind="CastEducation" VerticalAlignment="Center" Margin="0,0,20,10" Width="48" Height="48"/>
                                 <TextBlock Text="Classroom" VerticalAlignment="Center" FontSize="36" FontFamily="Kumbh Sans"/>
                             </StackPanel>
                         </Button>
-                        <Button x:Name="btn_course" Style="{StaticResource hoverMenu}" GotFocus="GotFocus" LostFocus="LostFocus">
+                        <Button x:Name="btn_Notification" Style="{StaticResource hoverMenu}" Click="btn_notification_Click" GotFocus="GotFocus" LostFocus="LostFocus">
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon Kind="BookEducationOutline" VerticalAlignment="Center" Margin="0,0,20,10" Width="45" Height="45"/>
-                                <TextBlock Text="Course" VerticalAlignment="Center" FontSize="36" FontFamily="Segoe UI"/>
+                                <TextBlock Text="Notification" VerticalAlignment="Center" FontSize="36" FontFamily="Segoe UI"/>
                             </StackPanel>
                         </Button>
                     </StackPanel>
@@ -75,9 +69,8 @@
                     <Border x:Name="account" Style="{StaticResource b_account }" >
                         <materialDesign:PackIcon Kind="AccountCircleOutline" Width="36" Height="36" VerticalAlignment="Center" Foreground="#FF424242" />
                     </Border>
-                    <!--<materialDesign:PackIcon Kind="AccountCircleOutline" Width="36" Height="36" VerticalAlignment="Center" Foreground="#FF424242" />-->
                     <Rectangle Width="2" Fill="#FF424242" Margin="10,10,10,10" Opacity="0.5"/>
-                    <Button x:Name="btn_exit"   Style="{StaticResource btn_exit }" >
+                    <Button x:Name="btn_exit" Click="btn_exit_Click"  Style="{StaticResource btn_exit }" >
                         <materialDesign:PackIcon Kind="Logout" Width="36" Height="36" VerticalAlignment="Center" Foreground="#FF424242" />
                     </Button>
                 </StackPanel>

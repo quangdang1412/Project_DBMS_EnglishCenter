@@ -126,9 +126,10 @@ CREATE TABLE NOTIFICATION(
 GO
 /*Bảng điểm danh sinh ra từ mối qua hệ ba ngôi: học sinh,nhóm học,ngày học*/
 CREATE TABLE ATTENDANCE(
+	school_day date,
+	group_ID int,
     student_ID int,
-    group_ID int,
-    school_day date,
+    student_name NVARCHAR(300),
     present tinyint NOT NULL,
     PRIMARY KEY (student_ID, group_ID, school_day),
     FOREIGN KEY (student_ID) REFERENCES STUDENT (student_ID),
@@ -698,7 +699,7 @@ BEGIN
 	COMMIT TRANSACTION	
 END
 GO
-/*Xóa thông báo cho 1 lớp nếu không còn lớp nào có thông báo đó thì xóa luôn thông báo khỏi hệ thống*/
+/*Xóa thông báo*/
 CREATE PROCEDURE deleteNotification
 	@notificationID INT,
 	@groupID INT
@@ -714,22 +715,6 @@ BEGIN
 		END
 		DELETE FROM NOTIFICATION WHERE notification_ID=@notificationID
 	COMMIT TRANSACTION;
-END
-GO
-/*Lấy tên giáo viên đã gửi thông báo cho học sinh*/
-CREATE FUNCTION teacherSendMessage
-(
-	@notificationID INT
-)
-RETURNS NVARCHAR(300)
-AS
-BEGIN
-	DECLARE @teacherName NVARCHAR(300) =NULL;
-	SELECT @teacherName=teacher_name FROM TEACHER t
-		WHERE t.teacher_ID=(SELECT teacher_ID FROM STUDY_GROUP gr
-			WHERE gr.group_ID=(SELECT group_ID FROM NOTIFY 
-				WHERE notification_ID=@notificationID));
-	RETURN @teacherName;
 END
 GO
 /*Lấy thông báo mà giáo viên đã gửi cho học viên*/
@@ -750,6 +735,40 @@ BEGIN
 		content
 	FROM NOTIFICATION
 	WHERE notification_ID=@notificationID
+END
+GO
+/*Lấy thông báo đã tạo*/
+CREATE VIEW FullNotification
+AS
+	SELECT 
+		n.notification_ID,
+		s.teacher_ID,
+		t.teacher_name,
+		c.clname,
+		s.group_ID,
+		title,
+		content,
+		daytime_send
+	FROM NOTIFICATION n
+	INNER JOIN NOTIFY nf ON n.notification_ID=nf.notification_ID
+	INNER JOIN STUDY_GROUP s ON s.group_ID=nf.group_ID
+	INNER JOIN CLASS c ON s.class_ID=c.class_ID
+	INNER JOIN TEACHER t ON t.teacher_ID=s.teacher_ID;
+GO
+/*Lấy các thông báo theo teacherID*/
+CREATE PROCEDURE getNotificationMakeByTeacher
+	@teacherID INT
+AS
+BEGIN
+	SELECT 
+		notification_ID,
+		teacher_name,
+		clname,
+		group_ID,
+		title,
+		content,
+		daytime_send
+	FROM FullNotification WHERE teacher_ID=@teacherID;
 END
 GO
 /*Xóa lịch học cho nhóm học*/
@@ -1006,23 +1025,48 @@ END
 GO
 /*Tạo danh sách điểm danh cho nhóm học*/
 CREATE PROCEDURE insertStudentAttendance
-	@groupID INT
+	@groupID INT,
+	@studentID INT,
+	@studentName NVARCHAR(300)
 AS
 BEGIN
 	BEGIN TRANSACTION
 		INSERT INTO SCHOOL_DAYS(school_day) VALUES(GETDATE());
-		IF NOT EXISTS (SELECT 1 FROM STUDY_ON WHERE weekday_ID=DATEPART(WEEKDAY,GETDATE())+1 AND group_ID=@groupID)
+		IF NOT EXISTS (SELECT 1 FROM STUDY_ON WHERE weekday_ID=DATEPART(WEEKDAY,GETDATE()) AND group_ID=@groupID)
 		BEGIN
 			RAISERROR ('Không thể tạo bảng điểm danh do nhóm không có lịch học vào hôm nay',16,1);
 			ROLLBACK TRANSACTION;
 			RETURN;
 		END
-		SELECT student_ID FROM GROUP_LIST WHERE group_ID=@groupID;
-		INSERT INTO ATTENDANCE (group_ID, student_ID, school_day)
-		SELECT @groupID, student_ID, GETDATE() FROM GROUP_LIST WHERE group_ID=@groupID;
+		INSERT INTO ATTENDANCE (group_ID, student_ID,student_name, school_day)
+		VALUES (@groupID, @studentID,@studentName, GETDATE())
 		IF @@ROWCOUNT =0
 		BEGIN
 			RAISERROR ('Không thể tạo bảng điểm danh cho nhóm học',16,1);
+			ROLLBACK TRANSACTION;
+			RETURN;
+		END
+	COMMIT TRANSACTION
+END
+GO
+/*Xóa bảng điểm danh*/
+CREATE PROCEDURE deleteAttendance
+	@group_ID INT,
+	@school_day DATE
+AS
+BEGIN
+	BEGIN TRANSACTION
+		DELETE FROM ATTENDANCE WHERE school_day=@school_day AND group_ID=@group_ID
+		IF @@ROWCOUNT =0
+		BEGIN 
+			RAISERROR ('Không thể xóa bảng điểm danh cho nhóm học này',16,1);
+			ROLLBACK TRANSACTION;
+			RETURN;
+		END
+		DELETE FROM SCHOOL_DAYS WHERE school_day=@school_day
+		IF @@ERROR <> 0
+		BEGIN 
+			RAISERROR ('Không thể xóa bảng điểm danh cho nhóm học này',16,1);
 			ROLLBACK TRANSACTION;
 			RETURN;
 		END
@@ -1081,20 +1125,139 @@ END
 GO
 /*Cập nhật mật khẩu cho account*/
 CREATE PROCEDURE updatePassword
-	@username VARCHAR(10),
+	@account VARCHAR(10),
 	@password VARCHAR(300)
 AS
 BEGIN
 	UPDATE ACCOUNT
 	SET pass=@password
-	WHERE username=@username
+	WHERE account=@account
 END;
 GO
-/* Đổ dữ liệu */
+/*Đăng nhập*/
+CREATE PROCEDURE accountLogin
+    @account VARCHAR(100),
+    @password VARCHAR(300)
+AS 
+BEGIN
+    DECLARE @permissionname VARCHAR(10);
+    IF EXISTS (SELECT 1 FROM ACCOUNT WHERE account = @account)
+    BEGIN
+        IF NOT EXISTS (SELECT 1 FROM ACCOUNT WHERE account = @account AND pass = @password)
+        BEGIN
+            RAISERROR ('Mật khẩu không hợp lệ xin hãy nhập lại',16,1);
+            RETURN;
+        END
+        ELSE
+        BEGIN
+            SELECT 
+			@permissionname = permissionname
+			FROM ACCOUNT WHERE account = @account AND pass = @password;
+            IF @permissionname = 'QTV'
+            BEGIN
+                SELECT @permissionname AS permissionName; 
+            END
+            ELSE IF @permissionname = 'GV'
+            BEGIN
+                SELECT teacher_ID AS ID,
+                       teacher_name AS userName,
+					   @permissionname AS permissionName
+                FROM TEACHER WHERE teacher_phoneNumber = @account;
+            END
+            ELSE
+            BEGIN
+                SELECT student_ID AS ID,
+                       student_name as userName,
+					   @permissionname AS permissionName
+                FROM STUDENT WHERE student_phoneNumber = @account;
+            END
+        END
+    END
+    ELSE
+    BEGIN 
+        RAISERROR('Tài khoản không hợp lệ xin vui lòng nhập lại',16,1);
+        RETURN;
+    END
+END
+GO
+/*Cấp quyền giáo viên*/
+CREATE ROLE role_Teacher;
+GO
+GRANT EXECUTE ON updateTeacher TO role_Teacher;
+GRANT SELECT ON ATTENDANCE TO role_Teacher;
+GRANT EXECUTE ON insertStudentAttendance TO role_Teacher;
+GRANT EXECUTE ON deleteAttendance TO role_Teacher;
+GRANT SELECT ON COURSE TO role_Teacher;
+GRANT EXECUTE ON selectClassByCourse TO role_Teacher;
+GRANT EXECUTE ON GetStudentsByGroupID To role_Teacher;
+GRANT EXECUTE ON teacherSendMessageToGr TO role_Teacher;
+GRANT EXECUTE ON insertNotification TO role_Teacher;
+GRANT EXECUTE ON updateNotification TO role_Teacher;
+GRANT EXECUTE ON deleteNotification TO role_Teacher;
+GRANT EXECUTE ON selectGrByClass TO role_Teacher;
+GRANT SELECT ON Schedule TO role_Teacher;
+GRANT EXECUTE ON ScheduleByDay TO role_Teacher;
+GRANT EXECUTE ON updatePassword TO role_Teacher;
+GRANT EXECUTE ON accountLogin TO role_Teacher;
+GO
+/*Cấp quyền cho học viên*/
+CREATE ROLE role_Student;
+GO
+GRANT SELECT ON COURSE TO role_Student;
+GRANT EXECUTE ON updateStudent TO role_Student;
+GRANT EXECUTE ON selectClassByCourse TO role_Student;
+GRANT EXECUTE ON selectGrByClass TO role_Student;
+GRANT EXECUTE ON teacherSendMessageToGr TO role_Student;
+GRANT EXECUTE ON  selectTeacherandClassByGr TO role_Student;
+GRANT SELECT ON ListGrOfCenter TO role_Student;
+GRANT EXECUTE ON updatePassword TO role_Student;
+GRANT EXECUTE ON accountLogin TO role_Student;
+GO
+/*Tạo tài khoản trên cơ sở dữ liệu*/
+CREATE TRIGGER insertAccountLogin ON ACCOUNT
+AFTER INSERT
+AS
+BEGIN
+    DECLARE @account NVARCHAR(300);
+    DECLARE @pass VARCHAR(100);
+    DECLARE @permissionName VARCHAR(10); 
+    DECLARE @strsql NVARCHAR(2000);
+
+    SELECT @account = i.account, @pass = i.pass, @permissionName = i.permissionname 
+    FROM inserted i;
+	IF EXISTS (SELECT 1 FROM sys.server_principals WHERE name = @account AND type IN ('S', 'U'))
+	BEGIN
+		RETURN;
+	END
+    IF @account = 'admin'
+    BEGIN
+        RETURN;
+    END
+
+    SET @strsql = 'CREATE LOGIN ' + QUOTENAME(@account) + ' WITH PASSWORD=''' + @pass + ''', CHECK_EXPIRATION=OFF, CHECK_POLICY=OFF;';
+    EXEC sp_executesql @strsql;
+
+    SET @strsql = 'CREATE USER ' + QUOTENAME(@account) + ' FOR LOGIN ' + QUOTENAME(@account) + ';';
+    EXEC sp_executesql @strsql;
+
+    IF (@permissionName = 'GV')
+    BEGIN
+        EXEC sp_addrolemember 'role_Teacher', @account;
+    END
+    ELSE IF (@permissionName = 'HS')
+    BEGIN
+        EXEC sp_addrolemember 'role_Student', @account;
+    END
+	ELSE
+	BEGIN
+		EXEC sp_addrolemember 'db_owner',@account;
+	END
+END
+GO
 USE EnglishCenter
 /*Tài khoản admin*/
 INSERT INTO ACCOUNT (permissionname,username,account,pass)
-VALUES('QTV','ADMIN','admin','admin');
+VALUES('QTV','ADMIN','admin1','admin1');
 GO
 /*Thêm khóa học*/
 INSERT INTO COURSE(course_ID,course_name)
