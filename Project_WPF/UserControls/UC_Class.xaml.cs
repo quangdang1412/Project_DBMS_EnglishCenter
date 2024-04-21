@@ -33,7 +33,7 @@ namespace Project_WPF.UserControls
         ClassBLL dbclass;
         DataTable dtGroupFind;
         DataTable dtTotal;
-
+        String err = "";
         public ObservableCollection<string> ChartLabels { get; set; }
         public decimal maxChart { get; set; }
         public SeriesCollection ChartSeries { get; set; }
@@ -121,7 +121,7 @@ namespace Project_WPF.UserControls
                 {
                     var id = row["class_ID"].ToString();
                     int classID = Convert.ToInt32(id);
-                    dtTotal = dbclass.TotalIncome(classID);
+                    dtTotal = dbclass.TotalIncome(ref err,classID);
 
                     decimal total = Convert.ToDecimal(dtTotal.Rows[0]["total"]);
                     total = total / 1000000;
@@ -151,7 +151,7 @@ namespace Project_WPF.UserControls
         {
             try
             {
-                dtGroupFind = dbclass.FindGroup(x);
+                dtGroupFind = dbclass.FindGroup(ref err,x);
                 stackPanelContainer.Children.Clear();
                 AddDetailCalendarDynamically(dtGroupFind.Rows.Count);
             }
