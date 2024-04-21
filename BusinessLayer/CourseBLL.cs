@@ -51,14 +51,14 @@ namespace BusinessLayer
 
             return db.MyExecuteNonQuery("deleteCourse", CommandType.StoredProcedure, ref err, sqlParams);
         }
-        public DataTable Course_FindClass(string courseID)
+        public DataTable Course_FindClass(ref string err, string courseID)
         {
             SqlParameter[] sqlParams = new SqlParameter[]
             {
                 new SqlParameter("@courseID", courseID),
             };
 
-            return db.ExecuteQueryDataTable("selectClassByCourse", CommandType.StoredProcedure, sqlParams);
+            return db.ExecuteQueryDataTable("selectClassByCourse", CommandType.StoredProcedure, ref err, sqlParams);
         }
     }
 }

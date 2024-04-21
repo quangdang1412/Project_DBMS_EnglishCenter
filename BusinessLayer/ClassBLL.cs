@@ -58,32 +58,32 @@ namespace BusinessLayer
 
             return db.MyExecuteNonQuery("deleteClass", CommandType.StoredProcedure, ref err, sqlParams);
         }
-        public DataTable FindGroup(int classID)
+        public DataTable FindGroup(ref string err, int classID)
         {
             SqlParameter[] sqlParams = new SqlParameter[]
             {
                 new SqlParameter("@classID", classID),
             };
 
-            return db.ExecuteQueryDataTable("selectGrByClass", CommandType.StoredProcedure, sqlParams);
+            return db.ExecuteQueryDataTable("selectGrByClass", CommandType.StoredProcedure, ref err, sqlParams);
         }
-        public DataTable FindStudentsByGroup(int groupID)
+        public DataTable FindStudentsByGroup(ref string err, int groupID)
         {
             SqlParameter[] sqlParams = new SqlParameter[]
             {
                 new SqlParameter("@groupID", groupID),
             };
 
-            return db.ExecuteQueryDataTable("GetStudentsByGroupID", CommandType.StoredProcedure, sqlParams);
+            return db.ExecuteQueryDataTable("GetStudentsByGroupID", CommandType.StoredProcedure, ref err, sqlParams);
         }
-        public DataTable FindTeachersByGroup(int groupID)
+        public DataTable FindTeachersByGroup(ref string err, int groupID)
         {
             SqlParameter[] sqlParams = new SqlParameter[]
             {
                 new SqlParameter("@groupID", groupID),
             };
 
-            return db.ExecuteQueryDataTable("selectTeacherandClassByGr", CommandType.StoredProcedure, sqlParams);
+            return db.ExecuteQueryDataTable("selectTeacherandClassByGr", CommandType.StoredProcedure, ref err, sqlParams);
         }
         public bool XoaHocSinh(ref string err, int studentID, int groupID)
         {
@@ -105,23 +105,23 @@ namespace BusinessLayer
             };
             return db.ExecuteQueryDataSet("selectAllStudent", CommandType.StoredProcedure, param);
         }
-        public DataTable TotalIncome(int @classID)
+        public DataTable TotalIncome(ref string err, int classID)
         {
             SqlParameter[] sqlParams = new SqlParameter[]
             {
-                new SqlParameter("@classID", @classID),
+                new SqlParameter("@classID", classID),
             };
 
-            return db.ExecuteQueryDataTable("GetTotalIncome", CommandType.StoredProcedure, sqlParams);
+            return db.ExecuteQueryDataTable("GetTotalIncome", CommandType.StoredProcedure, ref err, sqlParams);
         }
-        public DataTable selectCourseByClassID(int @classID)
+        public DataTable selectCourseByClassID(ref string err, int classID)
         {
             SqlParameter[] sqlParams = new SqlParameter[]
             {
                 new SqlParameter("@classID", @classID),
             };
 
-            return db.ExecuteQueryDataTable("selectCourseByClassID", CommandType.StoredProcedure, sqlParams);
+            return db.ExecuteQueryDataTable("selectCourseByClassID", CommandType.StoredProcedure, ref err, sqlParams);
         }
     }
 }

@@ -14,7 +14,7 @@ namespace Project_WPF.Form
         DataTable dtClassTeacher;
 
         ClassBLL dbclass;
-
+        String err = "";
         public frm_Group()
         {
             InitializeComponent();
@@ -33,7 +33,7 @@ namespace Project_WPF.Form
         {
             try
             {
-                dtClassStudent = dbclass.FindStudentsByGroup(x);
+                dtClassStudent = dbclass.FindStudentsByGroup(ref err, x);
 
                 StudentsDataGrid.ItemsSource = dtClassStudent.DefaultView;
             }
@@ -46,7 +46,7 @@ namespace Project_WPF.Form
         {
             try
             {
-                dtClassTeacher = dbclass.FindTeachersByGroup(x);
+                dtClassTeacher = dbclass.FindTeachersByGroup(ref err, x);
                 txt_class.Text = dtClassTeacher.Rows[0]["classname"].ToString()  + " " + x;
                 txt_TeacherName.Text ="GV: " + dtClassTeacher.Rows[0]["teacherName"].ToString();
             }

@@ -1,6 +1,9 @@
 ﻿using BusinessLayer;
+using DataLayer;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static MaterialDesignThemes.Wpf.Theme;
 
 namespace Project_WPF
 {
@@ -62,26 +66,40 @@ namespace Project_WPF
 		{
 			txtPass.Focus();
 		}
-		public void login( string err,string user, string pass)
-		{
-			
-        }
+		
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
-			string err = "";
-			Console.WriteLine(txtPass.Password);
-            bool success = loginBLL.Login(ref err, txtUser.Text, txtPass.Password);
-            if (success)
-            {
-                MessageBox.Show("Đăng nhập thành công");
-                MainWindow mainWindow = new MainWindow();
-                mainWindow.Show();
-                this.Close();
+			string quyen = "";
+            string err = "";
+
+            DataTable dt = loginBLL.Login_pre(ref err,txtUser.Text, txtPass.Password);
+			if (dt.Rows.Count > 0)
+			{
+                quyen = dt.Rows[0]["permissionName"].ToString();
+				if(quyen == "QTV")
+				{
+					MainWindow main = new MainWindow();
+					main.Show();
+					this.Hide();
+				}
+				else if(quyen == "GV")
+				{
+					mainTeachers main = new mainTeachers();
+					main.Show();
+                    main.Show();
+                    this.Hide();
+                }
+				else
+				{
+					mainStudents main = new mainStudents();
+					main.Show();
+					this.Hide();
+				}
             }
             else
-            {
+			{
                 MessageBox.Show(err);
-            }
+            }	
             
 		}
 	}
