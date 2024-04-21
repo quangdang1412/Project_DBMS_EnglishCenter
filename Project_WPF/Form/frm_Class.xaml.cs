@@ -33,6 +33,7 @@ namespace Project_WPF.Form
         bool check = true;
         int course_ID;
         String id="";
+        string err = "";
         public frm_Class()
         {
             InitializeComponent();
@@ -87,7 +88,7 @@ namespace Project_WPF.Form
         {
             try
             {
-                dtClass = ClassBLL.selectCourseByClassID(x);
+                dtClass = ClassBLL.selectCourseByClassID(ref err,x);
                 string khoa = dtClass.Rows[0]["course_name"].ToString();
                 cbo_Khoa.Text = khoa;
                 id= dtClass.Rows[0]["course_ID"].ToString();

@@ -10,15 +10,20 @@ namespace DataLayer
 {
 	public class DAL
 	{
-		string ConnStr = "Data Source=localhost;" +
-		"Initial Catalog=EnglishCenter;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";  
-		SqlConnection conn = null;
+        public static SqlConnectionStringBuilder ConnStrBuilder = new SqlConnectionStringBuilder();
+
+        SqlConnection conn = null;
 		SqlCommand comm = null;
 		SqlDataAdapter da = null;
 		// Constructor
 		public DAL()
 		{
-			conn = new SqlConnection(ConnStr);
+            DAL.ConnStrBuilder.DataSource = "localhost"; 
+            DAL.ConnStrBuilder.InitialCatalog = "EnglishCenter";
+            DAL.ConnStrBuilder.IntegratedSecurity = true;
+            DAL.ConnStrBuilder.Encrypt = false;
+
+            conn = new SqlConnection(ConnStrBuilder.ToString());
 			comm = conn.CreateCommand();
 		}
         // Khai bao ham thuc thi tang ket noi
@@ -108,7 +113,7 @@ namespace DataLayer
 
             return result;
         }
-        public DataTable ExecuteQueryDataTable(string procName, CommandType cmdType, SqlParameter[] parameters)
+        public DataTable ExecuteQueryDataTable(string procName, CommandType cmdType, ref string error, SqlParameter[] parameters)
         {
             DataTable dt = new DataTable();
             try
@@ -128,7 +133,7 @@ namespace DataLayer
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                error = ex.Message;
             }
 
             return dt;

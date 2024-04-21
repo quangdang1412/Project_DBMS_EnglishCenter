@@ -13,7 +13,7 @@ namespace Project_WPF.UserControls
 		DataTable dtb;
         CourseBLL dbcourse;
         DataTable dt_find;
-		
+		string err="";
         public UC_Course()
 		{
 			InitializeComponent();
@@ -109,7 +109,7 @@ namespace Project_WPF.UserControls
         {
             try
             {
-                dt_find = dbcourse.Course_FindClass(courseID);
+                dt_find = dbcourse.Course_FindClass(ref err,courseID);
 
                 stackPanelContainer.Children.Clear();
 

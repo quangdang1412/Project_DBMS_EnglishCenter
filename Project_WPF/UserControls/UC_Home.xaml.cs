@@ -26,7 +26,7 @@ namespace Project_WPF.UserControls
 	{
 		HomeBLL home;
 		DataTable dtDay;
-
+		String err = "";
         public UC_Home()
 		{
 			home= new HomeBLL();
@@ -119,7 +119,7 @@ namespace Project_WPF.UserControls
 		{
 			try
 			{
-				dtDay = home.layLichHoc(x);
+				dtDay = home.layLichHoc(ref err,x);
 				stackPanelContainer.Children.Clear();
                 AddDetailCalendarDynamically(dtDay.Rows.Count);
 			}
