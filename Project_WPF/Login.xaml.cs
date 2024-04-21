@@ -49,58 +49,70 @@ namespace Project_WPF
 			txtUser.Focus();
         }
 
-		private void txtPass_PasswordChanged(object sender, RoutedEventArgs e)
-		{
-			if (!string.IsNullOrEmpty(textPass.Text) && textPass.Text.Length > 0)
-			{
-				textPass.Visibility = Visibility.Collapsed;
+        private void txtPass_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(txtPass.Password) && txtPass.Password.Length > 0)
+            {
+                textPass.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                textPass.Visibility = Visibility.Visible;
+            }
+        }
 
-			}
-			else
-			{
-				textPass.Visibility = Visibility.Visible;
-			}
-		}
 
-		private void textPass_MouseDown(object sender, MouseButtonEventArgs e)
+        private void textPass_MouseDown(object sender, MouseButtonEventArgs e)
 		{
 			txtPass.Focus();
 		}
-		
-		private void Button_Click(object sender, RoutedEventArgs e)
-		{
-			string quyen = "";
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            string quyen = "";
             string err = "";
 
-            DataTable dt = loginBLL.Login_pre(ref err,txtUser.Text, txtPass.Password);
-			if (dt.Rows.Count > 0)
-			{
+            DataTable dt = loginBLL.Login_pre(ref err, txtUser.Text, txtPass.Password);
+
+            if (!string.IsNullOrEmpty(err))
+            {
+                MessageBox.Show(err);
+                return;
+            }
+
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                DAL.ConnStrBuilder.UserID = txtUser.Text;
+                DAL.ConnStrBuilder.Password = txtPass.Password;
+                DAL.ConnStrBuilder.IntegratedSecurity = false;
+                MessageBox.Show("Đăng nhập thành công");
                 quyen = dt.Rows[0]["permissionName"].ToString();
-				if(quyen == "QTV")
-				{
-					MainWindow main = new MainWindow();
-					main.Show();
-					this.Hide();
-				}
-				else if(quyen == "GV")
-				{
-					mainTeachers main = new mainTeachers();
-					main.Show();
-                    main.Show();
-                    this.Hide();
+
+                switch (quyen)
+                {
+                    case "HS":
+                        mainStudents mainStudent = new mainStudents();
+                        mainStudent.Show();
+                        this.Hide();
+                        break;
+                    case "GV":
+                        mainTeachers mainTeacher = new mainTeachers();
+                        mainTeacher.Show();
+                        this.Hide();
+                        break;
+                    default:
+
+                        MainWindow main = new MainWindow();
+                        main.Show();
+                        this.Hide();
+                        break;
                 }
-				else
-				{
-					mainStudents main = new mainStudents();
-					main.Show();
-					this.Hide();
-				}
             }
             else
-			{
+            {
                 MessageBox.Show(err);
-            }	
-            
-		}
-	}
+            }
+        }
+
+    }
 }
