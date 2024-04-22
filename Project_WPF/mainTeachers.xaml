@@ -34,7 +34,7 @@
                                 <TextBlock Text="Dashboard" VerticalAlignment="Center" FontSize="36" FontFamily="Kumbh Sans"/>
                             </StackPanel>
                         </Button>
-                        <Button x:Name="btn_Teacher" Style="{StaticResource hoverMenu}"  GotFocus="GotFocus" LostFocus="LostFocus">
+                        <Button x:Name="btn_Teacher" Style="{StaticResource hoverMenu}" Click="btn_teacher_Click"  GotFocus="GotFocus" LostFocus="LostFocus">
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon Kind="AccountSchoolOutline" VerticalAlignment="Center" Margin="0,0,20,10" Width="48" Height="48"/>
                                 <TextBlock Text="Teacher" VerticalAlignment="Center" FontSize="36" FontFamily="Kumbh Sans"/>
@@ -46,7 +46,7 @@
                                 <TextBlock Text="Student" VerticalAlignment="Center" FontSize="36" FontFamily="Kumbh Sans"/>
                             </StackPanel>
                         </Button>
-                        <Button x:Name="btn_classroom" Style="{StaticResource hoverMenu}"  GotFocus="GotFocus" LostFocus="LostFocus">
+                        <Button x:Name="btn_classroom" Style="{StaticResource hoverMenu}" Click="btn_classroom_Click" GotFocus="GotFocus" LostFocus="LostFocus">
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon Kind="CastEducation" VerticalAlignment="Center" Margin="0,0,20,10" Width="48" Height="48"/>
                                 <TextBlock Text="Classroom" VerticalAlignment="Center" FontSize="36" FontFamily="Kumbh Sans"/>
@@ -77,7 +77,7 @@
                     </Border>
                     <!--<materialDesign:PackIcon Kind="AccountCircleOutline" Width="36" Height="36" VerticalAlignment="Center" Foreground="#FF424242" />-->
                     <Rectangle Width="2" Fill="#FF424242" Margin="10,10,10,10" Opacity="0.5"/>
-                    <Button x:Name="btn_exit"   Style="{StaticResource btn_exit }" >
+                    <Button x:Name="btn_exit" Click="btn_exit_Click"  Style="{StaticResource btn_exit }" >
                         <materialDesign:PackIcon Kind="Logout" Width="36" Height="36" VerticalAlignment="Center" Foreground="#FF424242" />
                     </Button>
                 </StackPanel>
