@@ -68,5 +68,13 @@ namespace BusinessLayer
             };
             return db.ExecuteQueryDataSet("selectAllTeacher", CommandType.StoredProcedure, sqlParams);
         }
+        public DataTable TimKiemGiaoVienTheoID(ref string err,int teacherID)
+        {
+            SqlParameter[] sqlParams =
+            {
+                new SqlParameter("@teacherID",teacherID)
+            };
+            return db.ExecuteQueryDataTable("selectTeacherByID", CommandType.StoredProcedure,ref err, sqlParams);
+        }
     }
 }

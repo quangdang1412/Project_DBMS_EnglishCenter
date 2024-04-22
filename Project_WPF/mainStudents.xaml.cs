@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Project_WPF.UserControls;
 
 namespace Project_WPF
 {
@@ -40,6 +41,24 @@ namespace Project_WPF
         {
             Button button = sender as Button;
 
+        }
+
+        private void btn_exit_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+        private void btn_info_Click(object sender, RoutedEventArgs e)
+        {
+            UC_Stu_Info  UC_Info = new UC_Stu_Info(); // Tạo một instance của UserControl
+            MainGrid.Children.Clear();
+            MainGrid.Children.Add(UC_Info);
+        }
+
+        private void btn_Notify_Click(object sender, RoutedEventArgs e)
+        {
+            UC_Stu_Notify uC_Stu_Notify = new UC_Stu_Notify();
+            MainGrid.Children.Clear();
+            MainGrid.Children.Add(uC_Stu_Notify);
         }
     }
 }

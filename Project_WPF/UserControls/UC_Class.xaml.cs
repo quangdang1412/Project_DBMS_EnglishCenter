@@ -147,12 +147,7 @@ namespace Project_WPF.UserControls
                 maxChart = maxTotal;
             }
         }
-
-
-
-
-
-        public void findGroup(int x)
+        public void findGroup(int x) 
         {
             try
             {

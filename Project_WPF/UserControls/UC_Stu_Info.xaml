@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="Project_WPF.UserControls.UC_Stu_Info"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Project_WPF.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="847.058823529412" d:DesignWidth="1200">
+    <Grid
+        Background="#FFF6F6F6">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="8*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <TextBlock Text="Profile" FontSize="32" FontWeight="SemiBold" HorizontalAlignment="Left" Margin="20,0,0,0" Foreground="#FF121518"></TextBlock>
+        </Grid>
+        <Grid Grid.Row="1" Margin="0,0,0,0">
+            <TextBlock Text="username"  FontSize="25" FontWeight="SemiBold" Foreground="Black" Margin="273,57">
+            </TextBlock>
+            <TextBlock Text="birthday"  FontSize="25" FontWeight="SemiBold" Foreground="Black" Margin="273,136">
+            </TextBlock>
+            <TextBlock Text="Gender"  FontSize="25" FontWeight="SemiBold" Foreground="Black" Margin="273,219" RenderTransformOrigin="0.5,0.5">
+            </TextBlock>
+            <TextBlock Text="Identify"  FontSize="25" FontWeight="SemiBold" Foreground="Black" Margin="273,305">
+            </TextBlock>
+            <TextBlock Text="Phone"  FontSize="25" FontWeight="SemiBold" Foreground="Black" Margin="273,386,0,0">
+            </TextBlock>
+            <TextBox x:Name="txt_username" HorizontalAlignment="Left" Height="48" Margin="424,51,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="474" BorderBrush="White"/>
+            <TextBox x:Name="txt_birthday" HorizontalAlignment="Left" Height="48" Margin="424,136,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="477" BorderBrush="White"/>
+            <TextBox x:Name="txt_Identify" HorizontalAlignment="Left" Height="48" Margin="424,289,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="476" BorderBrush="White"/>
+            <TextBox x:Name="txt_Phone" HorizontalAlignment="Left" Height="48" Margin="424,385,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="478" BorderBrush="White"/>
+            <RadioButton x:Name="rbtn_Male" Content="Male" FontWeight="SemiBold" FontSize="25" Margin="661,222,418,0" RenderTransformOrigin="0.402,0.594" />
+            <RadioButton x:Name="rbtn_Female" Content="Female" FontWeight="SemiBold" FontSize="25" Margin="478,224,568,0"/>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,90">
+                <Button x:Name="btn_save" Content="SAVE" Style="{StaticResource frm_add_save}" Margin="0,0,40,0"   />
+                <Button Content="CANCEL" Style="{StaticResource frm_add_save}"   />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>
