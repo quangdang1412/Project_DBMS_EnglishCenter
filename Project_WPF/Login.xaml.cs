@@ -87,37 +87,19 @@ namespace Project_WPF
                 DAL.ConnStrBuilder.IntegratedSecurity = false;
                 MessageBox.Show("Đăng nhập thành công");
                 quyen = dt.Rows[0]["permissionName"].ToString();
-				if(quyen == "QTV")
-				{
-					MainWindow main = new MainWindow();
-					main.Show();
-					this.Hide();
-				}
-				else if(quyen == "GV")
-				{
-					int ID = int.Parse(dt.Rows[0]["ID"].ToString());
-					string name = dt.Rows[0]["userName"].ToString();
-					mainTeachers main = new mainTeachers(ID,name);
-					main.Show();
-                    this.Hide();
-                switch (quyen)
+                if (quyen == "QTV")
                 {
-                    case "HS":
-                        mainStudents mainStudent = new mainStudents();
-                        mainStudent.Show();
-                        this.Hide();
-                        break;
-                    case "GV":
-                        mainTeachers mainTeacher = new mainTeachers();
-                        mainTeacher.Show();
-                        this.Hide();
-                        break;
-                    default:
-
-                        MainWindow main = new MainWindow();
-                        main.Show();
-                        this.Hide();
-                        break;
+                    MainWindow main = new MainWindow();
+                    main.Show();
+                    this.Hide();
+                }
+                else if (quyen == "GV")
+                {
+                    int ID = int.Parse(dt.Rows[0]["ID"].ToString());
+                    string name = dt.Rows[0]["userName"].ToString();
+                    mainTeachers main = new mainTeachers(ID, name);
+                    main.Show();
+                    this.Hide();
                 }
             }
             else
