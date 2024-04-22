@@ -737,6 +737,40 @@ BEGIN
 	WHERE notification_ID=@notificationID
 END
 GO
+/*Lấy thông báo đã tạo*/
+CREATE VIEW FullNotification
+AS
+	SELECT 
+		n.notification_ID,
+		s.teacher_ID,
+		t.teacher_name,
+		c.clname,
+		s.group_ID,
+		title,
+		content,
+		daytime_send
+	FROM NOTIFICATION n
+	INNER JOIN NOTIFY nf ON n.notification_ID=nf.notification_ID
+	INNER JOIN STUDY_GROUP s ON s.group_ID=nf.group_ID
+	INNER JOIN CLASS c ON s.class_ID=c.class_ID
+	INNER JOIN TEACHER t ON t.teacher_ID=s.teacher_ID;
+GO
+/*Lấy các thông báo theo teacherID*/
+CREATE PROCEDURE getNotificationMakeByTeacher
+	@teacherID INT
+AS
+BEGIN
+	SELECT 
+		notification_ID,
+		teacher_name,
+		clname,
+		group_ID,
+		title,
+		content,
+		daytime_send
+	FROM FullNotification WHERE teacher_ID=@teacherID;
+END
+GO
 /*Xóa lịch học cho nhóm học*/
 CREATE PROCEDURE deleteStudyOn
 	@weekday_ID TINYINT,
@@ -1116,22 +1150,25 @@ BEGIN
         END
         ELSE
         BEGIN
-            SELECT @permissionname = permissionname FROM ACCOUNT WHERE account = @account AND pass = @password;
-
+            SELECT 
+			@permissionname = permissionname
+			FROM ACCOUNT WHERE account = @account AND pass = @password;
             IF @permissionname = 'QTV'
             BEGIN
                 SELECT @permissionname AS permissionName; 
             END
             ELSE IF @permissionname = 'GV'
             BEGIN
-                SELECT teacher_ID,
-                       teacher_name
+                SELECT teacher_ID AS ID,
+                       teacher_name AS userName,
+					   @permissionname AS permissionName
                 FROM TEACHER WHERE teacher_phoneNumber = @account;
             END
             ELSE
             BEGIN
-                SELECT student_ID,
-                       student_name
+                SELECT student_ID AS ID,
+                       student_name as userName,
+					   @permissionname AS permissionName
                 FROM STUDENT WHERE student_phoneNumber = @account;
             END
         END
@@ -1211,13 +1248,16 @@ BEGIN
     BEGIN
         EXEC sp_addrolemember 'role_Student', @account;
     END
+	ELSE
+	BEGIN
+		EXEC sp_addrolemember 'db_owner',@account;
+	END
 END
 GO
-/* Đổ dữ liệu */
 USE EnglishCenter
 /*Tài khoản admin*/
 INSERT INTO ACCOUNT (permissionname,username,account,pass)
-VALUES('QTV','ADMIN','admin','admin');
+VALUES('QTV','ADMIN','admin1','admin1');
 GO
 /*Thêm khóa học*/
 INSERT INTO COURSE(course_ID,course_name)

@@ -16,22 +16,13 @@ using System.Windows.Shapes;
 namespace Project_WPF.UserControls
 {
     /// <summary>
-    /// Interaction logic for UC_TeacherInformation.xaml
+    /// Interaction logic for UC_Notification.xaml
     /// </summary>
-    public partial class UC_TeacherInformation : UserControl
+    public partial class UC_Notification : UserControl
     {
-        public UC_TeacherInformation()
+        public UC_Notification()
         {
             InitializeComponent();
-        }
-
-        private void btn_cancel_Click(object sender, RoutedEventArgs e)
-        {
-            return;
-        }
-        private void btn_save_Click(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }

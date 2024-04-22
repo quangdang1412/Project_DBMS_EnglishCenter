@@ -40,7 +40,29 @@ namespace Project_WPF
         private new void LostFocus(object sender, RoutedEventArgs e)
         {
             Button button = sender as Button;
-
+            button.Background = Brushes.Transparent;
+        }
+        private void btn_classroom_Click(object sender, RoutedEventArgs e)
+        {
+            UC_Class uC_Class = new UC_Class(); // Tạo một instance của UserControl
+            MainGrid.Children.Clear();
+            MainGrid.Children.Add(uC_Class);
+        }
+        private void btn_information_Click(object sender, RoutedEventArgs e)
+        {
+            UC_TeacherInformation UC_teacherInformation = new UC_TeacherInformation(); // Tạo một instance của UserControl
+            MainGrid.Children.Clear();
+            MainGrid.Children.Add(UC_teacherInformation);
+        }
+        private void btn_notification_Click(object sender, RoutedEventArgs e)
+        {
+            UC_Course UC_Course= new UC_Course(); // Tạo một instance của UserControl
+            MainGrid.Children.Clear();
+            MainGrid.Children.Add(UC_Course);
+        }
+        private void btn_exit_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close(); 
         }
         private void btn_classroom_Click(object sender, RoutedEventArgs e)
         {
