@@ -167,10 +167,10 @@ CREATE TABLE MANAGE(
 GO
 /*Bảng tài khoản*/
 CREATE TABLE ACCOUNT(
-	permissionname VARCHAR(10),
-	username NVARCHAR(300),
-	account VARCHAR(100),
-	pass VARCHAR(100)
+	permissionname VARCHAR(10) NOT NULL,
+	username NVARCHAR(300) NOT NULL,
+	account VARCHAR(100) NOT NULL,
+	pass VARCHAR(100) NOT NULL
 );
 GO
 /*
@@ -289,6 +289,23 @@ BEGIN
 		teacher_phoneNumber LIKE '%' + @keyword +'%' OR
 		LOWER(teacher_name) LIKE '%' +LOWER(@keyword) +'%' OR
 		LOWER(email) LIKE '%' +LOWER(@keyword)+ '%' 
+END
+GO
+/*Lấy thông tin giáo viên dựa trên ID*/
+CREATE PROCEDURE selectTeacherByID
+	@teacherID INT
+AS
+BEGIN
+SELECT
+	teacher_ID,
+	teacher_name,
+	FORMAT(teacher_dob, 'dd/MM/yyyy') AS teacher_dob,
+	gender,
+	teacher_phoneNumber,
+	teacher_address,
+	identification,
+	email
+	FROM TEACHER WHERE teacher_ID=@teacherID
 END
 GO
 /*Procedure tạo khóa học mới*/
@@ -701,15 +718,14 @@ END
 GO
 /*Xóa thông báo*/
 CREATE PROCEDURE deleteNotification
-	@notificationID INT,
-	@groupID INT
+	@notificationID INT
 AS
 BEGIN
 	BEGIN TRANSACTION
-		DELETE FROM NOTIFY WHERE group_ID=@groupID AND notification_ID=@notificationID
+		DELETE FROM NOTIFY WHERE notification_ID=@notificationID
 		IF(@@ERROR <>0)
 		BEGIN
-			RAISERROR ('Không thể tìm thấy nhóm học %d hoặc thông báo %d',16,1,@groupID,@notificationID);
+			RAISERROR ('Không thể xóa thông báo %d',16,1,@notificationID);
 			ROLLBACK TRANSACTION;
 			RETURN;
 		END
@@ -766,9 +782,16 @@ BEGIN
 		clname,
 		group_ID,
 		title,
-		content,
 		daytime_send
 	FROM FullNotification WHERE teacher_ID=@teacherID;
+END
+GO
+/*Lấy nội dung của thông báo*/
+CREATE PROCEDURE getContent
+	@notificationID INT
+AS
+BEGIN
+	SELECT content FROM NOTIFICATION WHERE notification_ID=@notificationID
 END
 GO
 /*Xóa lịch học cho nhóm học*/
@@ -1225,21 +1248,13 @@ BEGIN
 
     SELECT @account = i.account, @pass = i.pass, @permissionName = i.permissionname 
     FROM inserted i;
-	IF EXISTS (SELECT 1 FROM sys.server_principals WHERE name = @account AND type IN ('S', 'U'))
+	IF  NOT EXISTS (SELECT 1 FROM sys.server_principals WHERE name = @account AND type IN ('S', 'U'))
 	BEGIN
-		RETURN;
+		SET @strsql = 'CREATE LOGIN ' + QUOTENAME(@account) + ' WITH PASSWORD=''' + @pass + ''', CHECK_EXPIRATION=OFF, CHECK_POLICY=OFF;';
+		EXEC sp_executesql @strsql;
 	END
-    IF @account = 'admin'
-    BEGIN
-        RETURN;
-    END
-
-    SET @strsql = 'CREATE LOGIN ' + QUOTENAME(@account) + ' WITH PASSWORD=''' + @pass + ''', CHECK_EXPIRATION=OFF, CHECK_POLICY=OFF;';
-    EXEC sp_executesql @strsql;
-
     SET @strsql = 'CREATE USER ' + QUOTENAME(@account) + ' FOR LOGIN ' + QUOTENAME(@account) + ';';
     EXEC sp_executesql @strsql;
-
     IF (@permissionName = 'GV')
     BEGIN
         EXEC sp_addrolemember 'role_Teacher', @account;

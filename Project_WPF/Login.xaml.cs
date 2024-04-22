@@ -84,9 +84,10 @@ namespace Project_WPF
 				}
 				else if(quyen == "GV")
 				{
-					mainTeachers main = new mainTeachers();
+					int ID = int.Parse(dt.Rows[0]["ID"].ToString());
+					string name = dt.Rows[0]["userName"].ToString();
+					mainTeachers main = new mainTeachers(ID,name);
 					main.Show();
-                    main.Show();
                     this.Hide();
                 }
 				else

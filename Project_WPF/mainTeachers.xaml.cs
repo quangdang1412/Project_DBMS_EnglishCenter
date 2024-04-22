@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -20,9 +21,14 @@ namespace Project_WPF
     /// </summary>
     public partial class mainTeachers : Window
     {
-        public mainTeachers()
+        int ID;
+        string teacher_name;
+        public mainTeachers(int ID,string teacher_name)
         {
+            this.ID = ID;
+            this.teacher_name = teacher_name;
             InitializeComponent();
+            tb_teacherName.Text = teacher_name;
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -50,7 +56,7 @@ namespace Project_WPF
         }
         private void btn_information_Click(object sender, RoutedEventArgs e)
         {
-            UC_TeacherInformation UC_teacherInformation = new UC_TeacherInformation(); // Tạo một instance của UserControl
+            UC_TeacherInformation UC_teacherInformation = new UC_TeacherInformation(ID); // Tạo một instance của UserControl
             MainGrid.Children.Clear();
             MainGrid.Children.Add(UC_teacherInformation);
         }
