@@ -102,7 +102,8 @@ namespace Project_WPF.Form
 
         private void btn_addstudent_Click(object sender, RoutedEventArgs e)
         {
-            frm_Students form = new frm_Students();
+            frm_StudentGroup form = new frm_StudentGroup(groupIDInt);
+
             form.ShowDialog();
             loadDataStudents(groupIDInt);
         }

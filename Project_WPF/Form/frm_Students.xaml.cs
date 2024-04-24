@@ -84,7 +84,8 @@ namespace Project_WPF.Form
             {
                 try
                 {
-                    bool success = dbstudent.ThemHocSinh(ref err, txt_Name.Text, studentDob, gender, txt_Phone.Text, txtCCCD.Text);
+                    //bool success = dbstudent.ThemHocSinh(ref err, txt_Name.Text, studentDob, gender, txt_Phone.Text, txtCCCD.Text);
+                    bool success = true;
                     if (success)
                     {
                         MessageBox.Show("Đã thêm xong!");

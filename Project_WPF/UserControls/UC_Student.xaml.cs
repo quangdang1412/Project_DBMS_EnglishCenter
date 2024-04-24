@@ -41,7 +41,7 @@ namespace Project_WPF.UserControls
 				dtStudent = dbstudent.LayHS().Tables[0];
 
 				StudentsDataGrid.ItemsSource = dtStudent.DefaultView;
-                int studentID = Convert.ToInt32(dtStudent.Rows[0]["class_ID"]);
+                int studentID = Convert.ToInt32(dtStudent.Rows[0]["student_ID"]);
 
                 findGroup(studentID);
 
