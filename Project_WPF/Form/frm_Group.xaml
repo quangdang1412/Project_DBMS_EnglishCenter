@@ -34,7 +34,7 @@
                 <Border Background="White" Margin="20,20,20,20" CornerRadius="20">
                     <Grid>
                         <TextBlock x:Name="Placeholder" Margin="20 0" Foreground="#FFB0B9C6" IsHitTestVisible="False" Visibility="Visible" Panel.ZIndex="1" Text="Search here..." VerticalAlignment="Center"/>
-                        <TextBox x:Name="SearchBox" Style="{StaticResource HoverTextBox}" BorderBrush="{x:Null}" FocusVisualStyle="{x:Null}" VerticalAlignment="Center" Margin="20,0,40,0" Background="White"  SelectionBrush="{x:Null}" SelectionTextBrush="White"/>
+                        <TextBox x:Name="SearchBox" Style="{StaticResource HoverTextBox}" BorderBrush="{x:Null}" FocusVisualStyle="{x:Null}" VerticalAlignment="Center" Margin="20,0,40,0" Background="White"  SelectionBrush="{x:Null}" SelectionTextBrush="White" SelectionChanged="SearchBox_SelectionChanged"/>
                         <materialDesign:PackIcon Kind="Magnify" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="#FFB0B9C6" Margin="0,0,20,0"/>
                     </Grid>
                 </Border>

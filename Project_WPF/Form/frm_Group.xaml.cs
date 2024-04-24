@@ -107,6 +107,29 @@ namespace Project_WPF.Form
             form.ShowDialog();
             loadDataStudents(groupIDInt);
         }
+
+        private void SearchBox_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(SearchBox.Text))
+            {
+                Placeholder.Text = "Search here...";
+                loadDataStudents(groupIDInt);
+
+            }
+            else
+            {
+                Placeholder.Text = "";
+                string keyword = SearchBox.Text.Trim();
+                Console.WriteLine(keyword);
+                FilterStudents(keyword);
+            }
+        }
+        void FilterStudents(string keyword)
+        {
+            dtClassStudent = dbclass.TimKiemHocSinh(keyword).Tables[0];
+            StudentsDataGrid.ItemsSource = dtClassStudent.DefaultView;
+        }
+
     }
 
 }
