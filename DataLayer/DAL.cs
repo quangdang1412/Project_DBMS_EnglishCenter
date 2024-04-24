@@ -5,23 +5,30 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace DataLayer
 {
 	public class DAL
 	{
         public static SqlConnectionStringBuilder ConnStrBuilder = new SqlConnectionStringBuilder();
+        public static int count = 0;
+
 
         SqlConnection conn = null;
 		SqlCommand comm = null;
 		SqlDataAdapter da = null;
-		// Constructor
-		public DAL()
-		{
-            DAL.ConnStrBuilder.DataSource = "localhost"; 
-            DAL.ConnStrBuilder.InitialCatalog = "EnglishCenter";
-            DAL.ConnStrBuilder.IntegratedSecurity = true;
-            DAL.ConnStrBuilder.Encrypt = false;
+        // Constructor
+        public DAL()
+        {
+
+            if (count == 0)
+            {
+                DAL.ConnStrBuilder.DataSource = "localhost";
+                DAL.ConnStrBuilder.InitialCatalog = "EnglishCenter";
+                DAL.ConnStrBuilder.IntegratedSecurity = true;
+                DAL.ConnStrBuilder.Encrypt = false;
+            }
 
             conn = new SqlConnection(ConnStrBuilder.ToString());
 			comm = conn.CreateCommand();

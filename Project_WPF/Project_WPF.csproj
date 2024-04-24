@@ -118,6 +118,9 @@
     <Compile Include="UserControls\UC_DetailCourse.xaml.cs">
       <DependentUpon>UC_DetailCourse.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\UC_DetailStudent.xaml.cs">
+      <DependentUpon>UC_DetailStudent.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\UC_Home.xaml.cs">
       <DependentUpon>UC_Home.xaml</DependentUpon>
     </Compile>
@@ -207,6 +210,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UserControls\UC_DetailCourse.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\UC_DetailStudent.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -17,7 +17,7 @@
                     <materialDesign:PackIcon Kind="Calendar" Foreground="#d32f2f" Width="20" Height="20" />
                     <TextBlock x:Name="txt_Day" Text="50 total" Foreground="black" Margin="5,0,0,0" FontSize="14" />
                 </StackPanel>
-            </StackPanel>                
+            </StackPanel>
         </Grid>
     </Border>
 </UserControl>

@@ -16,7 +16,16 @@ namespace BusinessLayer
         {
             db = new DAL();
         }
-       
+        public bool checkConn(ref string err, string user, string pass)
+        {
+            SqlParameter[] sqlParams =
+            {
+                new SqlParameter("@account", user),
+                new SqlParameter("@password", pass),
+            };
+
+            return db.MyExecuteNonQuery("accountLogin", CommandType.StoredProcedure, ref err, sqlParams);
+        }
         public DataTable Login_pre(ref string err, string user, string pass)
         {
             SqlParameter[] sqlParams =

@@ -82,11 +82,15 @@ namespace Project_WPF
 
             if (dt != null && dt.Rows.Count > 0)
             {
+                quyen = dt.Rows[0]["permissionName"].ToString();
+                DAL.ConnStrBuilder.IntegratedSecurity = false;
                 DAL.ConnStrBuilder.UserID = txtUser.Text;
                 DAL.ConnStrBuilder.Password = txtPass.Password;
-                DAL.ConnStrBuilder.IntegratedSecurity = false;
+                DAL.count = 1;
+
+
+
                 MessageBox.Show("Đăng nhập thành công");
-                quyen = dt.Rows[0]["permissionName"].ToString();
                 switch (quyen)
                 {
                     case "HS":
@@ -102,12 +106,13 @@ namespace Project_WPF
                         this.Close();
                         break;
                     default:
-
                         MainWindow main = new MainWindow();
                         main.Show();
                         this.Close();
                         break;
                 }
+
+
             }
             else
             {

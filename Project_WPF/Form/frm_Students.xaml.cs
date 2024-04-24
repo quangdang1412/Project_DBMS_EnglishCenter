@@ -69,18 +69,6 @@ namespace Project_WPF.Form
             }
             check = false;
         }
-        void checkInfo(string err)
-        {
-            // Kiểm tra lỗi ràng buộc chk_studentIdentify
-            if (err.Contains("chk_studentIdentify"))
-            {
-                MessageBox.Show("Vui lòng nhập vào 12 số cho CCCD.");
-            }
-            else
-            {
-                MessageBox.Show("Vui lòng nhập vào 10 số cho ĐT.");
-            }
-        }
         private void btn_save_Click(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txt_Name.Text) || string.IsNullOrWhiteSpace(txtDate.Text) || string.IsNullOrWhiteSpace(txt_Phone.Text) || string.IsNullOrWhiteSpace(txtCCCD.Text))
@@ -104,7 +92,7 @@ namespace Project_WPF.Form
                     }
                     else
                     {
-                        checkInfo(err);
+                        MessageBox.Show(err);
                     }
                 }
                 catch (SqlException)
@@ -122,7 +110,7 @@ namespace Project_WPF.Form
                 }
                 else
                 {
-                    checkInfo(err);
+                    MessageBox.Show(err);
                 }
             }
         }

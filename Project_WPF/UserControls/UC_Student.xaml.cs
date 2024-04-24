@@ -24,6 +24,8 @@ namespace Project_WPF.UserControls
 	{
 		StudentBLL dbstudent;
 		DataTable dtStudent;
+        DataTable dtGroupFind;
+        string err = "";
 	
 		public UC_Student()
 		{
@@ -39,7 +41,11 @@ namespace Project_WPF.UserControls
 				dtStudent = dbstudent.LayHS().Tables[0];
 
 				StudentsDataGrid.ItemsSource = dtStudent.DefaultView;
-			}
+                int studentID = Convert.ToInt32(dtStudent.Rows[0]["class_ID"]);
+
+                findGroup(studentID);
+
+            }
 			catch (SqlException ex)
 			{
 				MessageBox.Show("Error: " + ex.Message);
@@ -58,10 +64,10 @@ namespace Project_WPF.UserControls
                 Placeholder.Text = "";
                 string keyword = SearchBox.Text.Trim();
                 Console.WriteLine(keyword);
-                FilterTeachers(keyword);
+                FilterStudents(keyword);
             }
         }
-        void FilterTeachers(string keyword)
+        void FilterStudents(string keyword)
         {
             dtStudent = dbstudent.TimKiemHocSinh(keyword).Tables[0];
             StudentsDataGrid.ItemsSource = dtStudent.DefaultView;
@@ -107,6 +113,56 @@ namespace Project_WPF.UserControls
             }
             loadData();
         }
+        public void findGroup(int x)
+        {
+            try
+            {
+                dtGroupFind = dbstudent.FindGroup(ref err, x);
+                stackPanelContainer.Children.Clear();
+                AddDetailCalendarDynamically(dtGroupFind.Rows.Count);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        private void AddDetailCalendarDynamically(int x)
+        {
+            for (int i = 0; i < x; i++)
+            {
+                DataRow row = dtGroupFind.Rows[i];
 
+                UC_DetailStudent detailStudent = new UC_DetailStudent();
+
+                detailStudent.ClassName = row["class_name"].ToString();
+                detailStudent.GroupID = "Nhóm " + row["group_ID"].ToString();
+                string fullTime = row["studyShift"].ToString();
+                detailStudent.Time = XuliTime(fullTime);
+
+                detailStudent.Margin = new Thickness(0, 10, 0, 20);
+
+                stackPanelContainer.Children.Add(detailStudent);
+            }
+        }
+        public string XuliTime(string input)
+        {
+            int spaceIndex = input.IndexOf(' ');
+            int dashIndex = input.IndexOf('-');
+
+            string startTime = input.Substring(0, dashIndex).Trim();
+
+            string endTime = input.Substring(dashIndex + 1).Trim();
+            string formattedTimeRange = $"{startTime.Substring(0, 5)} - {endTime.Substring(0, 5)}";
+            return formattedTimeRange;
+        }
+
+        private void StudentsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (StudentsDataGrid.SelectedItem is DataRowView selectedRow)
+            {
+                int studentID = Convert.ToInt32(selectedRow["student_ID"]);
+                findGroup(studentID);
+            }
+        }
     }
 }

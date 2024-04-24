@@ -16,30 +16,29 @@ using System.Windows.Shapes;
 namespace Project_WPF.UserControls
 {
     /// <summary>
-    /// Interaction logic for UC_DetailCourse.xaml
+    /// Interaction logic for UC_DetailStudent.xaml
     /// </summary>
-    public partial class UC_DetailCourse : UserControl
+    public partial class UC_DetailStudent : UserControl
     {
-        public UC_DetailCourse()
+        public UC_DetailStudent()
         {
             InitializeComponent();
         }
         public string ClassName
         {
-            get => txt_classname.Text;
-            set => txt_classname.Text = value;
+            get => txt_class.Text;
+            set => txt_class.Text = value;
+        }
+        public string GroupID
+        {
+            get => txt_GroupID.Text;
+            set => txt_GroupID.Text = value;
         }
 
-        public string ClassID
+        public string Time
         {
-            get => txt_classID.Text;
-            set => txt_classID.Text = value;
-        }
-
-        public string TotalDay
-        {
-            get => txt_Day.Text;
-            set => txt_Day.Text = value;
+            get => txtTime.Text;
+            set => txtTime.Text = value;
         }
     }
 }
