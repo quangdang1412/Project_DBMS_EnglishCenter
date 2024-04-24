@@ -27,7 +27,7 @@ namespace BusinessLayer
                 new SqlParameter("@studentName", studentName),
                 new SqlParameter("@studentDob", studentDob),
                 new SqlParameter("@studentGender", studentGender),
-                new SqlParameter("@studentPhoneNumber", studentPhoneNumber),
+                new SqlParameter("@studentPhone", studentPhoneNumber),
                 new SqlParameter("@identification", identification),
                 new SqlParameter("@groupID", groupID),
                 new SqlParameter("@paymentState", paymentState),
