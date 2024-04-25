@@ -63,11 +63,11 @@ namespace BusinessLayer
 
             return db.MyExecuteNonQuery("insertNotification ", CommandType.StoredProcedure, ref err, sqlParams);
         }
-        public bool CapNhatThongBao(ref string err, int notificationID, string title, string content, int studentGender, int groupID)
+        public bool CapNhatThongBao(ref string err, int notificationID, string title, string content, int groupID)
         {
             SqlParameter[] sqlParams =
             {
-                new SqlParameter("@notification",notificationID),
+                new SqlParameter("@notificationID",notificationID),
                 new SqlParameter("@title", title),
                 new SqlParameter("@content", content),
                 new SqlParameter("@group_ID", groupID)

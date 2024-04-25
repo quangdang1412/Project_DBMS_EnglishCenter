@@ -1,0 +1,50 @@
+﻿<Window x:Class="Project_WPF.Form.frm_Notification"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Project_WPF.Form"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+            Height="600" Width="600" WindowStartupLocation="CenterScreen" WindowStyle="None" Background="Transparent" AllowsTransparency="True">
+    <Border CornerRadius="20,20,20,20" Background="#FFF6F6F6" BorderThickness="1" BorderBrush="Black">
+        <Grid Margin="0,-3,0,3">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="5*"/>
+                <RowDefinition Height="0.75*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <TextBlock TextWrapping="Wrap" FontFamily="Kumbh Sans" Foreground="#FF152259" Text="NOTIFICATION" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,25,0,0" FontWeight="SemiBold"/>
+                <Button x:Name="btn_exit" Click="btn_exit_Click"  Style="{StaticResource btn_exit }" HorizontalAlignment="Right" Margin="38,0,0,0" Width="50" >
+                    <materialDesign:PackIcon Kind="Close" Width="36" Height="36"  Foreground="#FF424242" RenderTransformOrigin="15.656,0.623" VerticalAlignment="Center" />
+                </Button>
+            </Grid>
+            <Grid Grid.Row="1">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock HorizontalAlignment="Left" Height="34" Margin="10,10,0,0" TextWrapping="Wrap" FontWeight="Bold"  FontFamily="Kumbh Sans" Text="Mã nhóm học :" VerticalAlignment="Top" Width="152" FontSize="20" RenderTransformOrigin="0.516,-1.906" Foreground="#FF667F8E"/>
+                    <TextBox x:Name="txt_groupID" Height="36" Margin="13,0,0,0" Style="{StaticResource textBoxadd}" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="350" SelectionTextBrush="White" SelectionBrush="#FF0078D8" Background="White"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock HorizontalAlignment="Left" Height="34" Margin="10,70,0,0" TextWrapping="Wrap" FontWeight="Bold" FontFamily="Kumbh Sans" Text="Tiêu đề :" Foreground="#FF667F8E" VerticalAlignment="Top" Width="107" FontSize="20" RenderTransformOrigin="0.516,-1.906"/>
+                    <TextBox x:Name="txt_Title" Height="36" Margin="56,70,0,0" Style="{StaticResource textBoxadd}" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="350" SelectionTextBrush="White" SelectionBrush="#FF0078D8" Background="White"/>
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Row="2" >
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <TextBox x:Name="txt_Content" HorizontalAlignment="Left" Style="{StaticResource textBoxadd}" TextWrapping="Wrap" Text=""  SelectionTextBrush="White" SelectionBrush="#FF0078D8" Background="White" Width="600" Height="340"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
+            <Grid Grid.Row="3">
+                <Button HorizontalAlignment="Left" Style="{StaticResource addButton}" Margin="500,5,0,10" Click="btn_send_Notification_Click" Width="90" >
+                    <StackPanel x:Name="btn_sendNotification" Orientation="Horizontal">
+                        <TextBlock Text="Gửi"/>
+                    </StackPanel>
+                </Button>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>

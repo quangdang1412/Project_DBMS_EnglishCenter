@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,23 +25,28 @@ namespace Project_WPF.UserControls
     public partial class UC_TeacherInformation : UserControl
     {
         TeacherBLL teacherBLL = new TeacherBLL();
+        int id;
         public UC_TeacherInformation(int id)
         {
             InitializeComponent();
+            this.id = id;
+            FillData();
+        }
+        public void FillData()
+        {
             string err = "";
-            txt_ID.Text = id.ToString();
-            DataTable dt = teacherBLL.TimKiemGiaoVienTheoID(ref err,id);
+            DataTable dt = teacherBLL.TimKiemGiaoVienTheoID(ref err, id);
             if (dt.Rows.Count > 0)
             {
                 txt_Name.Text = dt.Rows[0]["teacher_name"].ToString();
                 txt_Date.Text = dt.Rows[0]["teacher_dob"].ToString();
-                if (dt.Rows[0]["gender"].ToString()=="1")
+                if (dt.Rows[0]["gender"].ToString() == "1")
                 {
                     rbMale.IsChecked = true;
                 }
                 else
                 {
-                    rbFemale.IsChecked= true;
+                    rbFemale.IsChecked = true;
                 }
                 txt_phoneNumber.Text = dt.Rows[0]["teacher_phoneNumber"].ToString();
                 txt_Address.Text = dt.Rows[0]["teacher_address"].ToString();
@@ -67,7 +74,32 @@ namespace Project_WPF.UserControls
         }
         private void btn_save_Click(object sender, RoutedEventArgs e)
         {
-
+            if (string.IsNullOrWhiteSpace(txt_Name.Text) || string.IsNullOrWhiteSpace(txt_Date.Text) || string.IsNullOrWhiteSpace(txt_phoneNumber.Text) || string.IsNullOrWhiteSpace(txt_Address.Text)
+                || string.IsNullOrWhiteSpace(txt_Identification.Text) || string.IsNullOrWhiteSpace(txt_Email.Text))
+            {
+                MessageBox.Show("Vui lòng điền đầy đủ thông tin vào tất cả các trường.");
+                return;
+            }
+            string err = "";
+            DateTime teacher_dob;
+            bool ngaythang = DateTime.TryParseExact(txt_Date.Text, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out teacher_dob);
+            int gender = 1;
+            if(rbFemale.IsChecked == true)
+            {
+                gender = 0;
+            }
+            bool success = teacherBLL.CapNhatGiaoVien(ref err, id, txt_Name.Text, teacher_dob, gender, txt_phoneNumber.Text,txt_Address.Text ,txt_Identification.Text,txt_Email.Text);
+            if (success)
+            {
+                MessageBox.Show("Đã cập nhật xong!");
+                FillData();
+            }
+            else
+            {
+                checkInfo(err);
+                checkphoneNumber(err);
+                MessageBox.Show(err);
+            }
         }
     }
 }

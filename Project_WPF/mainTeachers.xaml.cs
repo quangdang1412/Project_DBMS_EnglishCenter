@@ -48,10 +48,6 @@ namespace Project_WPF
             Button button = sender as Button;
             button.Background = Brushes.Transparent;
         }
-        private void btn_classroom_Click(object sender, RoutedEventArgs e)
-        {
-            
-        }
         private void btn_information_Click(object sender, RoutedEventArgs e)
         {
             UC_TeacherInformation UC_teacherInformation = new UC_TeacherInformation(ID); // Tạo một instance của UserControl
@@ -60,7 +56,9 @@ namespace Project_WPF
         }
         private void btn_notification_Click(object sender, RoutedEventArgs e)
         {
-
+            UC_Notification uC_Notification = new UC_Notification(ID); // Tạo một instance của UserControl
+            MainGrid.Children.Clear();
+            MainGrid.Children.Add(uC_Notification);
         }
         private void btn_teacher_Click(object sender, RoutedEventArgs e)
         {
@@ -78,6 +76,13 @@ namespace Project_WPF
             UC_Tea_Home uC_Tea_Home = new UC_Tea_Home();
             MainGrid.Children.Clear();
             MainGrid.Children.Add(uC_Tea_Home);
+        }
+
+        private void btn_attendance_Click(object sender, RoutedEventArgs e)
+        {
+            UC_Attendance uC_Attendance = new UC_Attendance(ID); 
+            MainGrid.Children.Clear();
+            MainGrid.Children.Add(uC_Attendance);
         }
     }
 }

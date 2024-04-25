@@ -4,26 +4,28 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Project_WPF.UserControls"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              d:DesignHeight="847.058823529412" d:DesignWidth="1200">
     <Grid Background="#FFF6F6F6">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
             <RowDefinition Height="8*"/>
+            <RowDefinition Height="6*"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <TextBlock Text="Notification" FontSize="32" FontWeight="SemiBold" HorizontalAlignment="Left" Margin="20,0,0,0" Foreground="#FF121518"></TextBlock>
+            <Button HorizontalAlignment="Right" Style="{StaticResource addButton}" Margin="0,0,20,0" Click="btn_add_Notification_Click" >
+                <StackPanel x:Name="btn_addTeacher" Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="Plus" Margin="0,0,10,0" />
+                    <TextBlock Text="Thêm thông báo mới"/>
+                </StackPanel>
+            </Button>
         </Grid>
         <Grid Grid.Row="1">
-            <Grid>
-
-            </Grid>
-        </Grid>
-        <Grid Grid.Row="2">
             <Border Background="White" CornerRadius="20,20,20,20" Margin="20,0,20,20">
                 <Grid Margin="10,10,10,0">
-                    <DataGrid x:Name="notificationGrid" SelectionMode="Single" CellStyle="{DynamicResource DataGridCellStyle1}" Style="{DynamicResource DataGridStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" RowHeaderStyle="{DynamicResource DataGridRowHeaderStyle1}" RowStyle="{DynamicResource DataGridRowStyle1}" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="Black" >
+                    <DataGrid x:Name="notificationDataGrid" SelectionMode="Single" CellStyle="{DynamicResource DataGridCellStyle1}" Style="{DynamicResource DataGridStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" RowHeaderStyle="{DynamicResource DataGridRowHeaderStyle1}" RowStyle="{DynamicResource DataGridRowStyle1}" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="Black" MouseDoubleClick="getSelectRow" >
                         <DataGrid.Columns>
                             <DataGridCheckBoxColumn CanUserResize="False" Width="auto" ElementStyle="{StaticResource CheckBoxStyle1}">
                                 <DataGridCheckBoxColumn.HeaderTemplate>
@@ -32,15 +34,45 @@
                                     </DataTemplate>
                                 </DataGridCheckBoxColumn.HeaderTemplate>
                             </DataGridCheckBoxColumn>
-                            <DataGridTextColumn Header="Mã thông báo" CanUserResize="False" IsReadOnly="True" FontFamily="Kumbh Sans" Width="*" Binding="{Binding notification_ID}"/>
+                            <DataGridTextColumn Header="Mã thông báo" CanUserResize="False" IsReadOnly="True" FontFamily="Kumbh Sans" Width="0.75*" Binding="{Binding notification_ID}"/>
                             <DataGridTextColumn Header="Tên lớp" CanUserResize="False" IsReadOnly="True" FontFamily="Kumbh Sans" Width="*" Binding="{Binding clname}"/>
-                            <DataGridTextColumn Header="Nhóm học" CanUserResize="False" IsReadOnly="True" FontFamily="Kumbh Sans" Width="*" Binding="{Binding group_ID}"/>
-                            
-
+                            <DataGridTextColumn Header="Nhóm học" CanUserResize="False" IsReadOnly="True" FontFamily="Kumbh Sans" Width="0.75*" Binding="{Binding group_ID}"/>
+                            <DataGridTextColumn Header="Tiêu đề" CanUserResize="False" IsReadOnly="True" FontFamily="Kumbh Sans" Width="*" Binding="{Binding title}"/>
+                            <DataGridTextColumn Header="Ngày gửi" CanUserResize="False" IsReadOnly="True" FontFamily="Kumbh Sans" Width="*" Binding="{Binding daytime_send}"/>
+                            <DataGridTemplateColumn Header="" IsReadOnly="True" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button x:Name="btn_editdata" Style="{StaticResource x editData}" Click="btn_editdata_Click" >
+                                                <materialDesign:PackIcon Kind="PencilOutline" Width="12" Height="12" VerticalAlignment="Center" />
+                                            </Button>
+                                            <Button x:Name="btn_deletedata" Style="{StaticResource x deleteData}" Click="btn_deletedata_Click" >
+                                                <materialDesign:PackIcon Kind="DeleteOutline" Width="12" Height="12" VerticalAlignment="Center" />
+                                            </Button>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>
             </Border>
+        </Grid>
+        <Grid Grid.Row="2" Background="#FFF6F6F6">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="5*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <TextBlock Text="Nội dung" FontSize="32" FontWeight="SemiBold" HorizontalAlignment="Left" Margin="20,0,0,0" Foreground="#FF121518"/>
+            </Grid>
+            <Grid Grid.Row="1">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="20,20,20,20">
+                        <TextBlock x:Name="tb_content" Text="{Binding content}" FontSize="14" FontWeight="SemiBold"  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,10,10,10" Foreground="#FF121518"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
         </Grid>
     </Grid>
 </UserControl>
