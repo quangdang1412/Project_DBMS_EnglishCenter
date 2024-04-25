@@ -137,7 +137,7 @@ namespace Project_WPF.UserControls
                 UC_DetailCalendar detailCalendar = new UC_DetailCalendar();
 
                 detailCalendar.ClassName = row["clname"].ToString();
-				detailCalendar.GroupID = row["groupID"].ToString();
+				detailCalendar.GroupID ="Nhóm "+ row["group_ID"].ToString();
                 string fullTime = row["shift"].ToString();
 				detailCalendar.Time = XuliTime(fullTime);
 

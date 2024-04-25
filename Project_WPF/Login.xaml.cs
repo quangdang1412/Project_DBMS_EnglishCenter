@@ -71,7 +71,8 @@ namespace Project_WPF
         {
             string quyen = "";
             string err = "";
-
+            int id=0;
+            string userName = "";
 
             DataTable dt = loginBLL.Login_pre(ref err, txtUser.Text, txtPass.Password);
 
@@ -84,8 +85,11 @@ namespace Project_WPF
             if (dt != null && dt.Rows.Count > 0)
             {
                 quyen = dt.Rows[0]["permissionName"].ToString();
-                int id = int.Parse(dt.Rows[0]["ID"].ToString());    
-                string userName = dt.Rows[0]["userName"].ToString();
+                if(quyen != "QTV")
+                {
+                     id = int.Parse(dt.Rows[0]["ID"].ToString());
+                     userName = dt.Rows[0]["userName"].ToString();
+                }
                 DAL.ConnStrBuilder.IntegratedSecurity = false;
                 DAL.ConnStrBuilder.UserID = txtUser.Text;
                 DAL.ConnStrBuilder.Password = txtPass.Password;

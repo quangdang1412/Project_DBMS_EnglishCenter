@@ -80,15 +80,15 @@ namespace BusinessLayer
 
             return db.ExecuteQueryDataTable("GetGroupInfoWithShiftByStudentID", CommandType.StoredProcedure, ref err, sqlParams);
         }
-        public DataTable ScheduleStudent(ref string err, int studentID,int week)
+        public DataTable ScheduleStudent(ref string err, int groupID,int week)
         {
             SqlParameter[] sqlParams = new SqlParameter[]
             {
-                new SqlParameter("@student_ID", studentID),
+                new SqlParameter("@groupID", groupID),
                 new SqlParameter("@weekday_ID", week),
             };
 
-            return db.ExecuteQueryDataTable("GetStudyInfoByStudentIDAndWeekday", CommandType.StoredProcedure, ref err, sqlParams);
+            return db.ExecuteQueryDataTable("getSchedule", CommandType.StoredProcedure, ref err, sqlParams);
         }
         public bool CapNhatHocSinh2(ref string err, int studentID, int groupID, int paymentstate, int firstScore)
         {

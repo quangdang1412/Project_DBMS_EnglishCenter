@@ -69,7 +69,6 @@
                     </Button>
                 </StackPanel>            </Grid>
             <Grid x:Name="MainGrid" Grid.Row="1">
-                <local:UC_Stu_Home/>
             </Grid>
         </Grid>
     </Grid>

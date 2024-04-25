@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using MaterialDesignThemes.Wpf;
 using Project_WPF.UserControls;
 
 namespace Project_WPF
@@ -28,6 +29,13 @@ namespace Project_WPF
             this.student_name = student_name;
             InitializeComponent();
             tb_StudentName.Text = student_name;
+            loadData();
+        }
+        void loadData()
+        {
+            UC_Stu_Home uC_Stu_Home = new UC_Stu_Home(ID);
+            MainGrid.Children.Clear();
+            MainGrid.Children.Add(uC_Stu_Home);
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -68,7 +76,7 @@ namespace Project_WPF
 
         private void btn_Home_Click(object sender, RoutedEventArgs e)
         {
-            UC_Stu_Home uC_Stu_Home=new UC_Stu_Home();
+            UC_Stu_Home uC_Stu_Home=new UC_Stu_Home(ID);
             MainGrid.Children.Clear();
             MainGrid.Children.Add(uC_Stu_Home);
         }

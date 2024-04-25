@@ -26,14 +26,16 @@ namespace Project_WPF.UserControls
         StudentBLL dbstudent;
         DataTable dtGroupFind;
         string err = "";
+        int gr_ID;
 
-        public UC_Stu_Home()
+        public UC_Stu_Home(int ID)
         {
             dbstudent = new StudentBLL();
             InitializeComponent();
             calender.SelectedDate = DateTime.Now;
             string dayOfWeek = DateTime.Today.ToString("dddd", new CultureInfo("en"));
             textThu.Text = dayOfWeek;
+            gr_ID = ID;
         }
         private void Calendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -49,8 +51,7 @@ namespace Project_WPF.UserControls
                 DayOfWeek selectedDayOfWeek = calender.SelectedDate.Value.DayOfWeek;
                 // Chuyển đổi từ DayOfWeek sang số nguyên (int)
                 int selectedDayInt = (int)selectedDayOfWeek + 1;
-                Console.WriteLine(selectedDayInt);
-                findGroup(1, selectedDayInt);
+                findGroup(gr_ID, selectedDayInt);
             }
         }
 

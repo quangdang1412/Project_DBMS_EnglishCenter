@@ -46,9 +46,9 @@ namespace Project_WPF.UserControls
             InitializeComponent();
             dbclass = new ClassBLL();
             loadData();
-            LoadChartData();
+            //LoadChartData();
             TotalCenter(); 
-            this.DataContext = this;
+            //this.DataContext = this;
         }
         void loadData()
         {
@@ -122,41 +122,41 @@ namespace Project_WPF.UserControls
         }
         public void LoadChartData()
         {
-            ChartLabels = new ObservableCollection<string>();
-            ChartSeries = new SeriesCollection();
-            decimal maxTotal = decimal.MinValue;
+            //ChartLabels = new ObservableCollection<string>();
+            //ChartSeries = new SeriesCollection();
+            //decimal maxTotal = decimal.MinValue;
 
-            if (dtClass != null)
-            {
-                foreach (DataRow row in dtClass.Rows)
-                {
-                    var id = row["class_ID"].ToString();
-                    int classID = Convert.ToInt32(id);
-                    dtTotal = dbclass.TotalIncome(ref err,classID);
+            //if (dtClass != null)
+            //{
+            //    foreach (DataRow row in dtClass.Rows)
+            //    {
+            //        var id = row["class_ID"].ToString();
+            //        int classID = Convert.ToInt32(id);
+            //        dtTotal = dbclass.TotalIncome(ref err, classID);
 
-                    decimal total = Convert.ToDecimal(dtTotal.Rows[0]["total"]);
-                    total = total / 1000000;
+            //        decimal total = Convert.ToDecimal(dtTotal.Rows[0]["total"]);
+            //        total = total / 1000000;
 
-                    if (total > maxTotal)
-                    {
-                        maxTotal = total;
-                    }
+            //        if (total > maxTotal)
+            //        {
+            //            maxTotal = total;
+            //        }
 
-                    ChartLabels.Add(id);
-                    ChartValues<decimal> chartValues = new ChartValues<decimal> { total };
+            //        ChartLabels.Add(id);
+            //        ChartValues<decimal> chartValues = new ChartValues<decimal> { total };
 
-                    foreach (var value in chartValues)
-                    {
-                        Console.WriteLine(value);
-                    }
-                    ChartSeries.Add(new ColumnSeries
-                    {
-                        Title = "Doanh thu: ",
-                        Values = chartValues
-                    });
-                }
-                maxChart = maxTotal;
-            }
+            //        foreach (var value in chartValues)
+            //        {
+            //            Console.WriteLine(value);
+            //        }
+            //        ChartSeries.Add(new ColumnSeries
+            //        {
+            //            Title = "Doanh thu: ",
+            //            Values = chartValues
+            //        });
+            //    }
+            //    maxChart = maxTotal;
+            //}
         }
         public void findGroup(int x) 
         {
