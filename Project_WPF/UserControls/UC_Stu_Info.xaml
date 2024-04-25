@@ -16,9 +16,9 @@
             <TextBlock Text="Profile" FontSize="32" FontWeight="SemiBold" HorizontalAlignment="Left" Margin="20,0,0,0" Foreground="#FF121518"></TextBlock>
         </Grid>
         <Grid Grid.Row="1" Margin="0,0,0,0">
-            <TextBlock Text="username"  FontSize="25" FontWeight="SemiBold" Foreground="Black" Margin="273,57">
+            <TextBlock Text="Username"  FontSize="25" FontWeight="SemiBold" Foreground="Black" Margin="273,57">
             </TextBlock>
-            <TextBlock Text="birthday"  FontSize="25" FontWeight="SemiBold" Foreground="Black" Margin="273,136">
+            <TextBlock Text="Birthday"  FontSize="25" FontWeight="SemiBold" Foreground="Black" Margin="273,136">
             </TextBlock>
             <TextBlock Text="Gender"  FontSize="25" FontWeight="SemiBold" Foreground="Black" Margin="273,219" RenderTransformOrigin="0.5,0.5">
             </TextBlock>

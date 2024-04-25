@@ -50,9 +50,7 @@ namespace Project_WPF
         }
         private void btn_classroom_Click(object sender, RoutedEventArgs e)
         {
-            UC_Class uC_Class = new UC_Class(); // Tạo một instance của UserControl
-            MainGrid.Children.Clear();
-            MainGrid.Children.Add(uC_Class);
+            
         }
         private void btn_information_Click(object sender, RoutedEventArgs e)
         {
@@ -62,9 +60,7 @@ namespace Project_WPF
         }
         private void btn_notification_Click(object sender, RoutedEventArgs e)
         {
-            UC_Course UC_Course= new UC_Course(); // Tạo một instance của UserControl
-            MainGrid.Children.Clear();
-            MainGrid.Children.Add(UC_Course);
+
         }
         private void btn_teacher_Click(object sender, RoutedEventArgs e)
         {
@@ -75,6 +71,13 @@ namespace Project_WPF
         private void btn_exit_Click(object sender, RoutedEventArgs e)
         {
             this.Close(); 
+        }
+
+        private void btn_Home_Click(object sender, RoutedEventArgs e)
+        {
+            UC_Tea_Home uC_Tea_Home = new UC_Tea_Home();
+            MainGrid.Children.Clear();
+            MainGrid.Children.Add(uC_Tea_Home);
         }
     }
 }

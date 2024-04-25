@@ -40,7 +40,7 @@ namespace Project_WPF
         private new void LostFocus(object sender, RoutedEventArgs e)
         {
             Button button = sender as Button;
-
+            button.Background = Brushes.Transparent;
         }
 
         private void btn_exit_Click(object sender, RoutedEventArgs e)
@@ -59,6 +59,13 @@ namespace Project_WPF
             UC_Stu_Notify uC_Stu_Notify = new UC_Stu_Notify();
             MainGrid.Children.Clear();
             MainGrid.Children.Add(uC_Stu_Notify);
+        }
+
+        private void btn_Home_Click(object sender, RoutedEventArgs e)
+        {
+            UC_Stu_Home uC_Stu_Home=new UC_Stu_Home();
+            MainGrid.Children.Clear();
+            MainGrid.Children.Add(uC_Stu_Home);
         }
     }
 }
