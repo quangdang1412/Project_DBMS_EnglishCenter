@@ -67,13 +67,12 @@ namespace Project_WPF.Form
         {
             DataRowView selectedRow = (DataRowView)StudentsDataGrid.SelectedItem;
             // Tạo một instance của form frm_Students
-            frm_Students editStudentForm = new frm_Students();
+            frm_DoiNhom frm_DoiNhom = new frm_DoiNhom(groupIDInt);
 
             // Truyền dữ liệu từ hàng được chọn vào form
-            editStudentForm.FillData(selectedRow);
+            frm_DoiNhom.FillData(selectedRow);
 
-            // Hiển thị form để chỉnh sửa thông tin
-            editStudentForm.ShowDialog();
+            frm_DoiNhom.ShowDialog();
 
             loadDataStudents(groupIDInt);
         }

@@ -90,6 +90,19 @@ namespace BusinessLayer
 
             return db.ExecuteQueryDataTable("GetStudyInfoByStudentIDAndWeekday", CommandType.StoredProcedure, ref err, sqlParams);
         }
+        public bool CapNhatHocSinh2(ref string err, int studentID, int groupID, int paymentstate, int firstScore)
+        {
+            // Tạo một mảng chứa các tham số cho thủ tục lưu trữ
+            SqlParameter[] sqlParams =
+            {
+                new SqlParameter("@student_ID",studentID),
+                new SqlParameter("@group_ID", groupID),
+                new SqlParameter("@paymentstate", paymentstate),
+                new SqlParameter("@firstScore", firstScore)
+            };
+
+            return db.MyExecuteNonQuery("updateGroupList", CommandType.StoredProcedure, ref err, sqlParams);
+        }
 
     }
 }
