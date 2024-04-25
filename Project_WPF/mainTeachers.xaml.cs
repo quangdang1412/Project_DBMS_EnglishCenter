@@ -23,12 +23,19 @@ namespace Project_WPF
     {
         int ID;
         string teacher_name;
-        public mainTeachers(int ID,string teacher_name)
+        public mainTeachers(int ID, string teacher_name)
         {
             this.ID = ID;
             this.teacher_name = teacher_name;
             InitializeComponent();
+            loadData();
             tb_teacherName.Text = teacher_name;
+        }
+        void loadData()
+        {
+            UC_Tea_Home uC_Stu_Home = new UC_Tea_Home(ID);
+            MainGrid.Children.Clear();
+            MainGrid.Children.Add(uC_Stu_Home);
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -68,21 +75,22 @@ namespace Project_WPF
         }
         private void btn_exit_Click(object sender, RoutedEventArgs e)
         {
-            this.Close(); 
+            this.Close();
         }
-
-        private void btn_Home_Click(object sender, RoutedEventArgs e)
-        {
-            UC_Tea_Home uC_Tea_Home = new UC_Tea_Home();
-            MainGrid.Children.Clear();
-            MainGrid.Children.Add(uC_Tea_Home);
-        }
+        
 
         private void btn_attendance_Click(object sender, RoutedEventArgs e)
         {
-            UC_Attendance uC_Attendance = new UC_Attendance(ID); 
+            UC_Attendance uC_Attendance = new UC_Attendance(ID);
             MainGrid.Children.Clear();
             MainGrid.Children.Add(uC_Attendance);
+        }
+
+        private void btn_Home_Click_1(object sender, RoutedEventArgs e)
+        {
+            UC_Tea_Home uC_Tea_Home = new UC_Tea_Home(ID);
+            MainGrid.Children.Clear();
+            MainGrid.Children.Add(uC_Tea_Home);
         }
     }
 }

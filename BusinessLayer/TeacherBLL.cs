@@ -76,5 +76,24 @@ namespace BusinessLayer
             };
             return db.ExecuteQueryDataTable("selectTeacherByID", CommandType.StoredProcedure,ref err, sqlParams);
         }
+        public DataTable GetGroupID(ref string err, int teacherID)
+        {
+            SqlParameter[] sqlParams = new SqlParameter[]
+            {
+                new SqlParameter("@teacherID", teacherID),
+            };
+
+            return db.ExecuteQueryDataTable("getGroupByTeacherID", CommandType.StoredProcedure, ref err, sqlParams);
+        }
+        public DataTable ScheduleTeacher(ref string err, int groupID, int week)
+        {
+            SqlParameter[] sqlParams = new SqlParameter[]
+            {
+                new SqlParameter("@groupID", groupID),
+                new SqlParameter("@weekDayID", week),
+            };
+
+            return db.ExecuteQueryDataTable("getSchedule", CommandType.StoredProcedure, ref err, sqlParams);
+        }
     }
 }

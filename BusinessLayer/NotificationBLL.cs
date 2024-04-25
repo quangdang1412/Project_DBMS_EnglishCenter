@@ -15,13 +15,13 @@ namespace BusinessLayer
         {
             db=new DAL();
         }
-        public DataSet LayThongBao(int notificationID)
+        public DataSet LayThongBao(int teacherID)
         {
             SqlParameter[] sqlParams =
             {
-                new SqlParameter("@notificationID", notificationID)
-            };
-            return db.ExecuteQueryDataSet("getNotificationMakeByTeacher ", CommandType.StoredProcedure,sqlParams);
+        new SqlParameter("@teacherID", teacherID)
+    };
+            return db.ExecuteQueryDataSet("getNotificationMakeByTeacher ", CommandType.StoredProcedure, sqlParams);
         }
         public DataSet LayNoiDungThongBaoTheoID(int notificationID)
         {

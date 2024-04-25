@@ -1,5 +1,7 @@
-﻿using System;
+﻿using BusinessLayer;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -21,12 +23,28 @@ namespace Project_WPF.UserControls
     /// </summary>
     public partial class UC_Tea_Home : UserControl
     {
-        public UC_Tea_Home()
+        TeacherBLL dbTeacher;
+        DataTable dtGroupFind;
+        DataTable dtGroup;
+        string err = "";
+        int student_ID;
+        int gr_ID;
+
+        public UC_Tea_Home(int ID)
         {
+            dbTeacher = new TeacherBLL();
             InitializeComponent();
+            student_ID = ID;
+            LoadData();
             calender.SelectedDate = DateTime.Now;
             string dayOfWeek = DateTime.Today.ToString("dddd", new CultureInfo("en"));
             textThu.Text = dayOfWeek;
+        }
+        void LoadData()
+        {
+            dtGroup = dbTeacher.GetGroupID(ref err, student_ID);
+            var groupID = dtGroup.Rows[0]["group_ID"].ToString();
+            gr_ID = Convert.ToInt32(groupID);
         }
         private void Calendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -42,6 +60,7 @@ namespace Project_WPF.UserControls
                 DayOfWeek selectedDayOfWeek = calender.SelectedDate.Value.DayOfWeek;
                 // Chuyển đổi từ DayOfWeek sang số nguyên (int)
                 int selectedDayInt = (int)selectedDayOfWeek + 1;
+                findGroup(gr_ID, selectedDayInt);
             }
         }
 
@@ -96,7 +115,47 @@ namespace Project_WPF.UserControls
             {
                 textMonth.Text = "December";
             }
+        }
+        public void findGroup(int id, int week)
+        {
+            try
+            {
+                dtGroupFind = dbTeacher.ScheduleTeacher(ref err, id, week);
+                stackPanelContainer.Children.Clear();
+                AddDetailCalendarDynamically(dtGroupFind.Rows.Count);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        private void AddDetailCalendarDynamically(int x)
+        {
+            for (int i = 0; i < x; i++)
+            {
+                DataRow row = dtGroupFind.Rows[i];
 
+                UC_DetailStudent detailStudent = new UC_DetailStudent();
+                detailStudent.ClassName = row["clname"].ToString();
+                detailStudent.GroupID = "Nhóm " + row["group_ID"].ToString();
+                string fullTime = row["shift"].ToString();
+                detailStudent.Time = XuliTime(fullTime);
+
+                detailStudent.Margin = new Thickness(0, 10, 0, 20);
+
+                stackPanelContainer.Children.Add(detailStudent);
+            }
+        }
+        public string XuliTime(string input)
+        {
+            int spaceIndex = input.IndexOf(' ');
+            int dashIndex = input.IndexOf('-');
+
+            string startTime = input.Substring(0, dashIndex).Trim();
+
+            string endTime = input.Substring(dashIndex + 1).Trim();
+            string formattedTimeRange = $"{startTime.Substring(0, 5)} - {endTime.Substring(0, 5)}";
+            return formattedTimeRange;
         }
     }
 }

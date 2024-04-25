@@ -25,17 +25,26 @@ namespace Project_WPF.UserControls
     {
         StudentBLL dbstudent;
         DataTable dtGroupFind;
+        DataTable dtGroup;
         string err = "";
+        int student_ID;
         int gr_ID;
 
         public UC_Stu_Home(int ID)
         {
             dbstudent = new StudentBLL();
             InitializeComponent();
+            student_ID = ID;
+            LoadData();
             calender.SelectedDate = DateTime.Now;
             string dayOfWeek = DateTime.Today.ToString("dddd", new CultureInfo("en"));
             textThu.Text = dayOfWeek;
-            gr_ID = ID;
+        }
+        void LoadData()
+        {
+            dtGroup = dbstudent.GetGroupID(ref err, student_ID);
+            var groupID = dtGroup.Rows[0]["group_ID"].ToString();
+            gr_ID = Convert.ToInt32(groupID);
         }
         private void Calendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -54,7 +63,7 @@ namespace Project_WPF.UserControls
                 findGroup(gr_ID, selectedDayInt);
             }
         }
-
+        
         private void convertMonth(int x)
         {
             if (x == 1)
@@ -127,10 +136,9 @@ namespace Project_WPF.UserControls
                 DataRow row = dtGroupFind.Rows[i];
 
                 UC_DetailStudent detailStudent = new UC_DetailStudent();
-
-                detailStudent.ClassName = row["class_name"].ToString();
+                detailStudent.ClassName = row["clname"].ToString();
                 detailStudent.GroupID = "Nhóm " + row["group_ID"].ToString();
-                string fullTime = row["StudyShift"].ToString();
+                string fullTime = row["shift"].ToString();
                 detailStudent.Time = XuliTime(fullTime);
 
                 detailStudent.Margin = new Thickness(0, 10, 0, 20);

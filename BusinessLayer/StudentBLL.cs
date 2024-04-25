@@ -85,7 +85,7 @@ namespace BusinessLayer
             SqlParameter[] sqlParams = new SqlParameter[]
             {
                 new SqlParameter("@groupID", groupID),
-                new SqlParameter("@weekday_ID", week),
+                new SqlParameter("@weekDayID", week),
             };
 
             return db.ExecuteQueryDataTable("getSchedule", CommandType.StoredProcedure, ref err, sqlParams);
@@ -103,6 +103,14 @@ namespace BusinessLayer
 
             return db.MyExecuteNonQuery("updateGroupList", CommandType.StoredProcedure, ref err, sqlParams);
         }
+        public DataTable GetGroupID(ref string err,int studentID)
+        {
+            SqlParameter[] sqlParams = new SqlParameter[]
+            {
+                new SqlParameter("@studentID", studentID),
+            };
 
+            return db.ExecuteQueryDataTable("getGrID_ByStudentID", CommandType.StoredProcedure, ref err, sqlParams);
+        }
     }
 }
