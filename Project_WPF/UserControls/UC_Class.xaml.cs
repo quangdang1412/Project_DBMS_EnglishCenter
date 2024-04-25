@@ -33,6 +33,7 @@ namespace Project_WPF.UserControls
         ClassBLL dbclass;
         DataTable dtGroupFind;
         DataTable dtTotal;
+        DataTable dtTotalCenter;
         String err = "";
         public ObservableCollection<string> ChartLabels { get; set; }
         public decimal maxChart { get; set; }
@@ -46,6 +47,7 @@ namespace Project_WPF.UserControls
             dbclass = new ClassBLL();
             loadData();
             LoadChartData();
+            TotalCenter(); 
             this.DataContext = this;
         }
         void loadData()
@@ -53,6 +55,8 @@ namespace Project_WPF.UserControls
             try
             {
                 dtClass = dbclass.LayClass().Tables[0];
+                
+                
 
                 ClassDataGrid.ItemsSource = dtClass.DefaultView;
                 int classID = Convert.ToInt32(dtClass.Rows[0]["class_ID"]);
@@ -69,7 +73,14 @@ namespace Project_WPF.UserControls
             frm.ShowDialog();
             loadData();
         }
-       
+        public void TotalCenter()
+        {
+            int total = dbclass.DoanhThu();
+            total=total/1000000;
+            txt_total.Text = "Doanh thu: " + total + " triệu VNĐ";
+
+        }
+
         private void btn_editdata_Click(object sender, RoutedEventArgs e)
         {
             // Lấy hàng được chọn từ DataGrid

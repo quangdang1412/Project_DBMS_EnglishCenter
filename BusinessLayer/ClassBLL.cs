@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -122,6 +123,10 @@ namespace BusinessLayer
             };
 
             return db.ExecuteQueryDataTable("selectCourseByClassID", CommandType.StoredProcedure, ref err, sqlParams);
+        }
+        public int DoanhThu()
+        {
+            return Convert.ToInt32(db.ExecuteScalar("SELECT * FROM totalIncome()", CommandType.Text));
         }
     }
 }
