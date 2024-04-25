@@ -86,8 +86,6 @@ namespace Project_WPF
                 quyen = dt.Rows[0]["permissionName"].ToString();
                 int id = int.Parse(dt.Rows[0]["ID"].ToString());    
                 string userName = dt.Rows[0]["userName"].ToString();
-                MessageBox.Show(userName);
-                MessageBox.Show(id.ToString());
                 DAL.ConnStrBuilder.IntegratedSecurity = false;
                 DAL.ConnStrBuilder.UserID = txtUser.Text;
                 DAL.ConnStrBuilder.Password = txtPass.Password;
