@@ -45,7 +45,7 @@
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
-                            <DataGridCheckBoxColumn Header="Điểm danh" Binding="{Binding isPresent}" CanUserResize="False" Width="auto" ElementStyle="{StaticResource CheckBoxStyle1}"/>
+                            <DataGridCheckBoxColumn Header="Điểm danh" Binding="{Binding present}" CanUserResize="False" Width="auto" ElementStyle="{StaticResource CheckBoxStyle1}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>

@@ -42,14 +42,26 @@ namespace Project_WPF.Form
                 schoolDay = Convert.ToDateTime(cbb_schoolDay.SelectedItem);
                 try
                 {
-                    attendanceDataGrid.Items.Clear();   
+                    attendanceDataGrid.Items.Clear();
                     dtAttendance = attendanceBLL.LayBangDiemDanh(ref err, groupID, schoolDay);
+                    foreach (DataRowView rowView in attendanceDataGrid.Items)
+                    {
+                        int isPresent = Convert.ToInt32(rowView["present"]);
+                        if (isPresent == 1)
+                        {
+                            rowView["present"] = true;
+                        }
+                        else
+                        {
+                            rowView["present"] = false;
+                        }
+                    }
                     if (dtAttendance != null && dtAttendance.Rows.Count > 0)
                     {
                         attendanceDataGrid.ItemsSource = dtAttendance.DefaultView;
                     }
                 }
-                catch(SqlException)
+                catch (SqlException)
                 {
                     MessageBox.Show(err);
                 }
