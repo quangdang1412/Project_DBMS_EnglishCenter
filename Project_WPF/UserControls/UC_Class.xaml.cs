@@ -219,7 +219,7 @@ namespace Project_WPF.UserControls
 
         private void btn_more_payment_Click(object sender, RoutedEventArgs e)
         {
-             frm_DSChuaThanhToan frm= new frm_DSChuaThanhToan();
+            frm_DSChuaThanhToan frm= new frm_DSChuaThanhToan();
             frm.ShowDialog();
         }
     }

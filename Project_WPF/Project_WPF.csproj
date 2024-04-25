@@ -76,6 +76,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Form\frm_AddStudyGroup.xaml.cs">
+      <DependentUpon>frm_AddStudyGroup.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Form\frm_Attendance.xaml.cs">
       <DependentUpon>frm_Attendance.xaml</DependentUpon>
     </Compile>
@@ -169,6 +172,10 @@
     <Compile Include="UserControls\UC_Tea_Home.xaml.cs">
       <DependentUpon>UC_Tea_Home.xaml</DependentUpon>
     </Compile>
+    <Page Include="Form\frm_AddStudyGroup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Form\frm_Attendance.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

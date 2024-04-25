@@ -66,6 +66,7 @@
     <Compile Include="LoginBLL.cs" />
     <Compile Include="NotificationBLL.cs" />
     <Compile Include="StudentBLL.cs" />
+    <Compile Include="Study_GroupBLL.cs" />
     <Compile Include="TeacherBLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

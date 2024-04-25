@@ -21,6 +21,10 @@ namespace BusinessLayer
         {
             return db.ExecuteQueryDataSet("select * from CLASS", CommandType.Text, null);
         }
+        public DataSet LayGroup()
+        {
+            return db.ExecuteQueryDataSet("select * from ListGroup", CommandType.Text, null);
+        }
         public DataSet LayClassByCourseID()
         {
             return db.ExecuteQueryDataSet("select course_name from COURSE", CommandType.Text, null);
