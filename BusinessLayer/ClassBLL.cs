@@ -142,6 +142,15 @@ namespace BusinessLayer
 
             return db.MyExecuteNonQuery("deleteStudentFromGr", CommandType.StoredProcedure, ref err, sqlParams);
         }
+        public bool XoaNhom(ref string err, int group_ID)
+        {
+            SqlParameter[] sqlParams = new SqlParameter[]
+            {
+                new SqlParameter("@groupID",group_ID)
+            };
+
+            return db.MyExecuteNonQuery("deleteStudyGr", CommandType.StoredProcedure, ref err, sqlParams);
+        }
         public DataTable LayDSChuaThanhToan(ref string err)
         {
             return db.ExecuteQueryDataTable("select * from LayDSChuaThanhToan () ", CommandType.Text, ref err, null);

@@ -69,7 +69,19 @@ namespace Project_WPF.Form
 
         private void btn_deletedata_Click(object sender, RoutedEventArgs e)
         {
-
+            DataRowView selectedRow = (DataRowView)StudyGrDataGrid.SelectedItem;
+            // Lấy giá trị của cột ID từ hàng được chọn
+            int id = Convert.ToInt32(selectedRow["group_ID"]);
+            MessageBox.Show(id.ToString());
+            bool success = dbclass.XoaNhom(ref err, id);
+            if (success)
+            {
+                MessageBox.Show("Đã xoá xong!");
+            }
+            else
+            {
+                MessageBox.Show(err);
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

@@ -208,6 +208,7 @@ namespace Project_WPF.Form
             txt_start.Text= Convert.ToDateTime(dtGroup.Rows[0]["dayStart"]).ToString("dd/MM/yyyy");
             txt_end.Text = Convert.ToDateTime(dtGroup.Rows[0]["dayEnd"]).ToString("dd/MM/yyyy");
             txt_total.Text= dtGroup.Rows[0]["totalStudent"].ToString();
+            txt_total.IsEnabled = false;
             cb_class.Text = selectedRow["clname"].ToString();
             cb_teacher.Text = selectedRow["teacher_name"].ToString();
             cb_room.Text = selectedRow["room_ID"].ToString();
@@ -310,6 +311,7 @@ namespace Project_WPF.Form
                 if (sucess)
                 {
                     MessageBox.Show("Đã thêm thành công");
+                    this.Close();
                 }
                 else
                 {
@@ -323,6 +325,8 @@ namespace Project_WPF.Form
                 if (sucess)
                 {
                     MessageBox.Show("Đã cập nhật thành công");
+                    this.Close();
+
                 }
                 else
                 {
