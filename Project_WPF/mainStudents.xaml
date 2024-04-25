@@ -57,10 +57,9 @@
             </Grid.RowDefinitions>
             <Grid Grid.Row="0" Background="#FFF6F6F6">
                 <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Margin="0,10,30,0">
-
-                    <materialDesign:PackIcon Kind="BellBadgeOutline" Width="36" Height="36" Margin="0,0,0,0" VerticalAlignment="Center" Foreground="#FF424242" />
+                    <TextBlock x:Name="tb_StudentName" Text="Nguyễn Minh Đạo" TextWrapping="Wrap" FontWeight="SemiBold" FontSize="25" FontFamily="Kumb Sans" Foreground="#FF424242" VerticalAlignment="Center" />
                     <Rectangle Width="2" Fill="#FF424242" Margin="10,10,10,10" Opacity="0.5"/>
-                    <Border x:Name="account" Style="{StaticResource b_account }" >
+                    <Border x:Name="account" Style="{StaticResource b_account }">
                         <materialDesign:PackIcon Kind="AccountCircleOutline" Width="36" Height="36" VerticalAlignment="Center" Foreground="#FF424242" />
                     </Border>
                     <!--<materialDesign:PackIcon Kind="AccountCircleOutline" Width="36" Height="36" VerticalAlignment="Center" Foreground="#FF424242" />-->
@@ -68,8 +67,7 @@
                     <Button x:Name="btn_exit" Click="btn_exit_Click"  Style="{StaticResource btn_exit }" >
                         <materialDesign:PackIcon Kind="Logout" Width="36" Height="36" VerticalAlignment="Center" Foreground="#FF424242" />
                     </Button>
-                </StackPanel>
-            </Grid>
+                </StackPanel>            </Grid>
             <Grid x:Name="MainGrid" Grid.Row="1">
                 <local:UC_Stu_Home/>
             </Grid>

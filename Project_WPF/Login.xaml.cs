@@ -72,6 +72,7 @@ namespace Project_WPF
             string quyen = "";
             string err = "";
 
+
             DataTable dt = loginBLL.Login_pre(ref err, txtUser.Text, txtPass.Password);
 
             if (!string.IsNullOrEmpty(err))
@@ -83,6 +84,10 @@ namespace Project_WPF
             if (dt != null && dt.Rows.Count > 0)
             {
                 quyen = dt.Rows[0]["permissionName"].ToString();
+                int id = int.Parse(dt.Rows[0]["ID"].ToString());    
+                string userName = dt.Rows[0]["userName"].ToString();
+                MessageBox.Show(userName);
+                MessageBox.Show(id.ToString());
                 DAL.ConnStrBuilder.IntegratedSecurity = false;
                 DAL.ConnStrBuilder.UserID = txtUser.Text;
                 DAL.ConnStrBuilder.Password = txtPass.Password;
@@ -94,7 +99,7 @@ namespace Project_WPF
                 switch (quyen)
                 {
                     case "HS":
-                        mainStudents mainStudent = new mainStudents();
+                        mainStudents mainStudent = new mainStudents(id, userName);
                         mainStudent.Show();
                         this.Close();
                         break;

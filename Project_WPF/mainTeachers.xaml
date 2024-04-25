@@ -62,18 +62,18 @@
                 <RowDefinition Height="8*"/>
             </Grid.RowDefinitions>
             <Grid Grid.Row="0" Background="#FFF6F6F6">
-                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Margin="0,10,30,0" Width="400">
-                    <TextBlock x:Name="tb_teacherName" HorizontalAlignment="Right" VerticalAlignment="Center" TextWrapping="Wrap" FontWeight="Bold" FontSize="25" FontFamily="Kumb Sans" Text="{Binding teacher_name}" Width="271" RenderTransformOrigin="0.516,-1.906" Foreground="#FF667F8E" />
+                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Margin="0,10,30,0">
+                    <TextBlock x:Name="tb_teacherName" Text="Nguyễn Minh Đạo" TextWrapping="Wrap" FontWeight="SemiBold" FontSize="25" FontFamily="Kumb Sans" Foreground="#FF424242" VerticalAlignment="Center" />
                     <Rectangle Width="2" Fill="#FF424242" Margin="10,10,10,10" Opacity="0.5"/>
-                    <Border x:Name="account" Style="{StaticResource b_account }" >
-                        <materialDesign:PackIcon Kind="AccountCircleOutline" Width="36" Height="36" Foreground="#FF424242" />
+                    <Border x:Name="account" Style="{StaticResource b_account }">
+                        <materialDesign:PackIcon Kind="AccountCircleOutline" Width="36" Height="36" VerticalAlignment="Center" Foreground="#FF424242" />
                     </Border>
+                    <!--<materialDesign:PackIcon Kind="AccountCircleOutline" Width="36" Height="36" VerticalAlignment="Center" Foreground="#FF424242" />-->
                     <Rectangle Width="2" Fill="#FF424242" Margin="10,10,10,10" Opacity="0.5"/>
                     <Button x:Name="btn_exit" Click="btn_exit_Click"  Style="{StaticResource btn_exit }" >
-                        <materialDesign:PackIcon Kind="Logout" Width="36" Height="36" VerticalAlignment="Center" Foreground="#FF424242" RenderTransformOrigin="3.356,0.759" />
+                        <materialDesign:PackIcon Kind="Logout" Width="36" Height="36" VerticalAlignment="Center" Foreground="#FF424242" />
                     </Button>
-                </StackPanel>
-            </Grid>
+                </StackPanel>            </Grid>
             <Grid x:Name="MainGrid" Grid.Row="1">
                 <local:UC_Tea_Home/>
             </Grid>

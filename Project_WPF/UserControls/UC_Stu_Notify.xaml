@@ -11,12 +11,50 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="8*"/>
+            <RowDefinition Height="6*"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <TextBlock Text="Notify" FontSize="32" FontWeight="SemiBold" HorizontalAlignment="Left" Margin="20,0,0,0" Foreground="#FF121518"></TextBlock>
         </Grid>
-        <Grid Grid.Row="1" Margin="0,0,0,0">
-            
+        <Grid Grid.Row="1" Margin="0,0,0,0" >
+            <Border Background="White" CornerRadius="20,20,20,20" Margin="20,0,20,20">
+                <Grid Margin="10,10,10,0">
+                    <DataGrid x:Name="StudentsDataGrid" SelectionMode="Single" CellStyle="{DynamicResource DataGridCellStyle1}" Style="{DynamicResource DataGridStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" RowHeaderStyle="{DynamicResource DataGridRowHeaderStyle1}" RowStyle="{DynamicResource DataGridRowStyle1}" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="Black" SelectionChanged="NotifyDataGrid_SelectionChanged" >
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" CanUserResize="False" IsReadOnly="True" FontFamily="Kumbh Sans" Width="*" Binding="{Binding notification_ID}"/>
+                            <DataGridTextColumn Header="Nhóm" CanUserResize="False" IsReadOnly="True" FontFamily="Kumbh Sans" Width="*" Binding="{Binding group_ID}"/>
+                            <DataGridTemplateColumn Header="Tiêu đề" IsReadOnly="True" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding title }"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Header="Thời điểm gửi" CanUserResize="False" IsReadOnly="True" FontFamily="Kumbh Sans" Width="*">
+                                <DataGridTextColumn.Binding>
+                                    <Binding Path="daytime_send" StringFormat="dd/MM/yyyy" />
+                                </DataGridTextColumn.Binding>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="Người gửi" CanUserResize="False" IsReadOnly="True" FontFamily="Kumbh Sans" Width="*" Binding="{Binding teacher_name}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </Border>
+        </Grid>
+        <Grid Grid.Row="2" Background="#FFF6F6F6">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="5*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+
+            </Grid>
+            <Grid Grid.Row="1">
+                <TextBox x:Name="txt_title" Style="{StaticResource textBoxadd}" HorizontalAlignment="Left" Height="48" Margin="0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="474" BorderBrush="White" ></TextBox>
+                <TextBox x:Name="txt_content" Style="{StaticResource textBoxadd}" HorizontalAlignment="Left" Height="230" Margin="0,49,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="1196" BorderBrush="White" ></TextBox>
+            </Grid>
         </Grid>
     </Grid>
 </UserControl>

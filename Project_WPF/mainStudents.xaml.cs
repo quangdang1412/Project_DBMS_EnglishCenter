@@ -20,9 +20,14 @@ namespace Project_WPF
     /// </summary>
     public partial class mainStudents : Window
     {
-        public mainStudents()
+        string student_name;
+        int ID;
+        public mainStudents(int ID, string student_name)
         {
+            this.ID = ID;
+            this.student_name = student_name;
             InitializeComponent();
+            tb_StudentName.Text = student_name;
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -56,7 +61,7 @@ namespace Project_WPF
 
         private void btn_Notify_Click(object sender, RoutedEventArgs e)
         {
-            UC_Stu_Notify uC_Stu_Notify = new UC_Stu_Notify();
+            UC_Stu_Notify uC_Stu_Notify = new UC_Stu_Notify(ID);
             MainGrid.Children.Clear();
             MainGrid.Children.Add(uC_Stu_Notify);
         }

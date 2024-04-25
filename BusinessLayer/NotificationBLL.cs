@@ -23,6 +23,27 @@ namespace BusinessLayer
             };
             return db.ExecuteQueryDataSet("getNotificationMakeByTeacher ", CommandType.StoredProcedure,sqlParams);
         }
+        public DataSet LayNoiDungThongBaoTheoID(int notificationID)
+        {
+            SqlParameter sqlParameter = new SqlParameter("@notificationID", notificationID);
+            return db.ExecuteQueryDataSet("SendMessageToGr",CommandType.StoredProcedure,sqlParameter);
+        }
+        public DataSet LayGroupByStu_ID(int student_ID)
+        {
+            SqlParameter[] sqlParams =
+            {
+                new SqlParameter("@student_ID",student_ID)
+            };
+            return db.ExecuteQueryDataSet("selectGroupByStudentID",CommandType.StoredProcedure,sqlParams);
+        }
+        public DataSet LayThongBaoByGroupID(int group_ID)
+        {
+            SqlParameter[] sqlParams =
+            {
+                new SqlParameter("@group_ID", group_ID)
+            };
+            return db.ExecuteQueryDataSet("getNotificationMakeByGroupID ", CommandType.StoredProcedure, sqlParams);
+        }
         public object LayNoiDung(int notificationID)
         {
             SqlParameter[] sqlParams =
