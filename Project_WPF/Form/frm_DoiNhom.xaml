@@ -20,7 +20,7 @@
             </Grid>
             <Grid Margin="40,30,0,0">
                 <TextBlock Text="Payment state:" FontWeight="Bold"  FontSize="20" FontFamily="Kumbh Sans" VerticalAlignment="Center" Margin="0,5,40,5" Foreground="#FF667F8E" HorizontalAlignment="Left"></TextBlock>
-                <ComboBox x:Name="cb_payment"  Width="300" Margin="0,0,30,0" HorizontalAlignment="Right" BorderBrush="{x:Null}" SelectionChanged="cb_payment_SelectionChanged">
+                <ComboBox x:Name="cb_payment"  Width="300" Margin="0,0,30,0" HorizontalAlignment="Right" BorderBrush="{x:Null}" SelectionChanged="cb_payment_SelectionChanged" FontSize="20">
                     <ComboBoxItem Content="Đã thanh toán" FontSize="20"/>
                     <ComboBoxItem Content="Chưa thanh toán" FontSize="20"/>
                 </ComboBox>
