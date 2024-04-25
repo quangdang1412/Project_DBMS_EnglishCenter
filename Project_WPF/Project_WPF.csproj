@@ -85,6 +85,9 @@
     <Compile Include="Form\frm_Group.xaml.cs">
       <DependentUpon>frm_Group.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Form\frm_GroupStudy.xaml.cs">
+      <DependentUpon>frm_GroupStudy.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Form\frm_StudentGroup.xaml.cs">
       <DependentUpon>frm_StudentGroup.xaml</DependentUpon>
     </Compile>
@@ -157,6 +160,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Form\frm_Group.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Form\frm_GroupStudy.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

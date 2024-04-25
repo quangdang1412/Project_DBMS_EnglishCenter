@@ -199,5 +199,11 @@ namespace Project_WPF.UserControls
                 findGroup(classID);
             }
         }
+
+        private void btn_more_Click(object sender, RoutedEventArgs e)
+        {
+            frm_GroupStudy frm = new frm_GroupStudy(); 
+            frm.ShowDialog();   
+        }
     }
 }
