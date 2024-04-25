@@ -128,5 +128,15 @@ namespace BusinessLayer
         {
             return Convert.ToInt32(db.ExecuteScalar("SELECT * FROM totalIncome()", CommandType.Text));
         }
+        public bool XoaHocSinhTrongNhom(ref string err, int group_ID, int id)
+        {
+            SqlParameter[] sqlParams = new SqlParameter[]
+            {
+                new SqlParameter("@studentID", id),
+                new SqlParameter("@groupID",group_ID)
+            };
+
+            return db.MyExecuteNonQuery("deleteStudentFromGr", CommandType.StoredProcedure, ref err, sqlParams);
+        }
     }
 }

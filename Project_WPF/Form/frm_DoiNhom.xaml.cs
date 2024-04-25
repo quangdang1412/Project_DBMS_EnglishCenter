@@ -26,16 +26,17 @@ namespace Project_WPF.Form
     public partial class frm_DoiNhom : Window
     {
         StudentBLL studentBLL;
+        DataTable DataTable;
         string err = "";
         int id;
-        bool check = true;
+        bool check = false;
         int gr_id;
         public frm_DoiNhom(int idgr)
         {
             InitializeComponent();
             studentBLL = new StudentBLL();
             gr_id = idgr;
-            /* LoadData(); */// Gọi phương thức LoadData() để tải dữ liệu vào ComboBox khi form được khởi tạo
+             /// Gọi phương thức LoadData() để tải dữ liệu vào ComboBox khi form được khởi tạo
         }
 
         // Phương thức để tải dữ liệu vào ComboBox
@@ -43,7 +44,7 @@ namespace Project_WPF.Form
         //{
         //    try
         //    {
-        //        dtStu = studentBLL.LayTrangThaiPayment().Tables[0];
+        //        DataTable = studentBLL.L().Tables[0];
 
         //        // Clear existing items in the ComboBox
         //        cb_payment.Items.Clear();
@@ -77,8 +78,17 @@ namespace Project_WPF.Form
                 txt_ID.Text = Convert.ToInt32(selectedRow["student_ID"]).ToString();
                 txt_GroupID.Text = gr_id.ToString();
                 txt_FirstScore.Text = Convert.ToInt32(selectedRow["firstScore"]).ToString();
-                MessageBox.Show(txt_FirstScore.Text);
-                cb_payment.SelectedItem = selectedRow["paymentstate"].ToString();
+                int payment = Convert.ToInt32(selectedRow["payment_state"]);
+                if(payment == 1)
+                {
+                    cb_payment.Text = "Đã thanh toán";
+                }
+                else
+                {
+                    cb_payment.Text = "Chưa thanh toán";
+                }
+                check = true;
+
             }
             catch (Exception ex)
             {
@@ -104,55 +114,46 @@ namespace Project_WPF.Form
             }
             else
             {
+                check = false;
                 MessageBox.Show("Vui lòng chọn trạng thái thanh toán.");
             }
         }
 
         private void btn_save_Click(object sender, RoutedEventArgs e)
         {
-            //if (string.IsNullOrWhiteSpace(txt_ID.Text) || string.IsNullOrWhiteSpace(txt_GroupID.Text) || string.IsNullOrWhiteSpace(txt_FirstScore.Text))
-            //{
-            //    MessageBox.Show("Vui lòng điền đầy đủ thông tin vào tất cả các trường.");
-            //    return;
-            //}
-            //string err = "";
-            //int id = Convert.ToInt32(txt_ID.Text);
-            //int first = Convert.ToInt32(txt_FirstScore.Text);
-            ////Console.WriteLine(first);
-            //int payment = 0;
-            //if (cb_payment.SelectedItem.ToString() == "Đã thanh toán")
-            //{
-            //    payment = 1;
-            //}
-            //else if (cb_payment.SelectedItem.ToString() == "Chưa thanh toán")
-            //{
-            //    payment = 0;
-            //}
-            //else
-            //{
-            //    check = false;
-            //}
-            //if (check == true)
-            //{
-            //    try
-            //    {
-            //        bool success = studentBLL.CapNhatHocSinh2(ref err, id, gr_id, payment, first);
-            //        success = true;
-            //        if (success)
-            //        {
-            //            MessageBox.Show("Đã cập nhật xong!");
-            //            this.Close();
-            //        }
-            //        else
-            //        {
-            //            MessageBox.Show(err);
-            //        }
-            //    }
-            //    catch (SqlException)
-            //    {
-            //        MessageBox.Show(err);
-            //    }
-            //}
+            if (string.IsNullOrWhiteSpace(txt_ID.Text) || string.IsNullOrWhiteSpace(txt_GroupID.Text) || string.IsNullOrWhiteSpace(txt_FirstScore.Text))
+            {
+                MessageBox.Show("Vui lòng điền đầy đủ thông tin vào tất cả các trường.");
+                return;
+            }
+            string err = "";
+            int id = Convert.ToInt32(txt_ID.Text);
+            int first = Convert.ToInt32(txt_FirstScore.Text);
+            int payment = 0;
+            if (cb_payment.SelectedItem.ToString() == "Đã thanh toán")
+            {
+                payment = 1;
+            }
+            if (check == true)
+            {
+                try
+                {
+                    bool success = studentBLL.CapNhatHocSinh2(ref err, id, gr_id, payment, first);
+                    if (success)
+                    {
+                        MessageBox.Show("Đã cập nhật xong!");
+                        this.Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show(err);
+                    }
+                }
+                catch (SqlException)
+                {
+                    MessageBox.Show(err);
+                }
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

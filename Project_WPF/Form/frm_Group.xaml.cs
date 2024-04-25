@@ -62,7 +62,7 @@ namespace Project_WPF.Form
         {
             this.Close();
         }
-
+        
         private void btn_editdata_Click(object sender, RoutedEventArgs e)
         {
             DataRowView selectedRow = (DataRowView)StudentsDataGrid.SelectedItem;
@@ -83,9 +83,7 @@ namespace Project_WPF.Form
             // Lấy giá trị của cột ID từ hàng được chọn
             int id = Convert.ToInt32(selectedRow["student_ID"]);
 
-            // Thực hiện xoá học sinh
-            string err = "";
-            bool success = dbclass.XoaHocSinh(ref err, id,groupIDInt);
+            bool success = dbclass.XoaHocSinhTrongNhom(ref err,groupIDInt,id);
             if (success)
             {
                 MessageBox.Show("Đã xoá xong!");

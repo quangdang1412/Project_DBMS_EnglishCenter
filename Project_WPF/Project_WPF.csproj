@@ -183,8 +183,8 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Form\frm_Group.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Form\frm_GroupStudy.xaml">
       <SubType>Designer</SubType>
