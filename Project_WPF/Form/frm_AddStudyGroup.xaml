@@ -44,7 +44,7 @@
                         </Grid>
                         <Grid Margin="40,30,0,0">
                             <TextBlock Text="Group Status :" FontWeight="Bold"  FontSize="20" FontFamily="Kumbh Sans" VerticalAlignment="Center" Margin="0,5,40,5" Foreground="#FF667F8E" HorizontalAlignment="Left"></TextBlock>
-                            <ComboBox x:Name="cb_status"  Width="300" Margin="0,0,30,0" HorizontalAlignment="Right" BorderBrush="{x:Null}">
+                            <ComboBox x:Name="cb_status" FontSize="20"  Width="300" Margin="0,0,30,0" HorizontalAlignment="Right" BorderBrush="{x:Null}">
                             </ComboBox>
                         </Grid>
                     </StackPanel>
@@ -57,22 +57,27 @@
                         </Grid>
                         <Grid Margin="40,30,0,0">
                             <TextBlock Text="Teacher :" FontWeight="Bold"  FontSize="20" FontFamily="Kumbh Sans" VerticalAlignment="Center" Margin="0,5,40,5" Foreground="#FF667F8E" HorizontalAlignment="Left"></TextBlock>
-                            <ComboBox x:Name="cb_teacher"  Width="300" Margin="0,0,30,0" HorizontalAlignment="Right" BorderBrush="{x:Null}">
+                            <ComboBox x:Name="cb_teacher" FontSize="20"  Width="300" Margin="0,0,30,0" HorizontalAlignment="Right" BorderBrush="{x:Null}">
                             </ComboBox>
                         </Grid>
                         <Grid Margin="40,30,0,0">
                             <TextBlock Text="Class :" FontWeight="Bold"  FontSize="20" FontFamily="Kumbh Sans" VerticalAlignment="Center" Margin="0,5,40,5" Foreground="#FF667F8E" HorizontalAlignment="Left"></TextBlock>
-                            <ComboBox x:Name="cb_class"  Width="300" Margin="0,0,30,0" HorizontalAlignment="Right" BorderBrush="{x:Null}">
+                            <ComboBox x:Name="cb_class" FontSize="20"  Width="300" Margin="0,0,30,0" HorizontalAlignment="Right" BorderBrush="{x:Null}">
                             </ComboBox>
                         </Grid>
                         <Grid Margin="40,30,0,0">
                             <TextBlock Text="Room :" FontWeight="Bold"  FontSize="20" FontFamily="Kumbh Sans" VerticalAlignment="Center" Margin="0,5,40,5" Foreground="#FF667F8E" HorizontalAlignment="Left"></TextBlock>
-                            <ComboBox x:Name="cb_room"  Width="300" Margin="0,0,30,0" HorizontalAlignment="Right" BorderBrush="{x:Null}">
+                            <ComboBox x:Name="cb_room"  Width="300" Margin="0,0,30,0" HorizontalAlignment="Right" BorderBrush="{x:Null}" FontSize="20" >
                             </ComboBox>
                         </Grid>
                         <Grid Margin="40,30,0,0">
                             <TextBlock Text="Shift :" FontWeight="Bold"  FontSize="20" FontFamily="Kumbh Sans" VerticalAlignment="Center" Margin="0,5,40,5" Foreground="#FF667F8E" HorizontalAlignment="Left"></TextBlock>
-                            <ComboBox x:Name="cb_shift"  Width="300" Margin="0,0,30,0" HorizontalAlignment="Right" BorderBrush="{x:Null}">
+                            <ComboBox x:Name="cb_shift"  Width="300" Margin="0,0,30,0" HorizontalAlignment="Right" BorderBrush="{x:Null}" FontSize="20">
+                            </ComboBox>
+                        </Grid>
+                        <Grid Margin="40,30,0,0">
+                            <TextBlock Text="Weekday :" FontWeight="Bold"  FontSize="20" FontFamily="Kumbh Sans" VerticalAlignment="Center" Margin="0,5,40,5" Foreground="#FF667F8E" HorizontalAlignment="Left"></TextBlock>
+                            <ComboBox x:Name="cb_week" FontSize="20" Width="300" Margin="0,0,30,0" HorizontalAlignment="Right" BorderBrush="{x:Null}">
                             </ComboBox>
                         </Grid>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,65,0,0">

@@ -51,7 +51,6 @@ namespace Project_WPF.Form
 
             // Điền dữ liệu từ hàng được chọn vào các điều khiển trên form
             id = Convert.ToInt32(selectedRow["student_ID"]);
-            Console.WriteLine(id.ToString());
             txt_Name.Text = selectedRow["student_name"].ToString();
             txt_Phone.Text = selectedRow["student_phoneNumber"].ToString();
             txtCCCD.Text = selectedRow["identification"].ToString();

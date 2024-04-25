@@ -54,7 +54,17 @@ namespace Project_WPF.Form
 
         private void btn_editdata_Click(object sender, RoutedEventArgs e)
         {
+            DataRowView selectedRow = (DataRowView)StudyGrDataGrid.SelectedItem;
+            // Tạo một instance của form frm_Students
+            frm_AddStudyGroup editStudentForm = new frm_AddStudyGroup();
 
+            // Truyền dữ liệu từ hàng được chọn vào form
+            editStudentForm.FillData(selectedRow);
+
+            // Hiển thị form để chỉnh sửa thông tin
+            editStudentForm.ShowDialog();
+
+            loadData();
         }
 
         private void btn_deletedata_Click(object sender, RoutedEventArgs e)
