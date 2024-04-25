@@ -90,6 +90,14 @@ namespace BusinessLayer
             };
             return db.MyExecuteNonQuery("insertStudyGr", CommandType.StoredProcedure, ref err, sqlParams);
         }
+        public DataTable DuaVaoGroupRaWeek(ref string err, int groupID)
+        {
+            SqlParameter[] sqlParams = new SqlParameter[]
+            {
+                new SqlParameter("@groupID", groupID),
+            };
 
+            return db.ExecuteQueryDataTable("GetWeekdayIDsByGroupID", CommandType.StoredProcedure, ref err, sqlParams);
+        }
     }
 }

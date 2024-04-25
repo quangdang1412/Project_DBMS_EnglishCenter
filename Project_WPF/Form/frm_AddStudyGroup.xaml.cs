@@ -33,6 +33,7 @@ namespace Project_WPF.Form
         DataTable dtStatus;
         DataTable dtCa;
         DataTable dtThu;
+        DataTable dtWeek;
 
         DataTable dtRoom;
         string err = "";
@@ -48,6 +49,8 @@ namespace Project_WPF.Form
             LoadGr_Status();
             LoadShift();
             LoadThu();
+            txt_total.IsEnabled = false;
+
         }
 
         public void LoadGV()
@@ -208,7 +211,6 @@ namespace Project_WPF.Form
             txt_start.Text= Convert.ToDateTime(dtGroup.Rows[0]["dayStart"]).ToString("dd/MM/yyyy");
             txt_end.Text = Convert.ToDateTime(dtGroup.Rows[0]["dayEnd"]).ToString("dd/MM/yyyy");
             txt_total.Text= dtGroup.Rows[0]["totalStudent"].ToString();
-            txt_total.IsEnabled = false;
             cb_class.Text = selectedRow["clname"].ToString();
             cb_teacher.Text = selectedRow["teacher_name"].ToString();
             cb_room.Text = selectedRow["room_ID"].ToString();
@@ -237,7 +239,41 @@ namespace Project_WPF.Form
                 cb_shift.Text = "19:30 - 21:00";
 
             }
-            check=false;
+
+            dtWeek = dbstudy_GroupBLL.DuaVaoGroupRaWeek(ref err, id);
+
+            int weekID = Convert.ToInt32(dtWeek.Rows[0]["weekday_ID"]);
+            if (weekID == 2)
+            {
+                cb_week.Text = "Thứ hai";
+            }
+            else if (weekID == 3)
+            {
+                cb_week.Text = "Thứ ba";
+            }
+            else if (weekID == 4)
+            {
+                cb_week.Text = "Thứ tư";
+            }
+            else if (weekID == 5)
+            {
+                cb_week.Text = "Thứ năm";
+            }
+            else if (weekID == 6)
+            {
+                cb_week.Text = "Thứ sáu";
+            }
+            else if (weekID == 7)
+            {
+                cb_week.Text = "Thứ bảy";
+            }
+            else
+            {
+                cb_week.Text = "Chủ nhật";
+            }
+
+
+            check =false;
 
         }
         private void Button_Click_1(object sender, RoutedEventArgs e)
