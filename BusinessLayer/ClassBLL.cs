@@ -138,5 +138,9 @@ namespace BusinessLayer
 
             return db.MyExecuteNonQuery("deleteStudentFromGr", CommandType.StoredProcedure, ref err, sqlParams);
         }
+        public DataTable LayDSChuaThanhToan(ref string err)
+        {
+            return db.ExecuteQueryDataTable("select * from LayDSChuaThanhToan () ", CommandType.Text, ref err, null);
+        }
     }
 }

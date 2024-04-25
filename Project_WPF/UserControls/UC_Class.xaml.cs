@@ -216,5 +216,11 @@ namespace Project_WPF.UserControls
             frm_GroupStudy frm = new frm_GroupStudy(); 
             frm.ShowDialog();   
         }
+
+        private void btn_more_payment_Click(object sender, RoutedEventArgs e)
+        {
+             frm_DSChuaThanhToan frm= new frm_DSChuaThanhToan();
+            frm.ShowDialog();
+        }
     }
 }
