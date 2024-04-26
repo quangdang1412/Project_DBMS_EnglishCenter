@@ -79,12 +79,7 @@ namespace Project_WPF
         }
         
 
-        private void btn_attendance_Click(object sender, RoutedEventArgs e)
-        {
-            UC_Attendance uC_Attendance = new UC_Attendance(ID);
-            MainGrid.Children.Clear();
-            MainGrid.Children.Add(uC_Attendance);
-        }
+       
 
         private void btn_Home_Click_1(object sender, RoutedEventArgs e)
         {

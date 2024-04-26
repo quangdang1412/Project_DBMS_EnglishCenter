@@ -85,7 +85,7 @@ namespace Project_WPF.UserControls
             }
             else
             {
-                MessageBox.Show("Không xoá được!");
+                MessageBox.Show(err);
             }
             loadData();
         }

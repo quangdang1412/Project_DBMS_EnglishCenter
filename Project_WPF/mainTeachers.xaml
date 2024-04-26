@@ -40,12 +40,6 @@
                                 <TextBlock Text="Information" VerticalAlignment="Center" FontSize="36" FontFamily="Kumbh Sans"/>
                             </StackPanel>
                         </Button>
-                        <Button x:Name="btn_Attendance" Style="{StaticResource hoverMenu}" Click="btn_attendance_Click"  GotFocus="GotFocus" LostFocus="LostFocus">
-                            <StackPanel Orientation="Horizontal">
-                                <materialDesign:PackIcon Kind="ClipboardList" VerticalAlignment="Center" Margin="0,0,20,10" Width="48" Height="48"/>
-                                <TextBlock Text="Attendance" VerticalAlignment="Center" FontSize="36" FontFamily="Kumbh Sans" Width="211"/>
-                            </StackPanel>
-                        </Button>
                         <Button x:Name="btn_Notification" Style="{StaticResource hoverMenu}" Click="btn_notification_Click" GotFocus="GotFocus" LostFocus="LostFocus">
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon Kind="BellBadgeOutline" VerticalAlignment="Center" Margin="0,0,20,10" Width="45" Height="45"/>

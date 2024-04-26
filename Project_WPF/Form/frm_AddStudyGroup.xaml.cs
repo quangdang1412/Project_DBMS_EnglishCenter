@@ -43,16 +43,18 @@ namespace Project_WPF.Form
         {
             InitializeComponent();
             dbstudy_GroupBLL = new Study_GroupBLL();
+            txt_total.IsEnabled = false;
+            loadData();
+        }
+        void loadData()
+        {
             LoadGV();
             LoadClass();
             LoadRoom();
             LoadGr_Status();
             LoadShift();
             LoadThu();
-            txt_total.IsEnabled = false;
-
         }
-
         public void LoadGV()
         {
             try
