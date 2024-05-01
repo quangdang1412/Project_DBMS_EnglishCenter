@@ -46,20 +46,7 @@ namespace Project_WPF.Form
                 MessageBox.Show("Ngày tháng không hợp lệ. Vui lòng nhập theo định dạng dd/MM/yyyy.");
             }
         }
-        void checkInfo(string err)
-        {
-            if (err.Contains("chk_teacherIdentify"))
-            {
-                MessageBox.Show("Vui lòng nhập vào 12 số cho CCCD.");
-            }
-        }
-        void checkphoneNumber(string err)
-        {
-            if(err.Contains("chk_studentPhoneNumber"))
-            {
-                MessageBox.Show("Vui lòng nhập vào 10 số cho Số điện thoại.");
-            }
-        }
+     
         public void FillData(DataRowView selectedRow)
         {
             id = Convert.ToInt32(selectedRow["teacher_ID"]);
@@ -96,12 +83,12 @@ namespace Project_WPF.Form
             if(rbFemale.IsChecked==true)
             {
                 gender = 0;
-            }    
+            }
             if (check == true)
             {
                 try
                 {
-                    bool success = dbteacher.ThemGiaoVien(ref err, txt_Name.Text, teacherDob, gender, txt_Phone.Text,txtAddress.Text, txtCCCD.Text,txtEmail.Text);
+                    bool success = dbteacher.ThemGiaoVien(ref err, txt_Name.Text, teacherDob, gender, txt_Phone.Text, txtAddress.Text, txtCCCD.Text, txtEmail.Text);
                     if (success)
                     {
                         MessageBox.Show("Đã thêm xong!");
@@ -109,18 +96,19 @@ namespace Project_WPF.Form
                     }
                     else
                     {
-                        checkInfo(err);
-                        checkphoneNumber(err);
+                    MessageBox.Show(err);
+
                     }
                 }
                 catch (SqlException)
                 {
-                    MessageBox.Show("Không thêm được. Đã xảy ra lỗi!");
+                    MessageBox.Show(err);
+
                 }
             }
             else
             {
-                bool success = dbteacher.CapNhatGiaoVien(ref err, id, txt_Name.Text, teacherDob, gender, txt_Phone.Text,txtAddress.Text ,txtCCCD.Text,txtEmail.Text);
+                bool success = dbteacher.CapNhatGiaoVien(ref err, id, txt_Name.Text, teacherDob, gender, txt_Phone.Text, txtAddress.Text, txtCCCD.Text, txtEmail.Text);
                 if (success)
                 {
                     MessageBox.Show("Đã cập nhật xong!");
@@ -128,8 +116,7 @@ namespace Project_WPF.Form
                 }
                 else
                 {
-                    checkInfo(err);
-                    checkphoneNumber(err);
+                    MessageBox.Show(err);
                 }
             }
         }

@@ -83,18 +83,11 @@ namespace Project_WPF.UserControls
             }
             else
             {
-                MessageBox.Show("Không xoá được!");
+                MessageBox.Show(err);
+
             }
             loadData();
         }
-        private void btn_delete_Click(object sender, RoutedEventArgs e)
-        {
-			//xoá giáo viên
-        }
-
-        private void btn_edit_Click(object sender, RoutedEventArgs e)
-        {
-			//sửa thông tin giáo viên
-        }
+       
     }
 }
